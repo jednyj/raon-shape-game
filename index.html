@@ -26,8 +26,12 @@
 .home{align-items:flex-start}
 .hero{padding:0;background:#fff8e8}
 .detective{width:100%;height:auto;aspect-ratio:3/2;display:block;object-fit:cover;object-position:center}
-.hero h1{font-size:clamp(23px,4.8vw,38px);letter-spacing:-.055em;line-height:1.28;margin:0;padding:20px clamp(16px,5vw,30px);word-break:keep-all}
-.config h2{font-size:16px;margin:0 0 9px}
+.hero h1{font-size:clamp(16px,5.65vw,38px);letter-spacing:-.055em;line-height:1.28;margin:0;padding:20px clamp(16px,5vw,30px);word-break:keep-all}
+.hero-line{white-space:nowrap}
+.catch{color:#ad3b29}
+.shooting-star{display:inline-block;font-size:.8em;letter-spacing:normal;margin-inline:.16em;vertical-align:.06em}
+.config h2{display:flex;align-items:center;gap:.42em;font-size:16px;margin:0 0 9px}
+.config h2 .section-emoji{font-size:1.15em;line-height:1}
 .config-help{font-size:13px;line-height:1.5;color:#516b70;margin:0 0 9px}
 .course-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .course-choices small,.levels small{line-height:1.45;word-break:keep-all}
@@ -49,16 +53,16 @@
 <main class="screen home" id="home">
 <div class="home-inner">
 <section class="hero panel">
-  <img class="detective" src="detective.jpg" alt="돋보기를 든 탐정이 공중에 떠 있는 여러 도형을 살펴봅니다.">
-  <h1>도형을 정확하게 캐치!하는 눈썰미를 시험해보세요.</h1>
+  <img class="detective" src="detective-v2.jpg" alt="돋보기를 든 탐정이 공중에 떠 있는 여러 도형을 살펴봅니다.">
+  <h1><span class="hero-line">도형을 정확하게 <span class="catch">캐치!</span><span class="shooting-star" aria-hidden="true">🌠</span>하는</span><br>눈썰미를 시험해보세요</h1>
 </section>
 <section class="config panel">
-  <div><h2>레벨을 선택해주세요.</h2><p class="config-help">윗 레벨은 아래 레벨의 도형을 포함합니다. 한 게임에서 도형 3종을 차례로 찾아요.</p><div id="courseChoices" class="course-choices"></div></div>
-  <div><h2>게임 모드를 선택해주세요.</h2><div id="modeChoices" class="mode-choices">
+  <div><h2><span class="section-emoji" aria-hidden="true">🧩</span>레벨을 선택해주세요.</h2><p class="config-help">윗 레벨은 아래 레벨의 도형을 포함합니다. 한 게임에서 도형 3종을 차례로 찾아요.</p><div id="courseChoices" class="course-choices"></div></div>
+  <div><h2><span class="section-emoji" aria-hidden="true">🎮</span>게임 모드를 선택해주세요.</h2><div id="modeChoices" class="mode-choices">
     <button type="button" class="mode-choice on" data-mode="challenge" aria-pressed="true"><b>타임어택</b><small>20초 안에 최대한 많이 찾기!</small></button>
     <button type="button" class="mode-choice" data-mode="sprint" aria-pressed="false"><b>스피드런</b><small>최대한 빠르게 완료하기!</small></button>
   </div></div>
-  <div><h2>난이도를 선택해주세요.</h2><div id="levelChoices" class="levels"></div></div>
+  <div><h2><span class="section-emoji" aria-hidden="true">🎯</span>난이도를 선택해주세요.</h2><div id="levelChoices" class="levels"></div></div>
   <p id="speedWrap" class="config-help hide">잘못 고른 도형 하나당 최종 기록에 3초를 더해요.</p>
   <button id="start" class="startbtn">도전 시작하기 →</button>
 </section>
