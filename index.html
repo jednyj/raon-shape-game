@@ -22,15 +22,46 @@
 .tile.sprint-good .tick,.tile.sprint-bad .tick{display:flex}
 .tile.sprint-good .tick{background:#169b6d}.tile.sprint-bad .tick{background:#d34848}
 @media(max-width:400px){.mode-choice{padding:10px 9px}.mode-choice b{font-size:13px}.mode-choice small{font-size:10px}}
+
+.home{align-items:flex-start}
+.hero{padding:0;background:#fff8e8}
+.detective{width:100%;height:auto;aspect-ratio:3/2;display:block;object-fit:cover;object-position:center}
+.hero h1{font-size:clamp(23px,4.8vw,38px);letter-spacing:-.055em;line-height:1.28;margin:0;padding:20px clamp(16px,5vw,30px);word-break:keep-all}
+.config h2{font-size:16px;margin:0 0 9px}
+.config-help{font-size:13px;line-height:1.5;color:#516b70;margin:0 0 9px}
+.course-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.course-choices small,.levels small{line-height:1.45;word-break:keep-all}
+.prep-shape{height:clamp(140px,34dvh,245px)}
+.prep-shape svg{width:100%;height:100%}
+.prep-card{padding:clamp(14px,4vw,32px)}
+.prep-tip{color:#456066;font-size:clamp(12px,2vw,15px)}
+.prep-bottom{margin-top:10px}
+@media(max-height:410px){.prep h2{font-size:24px;margin:5px 0}.prep-shape{height:115px}.prep-definition{font-size:14px;margin:3px auto}.prep-tip{margin:3px auto}.prep-bottom{display:none}}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="topbar"><div class="brand"><span class="brandmark">△</span><span>라온 수학 <span style="color:#0b9279">도형 스프린트</span></span></div><div class="tiny-tag">SHAPE SPRINT · v0.3</div></header>
-<main class="screen home" id="home"><div class="home-inner"><section class="hero panel"><div class="eyebrow">제한시간 챌린지 + 스피드런 기록 도전</div><h1>닮은 듯 다른 도형,<br>정확하게 찾아라!</h1><p>개념을 익힌 뒤 수십 개의 도형 속에서 정답을 골라보세요. 도형은 매 판 새롭게 회전하고 배치됩니다.</p><div class="hero-art" aria-hidden="true"><svg viewBox="0 0 210 180" xmlns="http://www.w3.org/2000/svg"><circle cx="122" cy="83" r="76" fill="#dbf4e9"/><path d="M 42 130 L 90 39 L 138 130 Z" fill="#ffe2ae" stroke="#173c43" stroke-width="5" stroke-linejoin="round"/><rect x="114" y="78" width="70" height="70" rx="3" fill="#f6b8b2" stroke="#173c43" stroke-width="5" transform="rotate(20 149 113)"/><path d="M 35 30 L 64 5 L 93 30 L 64 55 Z" fill="#a6ded4" stroke="#173c43" stroke-width="4"/><circle cx="170" cy="31" r="9" fill="#fdad75"/><circle cx="22" cy="85" r="5" fill="#1fa58b"/></svg></div></section><section class="config panel"><div><div class="section-head"><strong>① 어떤 도형을 찾을까요?</strong><span>매 라운드 변경 가능</span></div><div id="shapeChoices" class="choices"></div></div><div><div class="section-head"><strong>② 게임 모드를 선택하세요</strong></div><div id="modeChoices" class="mode-choices"><button type="button" class="mode-choice on" data-mode="challenge" aria-pressed="true"><b>⏱ 제한시간 챌린지</b><small>정해진 시간에 최대한 많이 찾기</small></button><button type="button" class="mode-choice" data-mode="sprint" aria-pressed="false"><b>⚡ 스피드런</b><small>45개 중 15개를 최대한 빨리 찾기</small></button></div></div><div id="levelWrap"><div class="section-head"><strong>③ 난이도를 선택하세요</strong><span>도형 수 / 정답 수 / 제한 시간</span></div><div id="levelChoices" class="levels"></div></div><div id="speedWrap" class="hide"><div class="best-line" id="bestLine">개인 최고기록 · 아직 기록 없음</div><p style="margin:8px 3px 0;color:var(--muted);font-size:12px;line-height:1.5">시간 제한 없음 · 정답을 고르면 즉시 확정 · 오답 터치마다 최종 기록에 +3초</p></div><button id="start" class="startbtn">도전 시작하기 →</button></section></div></main>
+<main class="screen home" id="home">
+<div class="home-inner">
+<section class="hero panel">
+  <img class="detective" src="detective.jpg" alt="돋보기를 든 탐정이 공중에 떠 있는 여러 도형을 살펴봅니다.">
+  <h1>도형을 정확하게 캐치!하는 눈썰미를 시험해보세요.</h1>
+</section>
+<section class="config panel">
+  <div><h2>레벨을 선택해주세요.</h2><p class="config-help">윗 레벨은 아래 레벨의 도형을 포함합니다.</p><div id="courseChoices" class="course-choices"></div></div>
+  <div><h2>게임 모드를 선택해주세요.</h2><div id="modeChoices" class="mode-choices">
+    <button type="button" class="mode-choice on" data-mode="challenge" aria-pressed="true"><b>타임어택</b><small>20초 안에 최대한 많이 찾기!</small></button>
+    <button type="button" class="mode-choice" data-mode="sprint" aria-pressed="false"><b>스피드런</b><small>최대한 빠르게 완료하기!</small></button>
+  </div></div>
+  <div><h2>난이도를 선택해주세요.</h2><div id="levelChoices" class="levels"></div></div>
+  <div><h2>찾을 도형을 선택해주세요.</h2><div id="shapeChoices" class="choices"></div></div>
+  <div id="speedWrap" class="hide"><div class="best-line" id="bestLine"></div><p class="config-help">잘못 고른 도형 하나당 최종 기록에 3초를 더해요.</p></div>
+  <button id="start" class="startbtn">도전 시작하기 →</button>
+</section>
+</div></main>
 <section class="screen prep hide" id="prep"><div class="prep-card panel"><div class="preptag">오늘의 도형 개념 · 3초 학습</div><h2 id="prepTitle"></h2><div id="prepShape" class="prep-shape"></div><div id="prepDefinition" class="prep-definition"></div><p id="prepTip" class="prep-tip"></p><div class="prep-bottom">곧 게임이 시작됩니다. 특징을 기억하세요!</div><div class="prep-progress"><i id="prepProgress"></i></div></div></section>
 <section class="screen countdown hide" id="countdown"><div class="count-label">준비하세요!</div><div id="countNumber" class="count-number">3</div><h2 id="countGoal">정답을 빠르게 선택하세요</h2></section>
-<section class="screen play hide" id="play"><div class="gamehead"><div class="objective"><small>MISSION · 정답을 터치!</small><strong><em id="gameShapeName"></em> <span id="gameGoalCount"></span>개 찾기</strong></div><div class="scoreboard"><div class="numstat"><small>선택</small><strong id="selectedCount">0/15</strong></div><div class="numstat time" id="timeStat"><small id="timeLabel">남은 시간</small><strong id="timeLeft">10.0</strong></div></div></div><div class="timerbar" id="timerBar"><i id="timerFill"></i></div><div id="board" class="board" aria-label="도형 찾기 게임판"></div><div class="gamefoot"><span id="playHint">모양을 누르면 선택, 한 번 더 누르면 취소</span><button id="skip">라운드 끝내기</button></div></section>
+<section class="screen play hide" id="play"><div class="gamehead"><div class="objective"><small>MISSION · 정답을 터치!</small><strong><em id="gameShapeName"></em> <span id="gameGoalCount"></span>개 찾기</strong></div><div class="scoreboard"><div class="numstat"><small>선택</small><strong id="selectedCount">0</strong></div><div class="numstat time" id="timeStat"><small id="timeLabel">남은 시간</small><strong id="timeLeft">20.0</strong></div></div></div><div class="timerbar" id="timerBar"><i id="timerFill"></i></div><div id="board" class="board" aria-label="도형 찾기 게임판"></div><div class="gamefoot"><span id="playHint">모양을 누르면 선택, 한 번 더 누르면 취소</span><button id="skip">라운드 끝내기</button></div></section>
 <section class="screen result hide" id="result"><div class="result-header"><div class="status" id="resultStatus">ROUND COMPLETE</div><h2 id="resultTitle">결과 발표!</h2></div><div class="result-stats"><div class="result-stat"><strong id="scoreValue">0</strong><span id="scoreLabel">획득 점수</span></div><div class="result-stat"><strong id="correctValue">0</strong><span>맞게 찾음</span></div><div class="result-stat"><strong id="wrongValue">0</strong><span id="wrongLabel">잘못 선택</span></div><div class="result-stat"><strong id="missValue">0</strong><span id="missLabel">놓친 정답</span></div></div><div class="result-board-wrap"><div class="result-guide"><span><i class="dot green"></i>맞게 찾음</span><span><i class="dot red"></i>잘못 선택</span><span><i class="dot missed"></i>놓친 정답</span></div><div id="resultBoard" class="board" aria-label="정답 확인 게임판"></div></div><div class="scoreline" id="scoreFormula">정답 +100점 · 오답 -60점 · 완벽하게 찾으면 +300점</div><div class="result-actions"><button id="again" class="primary">같은 도형 다시</button><button id="next" class="secondary">다른 도형 도전</button><button id="homeBtn" class="secondary">메뉴</button></div></section>
 </div>
 <script>
@@ -38,7 +69,7 @@
 const $=id=>document.getElementById(id);
 const screens=['home','prep','countdown','play','result'];
 const SHAPES={
- iso:{name:'이등변삼각형',family:'tri',def:'두 변의 길이가 같고, 두 밑각의 크기가 같아요.',tip:'이등변삼각형에는 예각·직각·둔각삼각형이 모두 있어요. 정삼각형도 포함되지만, 이 연습에서는 별도로 출제하지 않아요.',label:'두 변이 같은 삼각형'},
+ iso:{name:'이등변삼각형',family:'tri',def:'두 변의 길이가 같고, 두 밑각의 크기가 같아요.',tip:'길이가 같은 두 변이 만나는 각을 꼭지각이라고 해요.',label:'두 변이 같은 삼각형'},
  equi:{name:'정삼각형',family:'tri',def:'세 변의 길이가 모두 같고, 세 각은 모두 60°예요.',tip:'기울어진 도형도 변의 길이가 같으면 정삼각형이에요.',label:'세 변이 같은 삼각형'},
  right:{name:'직각삼각형',family:'tri',def:'세 각 중 한 각이 90°인 삼각형이에요.',tip:'90°인 각을 찾아보세요. 두 변의 길이가 같은 직각이등변삼각형도 정답이에요.',label:'직각이 있는 삼각형'},
  rect:{name:'직사각형',family:'quad',def:'네 각이 모두 직각(90°)인 사각형이에요.',tip:'정사각형도 직사각형에 포함되지만, 이 연습에서는 서로 구분해서 출제해요.',label:'네 각이 직각인 사각형'},
@@ -46,18 +77,55 @@ const SHAPES={
  rhombus:{name:'마름모',family:'quad',def:'네 변의 길이가 모두 같은 사각형이에요.',tip:'정사각형도 마름모에 포함되지만, 이 연습에서는 정사각형을 정답 후보에서 빼요.',label:'네 변이 같은 사각형'},
  para:{name:'평행사변형',family:'quad',def:'마주 보는 두 쌍의 변이 각각 평행한 사각형이에요.',tip:'직사각형과 마름모도 평행사변형이지만, 이 연습에서는 기울어진 일반형만 출제해요.',label:'두 쌍의 대변이 평행한 사각형'}
 };
-const ORDER=Object.keys(SHAPES);
-const LEVELS=[{label:'쉬움',tiles:24,goal:8,seconds:30},{label:'보통',tiles:36,goal:12,seconds:20},{label:'어려움',tiles:45,goal:15,seconds:15}];
-let shape='iso',level=1,mode='challenge',round=[],selected=new Set(),wrongHits=new Set(),phase='home',lastFrame=0,secondsLeft=0,stageStart=0,raf=0,score=0,gameEnded=false,finishedByUser=false,elapsed=0;
+Object.assign(SHAPES,{
+ acute:{name:'예각삼각형',family:'tri',def:'세 각이 모두 90°보다 작은 삼각형이에요.',tip:'세 각이 모두 예각인지 살펴보세요.'},
+ obtuse:{name:'둔각삼각형',family:'tri',def:'한 각이 90°보다 크고 180°보다 작은 삼각형이에요.',tip:'활짝 벌어진 한 각이 둔각이에요.'},
+ trap:{name:'사다리꼴',family:'quad',def:'마주 보는 변 중 평행한 쌍이 한 쌍 이상 있는 사각형이에요.',tip:'이 문제에는 평행한 변이 한 쌍인 사다리꼴이 나와요.'}
+});
+const COURSES=[
+ ['right','rect','square'],
+ ['iso','equi'],
+ ['acute','obtuse'],
+ ['trap','para','rhombus']
+];
+const courseShapes=()=>COURSES.slice(0,course+1).flat();
+const LEVELS=[
+ {label:'쉬움',tiles:25,goal:8,seconds:20},
+ {label:'보통',tiles:30,goal:10,seconds:20},
+ {label:'어려움',tiles:35,goal:13,seconds:20}
+];
+let shape='right',course=0,level=1,mode='challenge',round=[],selected=new Set(),wrongHits=new Set(),phase='home',lastFrame=0,secondsLeft=0,stageStart=0,raf=0,score=0,gameEnded=false,finishedByUser=false,elapsed=0;
 const COLORS=['#f7e6b9','#cce9e3','#e4e1f8','#f9d6ce','#d3e6f2','#f1e0cd'];
 const rand=(min,max)=>min+Math.random()*(max-min);
 const pick=list=>list[Math.floor(Math.random()*list.length)];
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 function show(name){screens.forEach(id=>$(id).classList.toggle('hide',id!==name));phase=name;cancelAnimationFrame(raf)}
-function storageKey(){return 'raon-shape-sprint-v03-best-'+shape}
+function storageKey(){return 'raon-shape-sprint-v04-best-'+shape+'-'+LEVELS[level].tiles}
 function getBest(){try{const value=Number(localStorage.getItem(storageKey()));return value>0&&Number.isFinite(value)?value:null}catch{return null}}
 function saveBest(value){try{localStorage.setItem(storageKey(),String(value));return true}catch{return false}}
-function config(){ $('shapeChoices').innerHTML=ORDER.map(s=>`<button type="button" class="choice ${s===shape?'on':''}" data-shape="${s}" aria-pressed="${s===shape}">${SHAPES[s].name}</button>`).join('');$('levelChoices').innerHTML=LEVELS.map((l,i)=>`<button type="button" class="level ${i===level?'on':''}" data-level="${i}" aria-pressed="${i===level}"><b>${l.label}</b><small>${l.tiles}개 중 ${l.goal}개 · ${l.seconds}초</small></button>`).join('');$('levelWrap').classList.toggle('hide',mode==='sprint');$('speedWrap').classList.toggle('hide',mode!=='sprint');document.querySelectorAll('[data-mode]').forEach(b=>{const on=b.dataset.mode===mode;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))});const best=getBest();$('bestLine').textContent=best===null?'개인 최고기록 · 아직 기록 없음':`🏆 ${SHAPES[shape].name} 개인 최고기록 ${best.toFixed(2)}초`;}
+function config(){
+ $('courseChoices').innerHTML=COURSES.map((added,i)=>{
+  const names=added.map(kind=>SHAPES[kind].name).join(', ');
+  return `<button type="button" class="level ${i===course?'on':''}" data-course="${i}" aria-pressed="${i===course}"><b>레벨 ${i+1}</b><small>${names}${i?' 추가':''}</small></button>`;
+ }).join('');
+ $('shapeChoices').innerHTML=courseShapes().map(s=>`<button type="button" class="choice ${s===shape?'on':''}" data-shape="${s}" aria-pressed="${s===shape}">${SHAPES[s].name}</button>`).join('');
+ $('levelChoices').innerHTML=LEVELS.map((l,i)=>`<button type="button" class="level ${i===level?'on':''}" data-level="${i}" aria-pressed="${i===level}"><b>${l.label}</b><small>${l.tiles}개 중 ${l.goal}개 찾기</small></button>`).join('');
+ $('speedWrap').classList.toggle('hide',mode!=='sprint');
+ document.querySelectorAll('[data-mode]').forEach(button=>{
+  const active=button.dataset.mode===mode;
+  button.classList.toggle('on',active);
+  button.setAttribute('aria-pressed',String(active));
+ });
+ const best=getBest();
+ $('bestLine').textContent=best===null?'개인 최고기록 · 아직 기록 없음':`${SHAPES[shape].name} · ${LEVELS[level].label} 최고기록 ${best.toFixed(2)}초`;
+}
+$('courseChoices').addEventListener('click',event=>{
+ const button=event.target.closest('[data-course]');
+ if(!button)return;
+ course=Number(button.dataset.course);
+ if(!courseShapes().includes(shape))shape=COURSES[course][0];
+ config();
+});
 $('modeChoices').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(!b)return;mode=b.dataset.mode;config()});
 $('shapeChoices').addEventListener('click',e=>{const btn=e.target.closest('[data-shape]');if(!btn)return;shape=btn.dataset.shape;config()});
 $('levelChoices').addEventListener('click',e=>{const btn=e.target.closest('[data-level]');if(!btn)return;level=Number(btn.dataset.level);config()});
@@ -112,42 +180,117 @@ function svg(kind,index){const p=polygon(kind);let max=Math.max(...p.flat().map(
 const TRI_ANSWERS={
  iso:['iso-acute','iso-right','iso-obtuse'],
  equi:['equi'],
- right:['right-scalene','iso-right']
+ right:['right-scalene','iso-right'],
+ acute:['equi','iso-acute','scalene-acute'],
+ obtuse:['iso-obtuse','scalene-obtuse']
 };
 // 초등 기본 모드: 정삼각형은 이등변 문제에서 별도의 출제 대상으로 제외합니다.
 // 각 오답 목록은 목표 도형의 수학적 정의와 겹치지 않게 구성합니다.
 const TRI_WRONG={
  iso:['right-scalene','scalene-acute','scalene-obtuse'],
  equi:['iso-acute','iso-right','iso-obtuse','right-scalene','scalene-acute','scalene-obtuse'],
- right:['iso-acute','iso-obtuse','equi','scalene-acute','scalene-obtuse']
+ right:['iso-acute','iso-obtuse','equi','scalene-acute','scalene-obtuse'],
+ acute:['right-scalene','iso-right','iso-obtuse','scalene-obtuse'],
+ obtuse:['equi','iso-acute','scalene-acute','right-scalene','iso-right']
 };
 function makeRound(){
- const {tiles,goal}=mode==='sprint'?{tiles:45,goal:15}:LEVELS[level],tri=SHAPES[shape].family==='tri';
+ const {tiles,goal}=LEVELS[level],tri=SHAPES[shape].family==='tri';
  let answerKinds,wrongKinds;
  if(tri){answerKinds=TRI_ANSWERS[shape];wrongKinds=TRI_WRONG[shape]}
  else{
   answerKinds=[shape];
-  wrongKinds=['rect','square','rhombus','para','trap','kite','quad'].filter(k=>k!==shape && !(shape==='rect'&&k==='square') && !(shape==='rhombus'&&k==='square') && !(shape==='para'&&['rect','square','rhombus'].includes(k)));
+  wrongKinds=['rect','square','rhombus','para','trap','kite','quad'].filter(k=>k!==shape && !(shape==='rect'&&k==='square') && !(shape==='rhombus'&&k==='square') && !(['para','trap'].includes(shape)&&['rect','square','rhombus','para'].includes(k)));
  }
  // 균형 있게 순환 배치하므로 이등변이면 어떤 라운드에서도 예각·직각·둔각이 빠지지 않습니다.
  const balanced=shuffle(Array.from({length:goal},(_,i)=>answerKinds[i%answerKinds.length]));
  round=shuffle(balanced.map(kind=>({kind,correct:true})).concat(Array.from({length:tiles-goal},()=>({kind:pick(wrongKinds),correct:false}))));
  selected=new Set();wrongHits=new Set();round.forEach((r,i)=>{r.id=i;r.svg=svg(r.kind,i)});
 }
-function getGrid(){const w=window.innerWidth,h=window.innerHeight,n=round.length;if(w>h*1.15){const cols=n===45?9:n===36?9:8;return [cols,Math.ceil(n/cols)]}const cols=n===45?5:n===36?6:4;return [cols,Math.ceil(n/cols)]}
+function getGrid(){
+ const wide=window.innerWidth>window.innerHeight*1.15;
+ const cols=wide?7:5;
+ return [cols,Math.ceil(round.length/cols)];
+}
 function gridVars(el){const [cols,rows]=getGrid();el.style.setProperty('--cols',cols);el.style.setProperty('--rows',rows)}
 function paintBoard(el,after=false){gridVars(el);el.innerHTML=round.map((r,i)=>{const isSelected=selected.has(i);const bad=wrongHits.has(i);const cls=after?(r.correct?(isSelected?'good':'missed'):((isSelected||bad)?'bad':'')):(mode==='sprint'?(isSelected?'sprint-good':bad?'sprint-bad':''):(isSelected?'selected':''));const tick=(isSelected||bad)?(bad?'×':'✓'):after&&r.correct?'!':'';return `<button type="button" class="tile ${cls}" data-i="${i}" aria-label="${i+1}번 도형${isSelected?' 선택됨':''}" aria-pressed="${isSelected}" ${after?'disabled':''}>${r.svg}<span class="tick">${tick}</span></button>`}).join('')}
-function startRound(){gameEnded=false;finishedByUser=false;elapsed=0;makeRound();$('prepTitle').textContent=SHAPES[shape].name;$('prepDefinition').textContent=SHAPES[shape].def;$('prepTip').textContent=SHAPES[shape].tip;$('prepShape').innerHTML=svg(shape,0);show('prep');stageStart=performance.now();const tick=t=>{if(phase!=='prep')return;const elapsed=t-stageStart;$('prepProgress').style.width=Math.max(0,100-elapsed/3000*100)+'%';if(elapsed>=3000){countdown();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)}
-function countdown(){show('countdown');stageStart=performance.now();const c=t=>{if(phase!=='countdown')return;const n=3-Math.floor((t-stageStart)/1000);if(n<=0){beginPlay();return}$('countNumber').textContent=n;$('countGoal').textContent=`${SHAPES[shape].name} ${mode==='sprint'?15:LEVELS[level].goal}개 찾기`;raf=requestAnimationFrame(c)};raf=requestAnimationFrame(c)}
+const DIAGRAMS={
+ right:{points:[[62,37],[62,170],[260,170]],right:[1],labels:[[98,149,'90°']]},
+ rect:{points:[[56,49],[264,49],[264,157],[56,157]],right:[0,1,2,3],equal:[[0,2],[1,3]]},
+ square:{points:[[94,35],[226,35],[226,167],[94,167]],right:[0,1,2,3],equal:[[0,1,2,3]]},
+ iso:{points:[[160,37],[260,171],[60,171]],equal:[[0,2]],arcs:[1,2],labels:[[160,21,'꼭지각']]},
+ equi:{points:[[160,29],[240,29+80*Math.sqrt(3)],[80,29+80*Math.sqrt(3)]],equal:[[0,1,2]],arcs:[0,1,2],labels:[[160,81,'60°'],[194,144,'60°'],[126,144,'60°']]},
+ acute:{points:[[125,30],[274,168],[46,168]],highlights:[0,1,2],labels:[[127,82,'예각'],[218,155,'예각'],[88,152,'예각']]},
+ obtuse:{points:[[118,76],[285,167],[30,167]],arcs:[0],labels:[[140,132,'둔각']]},
+ trap:{points:[[103,54],[217,54],[273,159],[47,159]],parallel:[[0,2]]},
+ para:{points:[[94,49],[273,49],[226,157],[47,157]],parallel:[[0,2],[1,3]]},
+ rhombus:{points:[[160,31],[263,102],[160,173],[57,102]],equal:[[0,1,2,3]]}
+};
+function diagram(kind){
+ const {points,right=[],equal=[],arcs=[],highlights=[],parallel=[],labels=[]}=DIAGRAMS[kind];
+ const unit=([x,y],[u,v])=>{const length=Math.hypot(u-x,v-y);return [(u-x)/length,(v-y)/length]};
+ const move=([x,y],[u,v],distance)=>[x+u*distance,y+v*distance];
+ const path=d=>`<path d="${d}"/>`;
+ const marks=[];
+ for(const i of [...right,...arcs,...highlights]){
+  const vertex=points[i];
+  const a=unit(vertex,points[(i+points.length-1)%points.length]);
+  const b=unit(vertex,points[(i+1)%points.length]);
+  if(right.includes(i)){
+   marks.push(path(`M ${move(vertex,a,18)} L ${move(move(vertex,a,18),b,18)} L ${move(vertex,b,18)}`));
+  }else{
+   const sweep=a[0]*b[1]-a[1]*b[0]>0?1:0;
+   const arc=`A 27 27 0 0 ${sweep} ${move(vertex,b,27)}`;
+   marks.push(highlights.includes(i)
+    ? `<path fill="#efb6a5" stroke="none" d="M ${vertex} L ${move(vertex,a,27)} ${arc} Z"/>`
+    : path(`M ${move(vertex,a,27)} ${arc}`));
+  }
+ }
+ function edgeMarks(groups,arrow){
+  groups.forEach((edges,group)=>edges.forEach(i=>{
+   const a=points[i],b=points[(i+1)%points.length];
+   const midpoint=[(a[0]+b[0])/2,(a[1]+b[1])/2];
+   let direction=unit(a,b);
+   if(arrow&&(direction[0]<0||(direction[0]===0&&direction[1]<0)))direction=direction.map(value=>-value);
+   const normal=[-direction[1],direction[0]];
+   for(let j=0;j<=group;j++){
+    const center=move(midpoint,direction,(j-group/2)*10);
+    if(arrow){
+     const back=move(center,direction,-6),tip=move(center,direction,3);
+     marks.push(path(`M ${move(back,normal,5)} L ${tip} L ${move(back,normal,-5)}`));
+    }else{
+     marks.push(path(`M ${move(center,normal,-7)} L ${move(center,normal,7)}`));
+    }
+   }
+  }));
+ }
+ edgeMarks(equal,false);
+ edgeMarks(parallel,true);
+ const text=labels.map(([x,y,label])=>`<text x="${x}" y="${y}" text-anchor="middle">${label}</text>`).join('');
+ return `<svg viewBox="0 0 320 195" role="img" aria-label="${SHAPES[kind].name}의 변과 각 표시">
+  <polygon points="${points.map(p=>p.join(',')).join(' ')}" fill="#e4f7ef" stroke="#234953" stroke-width="3" stroke-linejoin="round"/>
+  <g fill="none" stroke="#b5412d" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round">${marks.join('')}</g>
+  <g fill="#8f2b1c" font-size="15" font-weight="800">${text}</g>
+ </svg>`;
+}
+function showConcept(){
+ $('prepTitle').textContent=SHAPES[shape].name;
+ $('prepDefinition').textContent=SHAPES[shape].def;
+ $('prepTip').textContent=SHAPES[shape].tip;
+ $('prepShape').innerHTML=diagram(shape);
+ $('prepProgress').style.width='100%';
+ show('prep');
+}
+function startRound(){gameEnded=false;finishedByUser=false;elapsed=0;makeRound();showConcept();stageStart=performance.now();const tick=t=>{if(phase!=='prep')return;const elapsed=t-stageStart;$('prepProgress').style.width=Math.max(0,100-elapsed/3000*100)+'%';if(elapsed>=3000){countdown();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)}
+function countdown(){show('countdown');stageStart=performance.now();const c=t=>{if(phase!=='countdown')return;const n=3-Math.floor((t-stageStart)/1000);if(n<=0){beginPlay();return}$('countNumber').textContent=n;$('countGoal').textContent=`${SHAPES[shape].name} ${LEVELS[level].goal}개 찾기`;raf=requestAnimationFrame(c)};raf=requestAnimationFrame(c)}
 function beginPlay(){
- show('play');const sprint=mode==='sprint',l=sprint?{goal:15,seconds:Infinity}:LEVELS[level];
+ show('play');const sprint=mode==='sprint',l=LEVELS[level];
  $('gameShapeName').textContent=SHAPES[shape].name;
  $('gameGoalCount').textContent=l.goal;
  $('timeLabel').textContent=sprint?'경과 시간':'남은 시간';
- $('playHint').textContent=sprint?'정답은 초록색 · 오답은 빨간색 · 오답마다 +3초 페널티':'모양을 누르면 선택, 한 번 더 누르면 취소';
+ $('playHint').textContent=sprint?'정답은 초록색 · 오답은 빨간색 · 잘못 고른 도형마다 +3초':'모양을 누르면 선택, 한 번 더 누르면 취소';
  $('timeStat').classList.remove('urgent');$('timerBar').classList.remove('urgent');
  $('selectedCount').textContent=`0/${l.goal}`;
- $('timeLeft').textContent=sprint?'0.00':'0.0';
+ $('timeLeft').textContent=sprint?'0.00':l.seconds.toFixed(1);
  $('timerFill').style.width=sprint?'0%':'100%';paintBoard($('board'));
  stageStart=performance.now();secondsLeft=l.seconds;
  const tick=t=>{
@@ -156,7 +299,7 @@ function beginPlay(){
   if(sprint){
    elapsed=spent;
    $('timeLeft').textContent=spent.toFixed(2);
-   $('timerFill').style.width=(selected.size/15*100)+'%';
+   $('timerFill').style.width=(selected.size/LEVELS[level].goal*100)+'%';
   } else {
    secondsLeft=Math.max(0,l.seconds-spent);
    $('timeLeft').textContent=secondsLeft.toFixed(1);
@@ -178,11 +321,12 @@ $('board').addEventListener('click',e=>{
   if(r.correct){selected.add(id);btn.classList.add('sprint-good');btn.querySelector('.tick').textContent='✓'}
   else{wrongHits.add(id);btn.classList.add('sprint-bad');btn.querySelector('.tick').textContent='×'}
   btn.setAttribute('aria-pressed','true');
-  $('selectedCount').textContent=`${selected.size}/15`;
-  $('timerFill').style.width=(selected.size/15*100)+'%';
-  if(selected.size===15){elapsed=Math.max(0,(performance.now()-stageStart)/1000);finish();}
+  $('selectedCount').textContent=`${selected.size}/${LEVELS[level].goal}`;
+  $('timerFill').style.width=(selected.size/LEVELS[level].goal*100)+'%';
+  if(selected.size===LEVELS[level].goal){elapsed=Math.max(0,(performance.now()-stageStart)/1000);finish();}
   return;
  }
+ if(performance.now()-stageStart>=LEVELS[level].seconds*1000){finish();return}
  if(selected.has(id))selected.delete(id);else selected.add(id);
  btn.classList.toggle('selected',selected.has(id));btn.setAttribute('aria-pressed',String(selected.has(id)));
  btn.querySelector('.tick').textContent=selected.has(id)?'✓':'';
@@ -192,7 +336,7 @@ function finish(){
  if(gameEnded)return;
  gameEnded=true;
  const sprint=mode==='sprint';
- const goal=sprint?15:LEVELS[level].goal;
+ const goal=LEVELS[level].goal;
  const ok=round.filter((r,i)=>r.correct&&selected.has(i)).length;
  const wrong=sprint?wrongHits.size:round.filter((r,i)=>!r.correct&&selected.has(i)).length;
  const missed=goal-ok;
@@ -206,13 +350,13 @@ function finish(){
   const oldBest=getBest();
   const personalBest=complete&&(oldBest===null||finalTime<oldBest);
   const saved=personalBest?saveBest(finalTime):false;
-  $('resultTitle').textContent=complete?(personalBest?'🏆 최고 기록 갱신!':'15개 찾기 성공!'):'아쉽지만 다음에 도전!';
+  $('resultTitle').textContent=complete?(personalBest?'🏆 최고 기록 갱신!':goal+'개 찾기 성공!'):'아쉽지만 다음에 도전!';
   $('scoreValue').textContent=complete?finalTime.toFixed(2)+'초':'—';
   $('scoreLabel').textContent='최종 기록';
-  $('wrongLabel').textContent='오답 터치';
+  $('wrongLabel').textContent='잘못 고른 도형';
   $('missValue').textContent=wrong*3+'초';
   $('missLabel').textContent='오답 페널티';
-  $('scoreFormula').textContent=complete?`순수 탐색 ${rawTime.toFixed(2)}초 + 오답 ${wrong}회 × 3초 = ${finalTime.toFixed(2)}초${personalBest?(saved?' · 개인 최고기록 저장!':' · 새 최고기록 (이 브라우저에서 저장 불가)'):oldBest!==null?' · 기존 최고기록 '+oldBest.toFixed(2)+'초':''}`:`15개를 모두 찾기 전에 종료했습니다. 기록은 저장되지 않아요.`;
+  $('scoreFormula').textContent=complete?`순수 탐색 ${rawTime.toFixed(2)}초 + 오답 ${wrong}회 × 3초 = ${finalTime.toFixed(2)}초${personalBest?(saved?' · 개인 최고기록 저장!':' · 새 최고기록 (이 브라우저에서 저장 불가)'):oldBest!==null?' · 기존 최고기록 '+oldBest.toFixed(2)+'초':''}`:`${goal}개를 모두 찾기 전에 종료했습니다. 기록은 저장되지 않아요.`;
  }else{
   score=Math.max(0,ok*100-wrong*60+(missed===0&&wrong===0?300:0));
   $('resultTitle').textContent=missed===0&&wrong===0?'완벽한 눈썰미!':ok>=Math.ceil(goal*.65)?'좋아요! 조금만 더!':'다시 보면 찾을 수 있어요';
@@ -222,7 +366,7 @@ function finish(){
  }
  show('result');paintBoard($('resultBoard'),true);
 }
-$('start').addEventListener('click',startRound);$('again').addEventListener('click',startRound);$('next').addEventListener('click',()=>{const i=ORDER.indexOf(shape);shape=ORDER[(i+1)%ORDER.length];config();startRound()});$('skip').addEventListener('click',()=>{finishedByUser=true;finish()});$('homeBtn').addEventListener('click',()=>{show('home');config()});
+$('start').addEventListener('click',startRound);$('again').addEventListener('click',startRound);$('next').addEventListener('click',()=>{const available=courseShapes(),i=available.indexOf(shape);shape=available[(i+1)%available.length];config();startRound()});$('skip').addEventListener('click',()=>{finishedByUser=true;finish()});$('homeBtn').addEventListener('click',()=>{show('home');config()});
 window.addEventListener('resize',()=>{if(phase==='play')gridVars($('board'));if(phase==='result')gridVars($('resultBoard'))});config();
 })();
 </script>
