@@ -41,19 +41,43 @@
 @media(prefers-reduced-motion:reduce){.cell.tutorial-target.unknown{animation:none}}
 .arcade-lobby-link{display:flex;align-items:center;justify-content:center;gap:.5em;width:fit-content;min-height:44px;margin:0 auto 10px;padding:8px 15px;border:1px solid #b6d7cd;border-radius:12px;background:#f0faf6;color:#135a4b;font:700 14px/1.3 system-ui,sans-serif;text-decoration:none}
 .arcade-lobby-link:focus-visible{outline:3px solid #126a59;outline-offset:3px}
+.pixel-start,.pixel-play{max-width:620px;margin-inline:auto}
+.pixel-start{display:grid;gap:14px}
+.pixel-start[hidden],.pixel-play[hidden]{display:none}
+.pixel-cover{display:block;width:100%;height:auto;border-radius:22px}
+.pixel-start .side-title h2{margin:0;font-size:17px}
+.play-nav{display:flex;justify-content:space-between;gap:10px;margin-bottom:12px}
+#tutorial-text{min-height:3em}
+#lesson-control{margin-bottom:12px}
+.cell.lesson-cell{z-index:1;outline:3px solid #f0aa3d;outline-offset:-3px;animation:lesson-pulse 1.65s ease-in-out infinite}
+@keyframes lesson-pulse{50%{outline-color:#5bbcb2;box-shadow:inset 0 0 0 5px #ffc76985}}
+.cell.white:has(.digit)::after{display:block;top:2px;right:4px;font-size:clamp(10px,2.2vw,14px)}
+@media(min-width:590px){.pixel-start .levels{grid-template-columns:repeat(5,1fr)}}
 </style>
 </head>
 <body>
 <div class="page">
 <a class="arcade-lobby-link" href="./games.html"><span aria-hidden="true">←</span> 오락실 로비로 돌아가기</a>
-  <header class="header"><div class="brand"><div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><h1>라온 픽셀탐정</h1><p>FILL·A·PIX</p></div></div><div class="header-right"><button id="help-btn" class="tiny-btn" type="button">? 게임 방법</button></div></header>
-  <section class="hero"><div class="eyebrow">OBSERVE · THINK · SOLVE</div><h2>숫자를 따라 채우면,<br>숨은 그림이 나타나요!</h2><p>첫 번째 하트 튜토리얼에서 규칙을 익히고, 숫자를 따라 숨은 그림을 완성해 보세요.</p></section>
-  <main class="shell"><section class="panel game" aria-label="픽셀 퍼즐 게임"><div class="game-head"><div><div class="level-label" id="level-label">STAGE 01 · BASIC SHAPES</div><h3 id="stage-title">숨겨진 그림을 찾아라</h3><div class="sub" id="stage-sub">5×5 · 제한시간 없음</div></div><div class="statpill"><span>플레이 시간</span><b id="clock">00:00</b></div></div>
+  <main class="pixel-start" id="pixel-start">
+    <img class="pixel-cover" src="pixel-detective-share.jpg" width="1200" height="630" alt="라온 픽셀탐정">
+    <button id="start-tutorial" class="go" type="button">튜토리얼 시작</button>
+    <section class="panel sidebox" aria-label="레벨 선택">
+      <div class="side-title"><h2>레벨 선택</h2><span id="cleared-count" class="mini-tag"></span></div>
+      <div id="level-grid" class="levels"></div>
+    </section>
+  </main>
+  <main class="pixel-play" id="pixel-play" hidden>
+    <nav class="play-nav" aria-label="게임 메뉴">
+      <button id="show-levels" class="tiny-btn" type="button">← 레벨 선택</button>
+      <button id="help-btn" class="tiny-btn" type="button">게임 방법</button>
+    </nav>
+    <section class="panel game" aria-label="픽셀 퍼즐 게임"><div class="game-head"><div><div class="level-label" id="level-label">STAGE 01 · BASIC SHAPES</div><h3 id="stage-title" tabindex="-1">숨겨진 그림을 찾아라</h3><div class="sub" id="stage-sub">5×5 · 제한시간 없음</div></div><div class="statpill"><span>플레이 시간</span><b id="clock">00:00</b></div></div>
     <div class="meter"><div class="track"><div id="progress"></div></div><small id="progress-text">0 / 25칸</small></div>
     <div class="tutorial-panel" id="tutorial-panel" hidden aria-live="polite">
       <div class="tutorial-top"><span class="tutorial-chip">🎓 하트 튜토리얼</span><span id="tutorial-counter" class="tutorial-count">1 / 5단계</span></div>
       <h4 id="tutorial-title">숫자 9부터 시작!</h4>
       <p id="tutorial-text">표시된 칸들을 채워 보세요.</p>
+      <button id="lesson-control" class="tiny-btn" type="button" hidden></button>
       <div class="tutorial-bottom"><span id="tutorial-task">검정으로 칠하기</span><span id="tutorial-left">9칸 남음</span></div>
     </div>
     <div class="board-frame"><div id="board" class="board" role="group" aria-label="Fill-a-Pix 퍼즐 격자"></div></div>
@@ -63,8 +87,7 @@
     <div class="actions"><button class="action" id="undo" type="button">↶ 되돌리기</button><button class="action" id="reset" type="button">↺ 다시 풀기</button><button class="action primary" id="hint" type="button">✦ 한 칸 힌트</button></div>
     <div class="message" id="message" role="status" aria-live="polite">숫자 0 또는 9가 있는지 먼저 살펴보세요. 모든 칸에는 세 가지 상태가 있어요.</div>
   </section>
-  <aside class="side"><section class="panel sidebox"><div class="side-title"><h3>도전 스테이지</h3><span id="cleared-count" class="mini-tag">0 / 15 완료</span></div><div id="level-grid" class="levels"></div><div class="side-note">처음에는 기본 도형부터! 5×5 → 6×6 → 7×7 순서로 진행해요.<br>각 퍼즐은 숫자 단서로 정답이 하나만 나오도록 확인했어요.</div></section><section class="panel sidebox"><div class="side-title"><h3>탐정의 풀이 수칙</h3></div><div class="rules"><div class="rule"><span class="number">01</span><div><b>숫자의 뜻</b><br>자기 칸을 포함한 주변 최대 9칸 중 색칠된 칸을 세요.</div></div><div class="rule"><span class="number">02</span><div><b>흰색도 확정하기</b><br>색칠할 칸은 검정, 색칠하면 안 될 칸은 흰색으로 표시해요.</div></div><div class="rule"><span class="number">03</span><div><b>완성하면 자동 클리어!</b><br>모든 칸을 정확히 표시하면 다음 단계가 열려요.</div></div></div></section></aside></main>
-  <footer class="footer"><b>RAON MATH LAB</b> · 관찰력과 논리력을 키우는 작은 게임 · 진행 기록은 이 기기에 저장됩니다</footer>
+  </main>
 </div>
 <div class="overlay" id="success-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="success-title"><div class="modal"><span class="success-title">🎉</span><h2 id="success-title">퍼즐 클리어!</h2><p id="success-description">숫자 퍼즐을 정확히 풀었어요.</p><div id="reveal" class="reveal" aria-label="완성된 픽셀 도형"></div><div id="best-text" class="best"></div><button id="next-stage" type="button" class="go">다음 스테이지 →</button><div class="modal-small">퍼즐을 완성하면 다음 스테이지가 열려요.</div></div></div>
 <div class="overlay" id="rules-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="rules-title"><div class="modal" style="text-align:left"><button class="close" id="close-rules" type="button" aria-label="닫기">×</button><h2 id="rules-title">Fill-a-Pix 게임 방법</h2><p style="margin-top:15px">숫자는 <b>자기 칸을 포함한 주변 최대 9칸 중 색칠된 칸의 수</b>를 말해요.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);max-width:198px;margin:15px auto;gap:3px;aspect-ratio:1"><div style="background:#29394c;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#29394c;border-radius:4px"></div><div style="background:#29394c;border-radius:4px;display:grid;place-items:center;color:white;font-weight:900">3</div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div></div><p>숫자들 사이의 관계를 보고 <b>색칠할 곳과 색칠하면 안 될 곳</b>을 구분해 보세요!</p><p><b>0이나 9부터 시작</b>하는 게 좋겠죠?</p><button class="go" type="button" id="got-it">게임 시작하기</button></div></div>
@@ -76,11 +99,18 @@ const STORE = 'raon-pix-lab-2026-v3';
 const OLD_STORE = 'raon-pix-lab-2026-v2';
 // 한 단계의 선택칸을 직접 모두 올바르게 표시해야 다음 단계 안내가 나옵니다.
 const TUTORIAL_STEPS = [
-  {title:'① 가운데 숫자 9부터!', text:'가운데 9는 자기 칸을 포함한 주변 9칸이 모두 검정이라는 뜻이에요. 주황색 테두리가 있는 아홉 칸을 검정으로 칠해 보세요.', tool:1, cells:[6,7,8,11,12,13,16,17,18], focus:[12]},
-  {title:'② 흰 칸도 표시해요', text:'맨 아래 양쪽 숫자 1을 보세요. 주변에 검정 칸이 이미 하나씩 있죠? 그러면 나머지 세 칸씩은 흰색이에요. 흰색 도구를 골라 표시해 보세요.', tool:0, cells:[15,20,21,19,23,24], focus:[20,24]},
-  {title:'③ 다른 숫자들을 비교해요', text:'왼쪽 8, 오른쪽 5, 아래쪽 7을 함께 보면 검정이어야 할 칸을 더 찾을 수 있어요. 표시된 다섯 칸을 검정으로 칠해 보세요.', tool:1, cells:[5,10,9,14,22], focus:[11,14,17]},
-  {title:'④ 윗줄의 검정 칸 찾기', text:'윗줄에 있는 3·4·5·4·3의 조건을 비교해 보세요. 주황색으로 표시된 두 칸이 검정이에요.', tool:1, cells:[1,3], focus:[0,1,2,3,4]},
-  {title:'⑤ 흰 칸을 채워 완성!', text:'마지막으로 윗줄에 남은 세 칸은 흰색이에요. 직접 표시해서 하트를 완성해 보세요!', tool:0, cells:[0,2,4], focus:[0,2,4]}
+  {title:'① 가운데 숫자 9부터!', text:'가운데 9는 자기 칸을 포함한 주변 9칸이 모두 검정이라는 뜻이에요. 주황색 테두리가 있는 아홉 칸을 검정으로 칠해 보세요.', marks: [6,7,8,11,12,13,16,17,18].map(index => [index, 1]), focus:[12]},
+  {title:'② 흰 칸도 표시해요', text:'맨 아래 양쪽 숫자 1을 보세요. 주변에 검정 칸이 이미 하나씩 있죠? 그러면 나머지 세 칸씩은 흰색이에요. 흰색 도구를 골라 표시해 보세요.', marks: [15,20,21,19,23,24].map(index => [index, 0]), focus:[20,24]},
+  {title:'③ 다른 숫자들을 비교해요', text:'왼쪽 8, 오른쪽 5, 아래쪽 7을 함께 보면 검정이어야 할 칸을 더 찾을 수 있어요. 표시된 다섯 칸을 검정으로 칠해 보세요.', marks: [5,10,9,14,22].map(index => [index, 1]), focus:[11,14,17]},
+  {title:'④ 윗줄의 검정 칸 찾기', marks:[[1,1],[3,1],[0,0],[2,0],[4,0]], focus:[]}
+];
+const TOP_ROW_LESSON = [
+  {cells:[0,1,5,6], text:'맨 왼쪽 3을 보세요. 바로 아래 두 칸이 이미 검정이에요. 그러니 윗줄의 3과 4 중 딱 하나만 검정이에요.'},
+  {cells:[3,4,8,9], text:'맨 오른쪽 3도 같아요. 바로 아래 두 칸이 검정이니, 윗줄의 4와 3 중 딱 하나만 검정이에요.'},
+  {cells:[0,1,2,5,6,7], text:'왼쪽 4 주변에는 아래쪽 검정 세 칸과, 방금 찾은 왼쪽 두 칸 중 검정 한 칸이 있어요. 이미 4칸이 되므로 가운데 5에는 ×를 표시해요.'},
+  {cells:[2,3,4,7,8,9], text:'오른쪽 4도 아래쪽 검정 세 칸과 오른쪽 두 칸 중 검정 한 칸으로 채워져요. 가운데 5는 여기서도 흰색이에요.'},
+  {cells:[1,2,3,6,7,8], text:'가운데 숫자 5는 검정 다섯 칸을 뜻해요. 아래 세 칸은 검정이고 5 자체는 흰색이니, 윗줄 양옆의 두 4가 검정이에요.'},
+  {cells:[0,1,3,4], text:'양쪽의 3은 아래 두 칸과 옆의 4로 각각 검정 세 칸이 됐어요. 그래서 윗줄 양끝의 3에도 ×를 표시해요.'}
 ];
 const $ = sel => document.querySelector(sel);
 let save={unlocked:0,completed:{},boards:{},times:{},hints:{},tutorialComplete:false,tutorialMarks:[]};
@@ -93,25 +123,52 @@ try {
 } catch(e){}
 save.tutorialComplete=save.tutorialComplete===true;
 save.unlocked=Math.max(0,Math.min(PUZZLES.length-1,Number(save.unlocked)||0));
-let current=save.tutorialComplete?save.unlocked:0, tool=1, marks=[], history=[], elapsed=0, startedAt=null, answerPending=false, hintIndex=-1, toastTimer=null;
-function tutorialActive(){return current===0 && !save.tutorialComplete;}
-function tutorialStepIndex(){return TUTORIAL_STEPS.findIndex(step=>!step.cells.every(i=>marks[i]===step.tool));}
+let current=0, playingTutorial=false, tool=1, marks=[], history=[], elapsed=0, startedAt=null, answerPending=false, hintIndex=-1, toastTimer=null;
+let lessonFrame=0, lessonTimer;
+function tutorialActive(){return playingTutorial;}
+function tutorialStepIndex(){return TUTORIAL_STEPS.findIndex(step=>step.marks.some(([i,value])=>marks[i]!==value));}
+function advanceLesson(){
+ lessonFrame++;
+ renderTutorial();
+}
 function renderTutorial(){
+ clearTimeout(lessonTimer);
  const active=tutorialActive()&&!answerPending;
- const panel=$('#tutorial-panel');panel.hidden=!active;
+ $('#tutorial-panel').hidden=!active;
  $('#undo').disabled=active;$('#hint').disabled=active;
  if(!active)return;
- let stepIdx=tutorialStepIndex();if(stepIdx<0)stepIdx=TUTORIAL_STEPS.length-1;
+ const stepIdx=tutorialStepIndex();
+ if(stepIdx<0)return;
  const step=TUTORIAL_STEPS[stepIdx];
- $('#tutorial-counter').textContent=`${stepIdx+1} / ${TUTORIAL_STEPS.length}단계`;
+ const board=$('#board');
+ for(const cell of board.children){
+  cell.classList.remove('lesson-cell','tutorial-target','tutorial-focus');
+  cell.style.animationDelay='';
+ }
+ const lastStep=stepIdx===TUTORIAL_STEPS.length-1;
+ const frame=lastStep?TOP_ROW_LESSON[lessonFrame]:null;
+ const remaining=step.marks.filter(([i,value])=>marks[i]!==value);
+ const toolLabel=lastStep?'검정과 흰색(×) 표시하기':step.marks[0][1]===1?'■ 검정 도구로 칠하기':'× 흰색 도구로 표시하기';
+ const control=$('#lesson-control');
+ control.hidden=!lastStep;
+ control.textContent=frame?'다음 설명 →':'설명 다시 보기';
+ $('#tutorial-counter').textContent=(stepIdx+1)+' / '+TUTORIAL_STEPS.length+'단계';
  $('#tutorial-title').textContent=step.title;
- $('#tutorial-text').textContent=step.text;
- $('#tutorial-task').textContent=step.tool===1?'■ 검정 도구로 칠하기':'× 흰색 도구로 표시하기';
- const left=step.cells.filter(i=>marks[i]!==step.tool).length;
- $('#tutorial-left').textContent=`${left}칸 남음`;
- for(const i of step.cells)if(marks[i]!==step.tool)$('#board').children[i]?.classList.add('tutorial-target');
- for(const i of step.focus)$('#board').children[i]?.classList.add('tutorial-focus');
- setMessage(`${stepIdx+1}단계: ${step.tool===1?'검정':'흰색'} 도구를 선택하고, 주황색 테두리 칸을 표시하세요.`);
+ $('#tutorial-text').textContent=frame?frame.text:lastStep?'이제 직접 표시해 보세요. 윗줄의 두 4는 검정, 양끝의 3과 가운데 5는 흰색(×)이에요.':step.text;
+ $('#tutorial-task').textContent=frame?(lessonFrame+1)+' / '+TOP_ROW_LESSON.length+' 설명':toolLabel;
+ $('#tutorial-left').textContent=frame?'':remaining.length+'칸 남음';
+ if(frame){
+  frame.cells.forEach((i,order)=>{
+   const cell=board.children[i];
+   cell.style.animationDelay=(order*160)+'ms';
+   cell.classList.add('lesson-cell');
+  });
+  lessonTimer=setTimeout(advanceLesson,6500);
+ }else{
+  for(const [i] of remaining)board.children[i].classList.add('tutorial-target');
+  for(const i of step.focus)board.children[i].classList.add('tutorial-focus');
+ }
+ setMessage(frame?'강조된 칸을 보면서 검정 칸을 세어 보세요.':lastStep?'검정과 흰색(×)을 모두 표시하면 튜토리얼이 끝나요.':'주황색 테두리 칸을 안내에 맞게 표시해 보세요.');
 }
 let currentPuzzle=()=>PUZZLES[current];
 function persist(){try{localStorage.setItem(STORE,JSON.stringify(save));}catch(e){}}
@@ -119,7 +176,7 @@ function formatTime(t){let s=Math.max(0,Math.floor(t));return String(Math.floor(
 function seconds(){return elapsed+(startedAt===null?0:(performance.now()-startedAt)/1000);}
 function tick(){$('#clock').textContent=formatTime(seconds());}
 setInterval(tick,250);
-document.addEventListener('visibilitychange',()=>{if(document.hidden && startedAt!==null){elapsed=seconds();startedAt=null;}else if(!document.hidden&&elapsed>0&&marks.some(x=>x!==-1)&&!answerPending){startedAt=performance.now();}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden && startedAt!==null){elapsed=seconds();startedAt=null;}else if(!document.hidden&&!$('#pixel-play').hidden&&elapsed>0&&marks.some(x=>x!==-1)&&!answerPending&&!save.completed[current]){startedAt=performance.now();}});
 function neighbours(idx){const n=currentPuzzle().size; const y=Math.floor(idx/n),x=idx%n;const ids=[];for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const yy=y+dy,xx=x+dx;if(yy>=0&&xx>=0&&yy<n&&xx<n)ids.push(yy*n+xx);}return ids;}
 function target(){return currentPuzzle().rows.join('').split('').map(Number);}
 function toast(s){let t=$('#toast');t.textContent=s;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,2500);}
@@ -138,29 +195,36 @@ function applyMark(i,v,{isHint=false}={}){
   const stepIdx=tutorialStepIndex();
   if(stepIdx<0)return;
   const step=TUTORIAL_STEPS[stepIdx];
-  if(!step.cells.includes(i)){toast('지금은 주황색 테두리 칸을 먼저 표시해 보세요.');return;}
-  if(v!==step.tool){toast(step.tool===1?'검정 도구를 골라보세요!':'흰색 도구를 골라보세요!');return;}
+  if(stepIdx===TUTORIAL_STEPS.length-1&&lessonFrame<TOP_ROW_LESSON.length){toast('설명을 다 보면 직접 칸을 표시할 수 있어요.');return;}
+  const required=step.marks.find(([index])=>index===i);
+  if(!required){toast('지금은 주황색 테두리 칸을 먼저 표시해 보세요.');return;}
+  if(v!==required[1]){toast(required[1]===1?'검정 도구를 골라보세요!':'흰색 도구를 골라보세요!');return;}
   if(marks[i]===v)return;
  }
  const priorTutorialStep=tutorialActive()?tutorialStepIndex():-1;
- const prev=marks[i],next=prev===v?-1:v;if(prev===next)return;history.push({i,prev});if(history.length>120)history.shift();marks[i]=next;if(startedAt===null)startedAt=performance.now();hintIndex=isHint?i:-1;if(tutorialActive())save.tutorialMarks=marks.slice();else save.boards[current]=marks.slice();save.times[current]=seconds();persist();renderBoard();
- if(tutorialActive()&&tutorialStepIndex()>priorTutorialStep&&tutorialStepIndex()>=0)toast('좋아요! 다음 단계로 넘어가 볼까요?');
+ const prev=marks[i],next=prev===v?-1:v;if(prev===next)return;history.push({i,prev});if(history.length>120)history.shift();marks[i]=next;if(startedAt===null)startedAt=performance.now();hintIndex=isHint?i:-1;if(tutorialActive())save.tutorialMarks=marks.slice();else save.boards[current]=marks.slice();saveRoundTime();persist();renderBoard();
+ if(tutorialActive()&&tutorialStepIndex()>priorTutorialStep&&tutorialStepIndex()>=0)$('#tutorial-title').scrollIntoView({block:'nearest'});
  if(isHint){$('#board').children[i].classList.add('hinted');}
- const assigned=marks.every(x=>x!==-1);if(assigned){if(marks.every((x,k)=>x===target()[k])){answerPending=true; elapsed=seconds();startedAt=null;save.times[current]=elapsed;persist();setTimeout(showSuccess,360);}else{toast('아직 조건이 맞지 않는 칸이 있어요. 다시 살펴봐요!');}}
+ const assigned=marks.every(x=>x!==-1);if(assigned){if(marks.every((x,k)=>x===target()[k])){answerPending=true; elapsed=seconds();startedAt=null;saveRoundTime();persist();setTimeout(showSuccess,360);}else{toast('아직 조건이 맞지 않는 칸이 있어요. 다시 살펴봐요!');}}
 }
 function undo(){if(tutorialActive()){toast('튜토리얼은 표시된 칸을 따라 풀어 보세요.');return;}if(answerPending){toast('스테이지를 클리어했어요!');return;}const h=history.pop();if(!h){toast('되돌릴 칸이 없어요.');return;}marks[h.i]=h.prev;save.boards[current]=marks.slice();persist();renderBoard();}
-function reset(){if(!confirm('지금 스테이지의 칸 표시를 모두 지우고 다시 풀까요?'))return;marks=Array(currentPuzzle().size**2).fill(-1);history=[];elapsed=0;startedAt=null;save.times[current]=0;if(tutorialActive())save.tutorialMarks=marks.slice();else save.boards[current]=marks.slice();persist();renderBoard();tick();}
+function reset(){if(answerPending||!confirm('지금 스테이지의 칸 표시를 모두 지우고 다시 풀까요?'))return;marks=Array(currentPuzzle().size**2).fill(-1);history=[];elapsed=0;startedAt=null;lessonFrame=0;saveRoundTime();if(tutorialActive())save.tutorialMarks=marks.slice();else save.boards[current]=marks.slice();persist();renderBoard();tick();}
 function chooseTool(v){tool=v;for(const b of document.querySelectorAll('.tool'))b.classList.toggle('active',Number(b.dataset.tool)===v);}
 function hint(){if(tutorialActive()){toast('튜토리얼 안내를 따라 직접 표시해 보세요.');return;}if(answerPending)return;const truth=target();let candidate=marks.findIndex((v,i)=>v!==-1&&v!==truth[i]);if(candidate>=0){applyMark(candidate,truth[candidate],{isHint:true});toast('다르게 표시한 칸 하나를 바로잡았어요.');}else{candidate=marks.findIndex(v=>v===-1);if(candidate<0){toast('모든 칸을 표시했어요.');return;}applyMark(candidate,truth[candidate],{isHint:true});toast('한 칸을 알려드렸어요!');}save.hints[current]=(save.hints[current]||0)+1;persist();}
-function levelButton(idx){const p=PUZZLES[idx],ok=Boolean(save.completed[idx])&&(idx!==0||save.tutorialComplete),isCurrent=idx===current,locked=!save.tutorialComplete?idx!==0:idx>save.unlocked;const b=document.createElement('button');b.className='lv'+(ok?' complete':'')+(isCurrent?' current':'')+(locked?' locked':'');b.disabled=locked;b.innerHTML=`<span class="lvnum">${ok?'✓ ':locked?'🔒 ':''}${String(idx+1).padStart(2,'0')}</span><span class="lvsize">${p.size} × ${p.size}</span><span class="lvstate">${idx===0&&!save.tutorialComplete?'튜토리얼':isCurrent?'플레이 중':ok?'클리어':locked?'잠김':'도전 가능'}</span>`;b.title=locked?'앞 스테이지를 먼저 클리어하세요':`${idx+1}번 스테이지`;b.onclick=()=>load(idx);return b;}
+function levelButton(idx){const p=PUZZLES[idx],ok=Boolean(save.completed[idx])&&(idx!==0||save.tutorialComplete),isCurrent=idx===current&&!$('#pixel-play').hidden,locked=!save.tutorialComplete?idx!==0:idx>save.unlocked;const b=document.createElement('button');b.className='lv'+(ok?' complete':'')+(isCurrent?' current':'')+(locked?' locked':'');b.disabled=locked;b.innerHTML=`<span class="lvnum">${ok?'✓ ':locked?'🔒 ':''}${String(idx+1).padStart(2,'0')}</span><span class="lvsize">${p.size} × ${p.size}</span><span class="lvstate">${idx===0&&!save.tutorialComplete?'튜토리얼':isCurrent?'플레이 중':ok?'클리어':locked?'잠김':'도전 가능'}</span>`;b.title=locked?'앞 스테이지를 먼저 클리어하세요':`${idx+1}번 스테이지`;b.onclick=()=>load(idx);return b;}
 function renderLevels(){const root=$('#level-grid');root.innerHTML='';for(let i=0;i<PUZZLES.length;i++)root.append(levelButton(i));$('#cleared-count').textContent=`${save.tutorialComplete?Object.keys(save.completed).filter(k=>save.completed[k]).length:0} / ${PUZZLES.length} 완료`;}
-function load(idx){
+function load(idx,{tutorial=idx===0&&!save.tutorialComplete}={}){
+ clearTimeout(lessonTimer);
+ lessonFrame=0;
  if(!save.tutorialComplete&&idx!==0)return;
  if(idx>save.unlocked)return;
  if(!$('#success-overlay').hidden)return;
- current=idx;history=[];answerPending=false;hintIndex=-1;const p=currentPuzzle();
+ current=idx;playingTutorial=tutorial;history=[];answerPending=false;hintIndex=-1;
+ $('#pixel-start').hidden=true;$('#pixel-play').hidden=false;
+ chooseTool(1);
+ const p=currentPuzzle();
  marks=Array(p.size**2).fill(-1);
- const savedBoard=tutorialActive()?save.tutorialMarks:save.boards[idx];
+ const savedBoard=tutorialActive()?(save.tutorialComplete?[]:save.tutorialMarks):save.boards[idx];
  if(Array.isArray(savedBoard)&&savedBoard.length===marks.length){marks=savedBoard.map(x=>(x===0||x===1)?x:-1);}
  // 깨진/임의의 저장 기록으로 튜토리얼이 건너뛰어지는 것을 방지합니다.
  if(tutorialActive()){
@@ -169,28 +233,29 @@ function load(idx){
   for(const step of TUTORIAL_STEPS){
    if(finished)break;
    let complete=true;
-   for(const i of step.cells){if(marks[i]===step.tool)safeMarks[i]=step.tool;else complete=false;}
+   for(const [i,value] of step.marks){if(marks[i]===value)safeMarks[i]=value;else complete=false;}
    if(!complete)finished=true;
   }
   marks=safeMarks;
  }
- elapsed=Number(save.times[idx])||0;startedAt=elapsed>0&&marks.some(v=>v!==-1)?performance.now():null;
+ elapsed=Number(tutorialActive()?(save.tutorialComplete?0:(save.tutorialTime??save.times[0])):save.times[idx])||0;startedAt=elapsed>0&&marks.some(v=>v!==-1)?performance.now():null;
  if(save.completed[idx]&&!tutorialActive()){marks=target();startedAt=null;}
  $('#level-label').textContent=tutorialActive()?'TUTORIAL · STAGE 01 · 5×5':`STAGE ${String(idx+1).padStart(2,'0')} · ${p.size}×${p.size} PIXEL`;
- $('#stage-title').textContent=tutorialActive()?'하트로 배우는 게임 방법':save.completed[idx]?`완료한 도형: ${p.name}`:'숨겨진 그림을 찾아라';$('#stage-sub').textContent=tutorialActive()?'5×5 · 단계별 실습 · 제한시간 없음':p.size===5?'5×5 · 입문 도형 · 제한시간 없음':p.size===6?'6×6 · 기초 도형 · 제한시간 없음':'7×7 · 응용 도형 · 제한시간 없음';$('#grid-label').textContent=`${p.size} × ${p.size}`;renderBoard();if(save.completed[idx]&&!tutorialActive())setMessage('클리어한 스테이지예요. 다른 도형도 도전해 보세요.');renderLevels();tick();if(!save.completed[idx]&&marks.every((v,k)=>v===target()[k])){answerPending=true;elapsed=seconds();startedAt=null;setTimeout(showSuccess,200);}}
+ $('#stage-title').textContent=tutorialActive()?'하트로 배우는 게임 방법':save.completed[idx]?`완료한 도형: ${p.name}`:'숨겨진 그림을 찾아라';$('#stage-sub').textContent=tutorialActive()?'5×5 · 단계별 실습 · 제한시간 없음':p.size===5?'5×5 · 입문 도형 · 제한시간 없음':p.size===6?'6×6 · 기초 도형 · 제한시간 없음':'7×7 · 응용 도형 · 제한시간 없음';$('#grid-label').textContent=`${p.size} × ${p.size}`;renderBoard();if(save.completed[idx]&&!tutorialActive())setMessage('클리어한 스테이지예요. 다른 도형도 도전해 보세요.');renderLevels();tick();window.scrollTo(0,0);$('#stage-title').focus({preventScroll:true});if((tutorialActive()||!save.completed[idx])&&marks.every((v,k)=>v===target()[k])){answerPending=true;elapsed=seconds();startedAt=null;setTimeout(showSuccess,200);}}
 function showSuccess(){
  if(!answerPending)return;
  const p=currentPuzzle(),root=$('#reveal');
  root.style.setProperty('--n',p.size);root.innerHTML='';
  for(const x of target()){const el=document.createElement('i');el.className=x?'on':'';root.append(el);}
  const wasTutorial=tutorialActive();
- if(wasTutorial)save.tutorialComplete=true;
+ if(wasTutorial){save.tutorialComplete=true;playingTutorial=false;}
  save.completed[current]=true;
  const record=save.completedTimes||{};
  if(record[current]===undefined||elapsed<record[current])record[current]=elapsed;
  save.completedTimes=record;
  save.unlocked=Math.max(save.unlocked,Math.min(PUZZLES.length-1,current+1));
  save.boards[current]=target();save.times[current]=elapsed;persist();
+ $('#tutorial-panel').hidden=true;
  $('#success-title').textContent=wasTutorial?'튜토리얼 완료!':'퍼즐 클리어!';
  $('#success-description').textContent=wasTutorial?'하트를 직접 완성했어요! 이제 다음 스테이지부터 혼자 풀어 보세요.':`숫자를 모두 정확히 풀었어요! 그림 주제: ${p.name}`;
  $('#best-text').textContent=`클리어 시간 ${formatTime(elapsed)} · 사용한 힌트 ${save.hints[current]||0}개`;
@@ -198,9 +263,29 @@ function showSuccess(){
  $('#success-overlay').hidden=false;renderLevels();
 }
 function next(){ $('#success-overlay').hidden=true;answerPending=false;if(current<PUZZLES.length-1)load(current+1);else{load(current);toast(`축하해요! 준비된 ${PUZZLES.length}개의 도형을 모두 풀었어요. 🎉`);}}
+function saveRoundTime(){
+ if(tutorialActive())save.tutorialTime=seconds();
+ else save.times[current]=seconds();
+}
+function showLevels(){
+ clearTimeout(lessonTimer);
+ elapsed=seconds();startedAt=null;saveRoundTime();persist();
+ answerPending=false;
+ $('#toast').hidden=true;
+ $('#pixel-play').hidden=true;$('#pixel-start').hidden=false;
+ renderLevels();
+ window.scrollTo(0,0);
+ $('#start-tutorial').focus({preventScroll:true});
+}
+$('#show-levels').addEventListener('click',showLevels);
+$('#start-tutorial').addEventListener('click',()=>load(0,{tutorial:true}));
+$('#lesson-control').addEventListener('click',()=>{
+ if(lessonFrame<TOP_ROW_LESSON.length)advanceLesson();
+ else{lessonFrame=0;renderTutorial();}
+});
 function openRules(){$('#rules-overlay').hidden=false;}function closeRules(){$('#rules-overlay').hidden=true;}
 $('#next-stage').addEventListener('click',next);$('#help-btn').addEventListener('click',openRules);$('#close-rules').addEventListener('click',closeRules);$('#got-it').addEventListener('click',closeRules);$('#undo').addEventListener('click',undo);$('#reset').addEventListener('click',reset);$('#hint').addEventListener('click',hint);for(const b of document.querySelectorAll('.tool'))b.addEventListener('click',()=>chooseTool(Number(b.dataset.tool)));
-document.addEventListener('keydown',e=>{if(!$('#rules-overlay').hidden){if(e.key==='Escape')closeRules();return;}if(!$('#success-overlay').hidden)return;if(e.target.tagName==='INPUT')return;if(e.key==='1')chooseTool(1);if(e.key==='2')chooseTool(0);if(e.key==='3')chooseTool(-1);if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo();}});
-load(current);
+document.addEventListener('keydown',e=>{if(!$('#rules-overlay').hidden){if(e.key==='Escape')closeRules();return;}if(!$('#success-overlay').hidden||$('#pixel-play').hidden)return;if(e.target.tagName==='INPUT')return;if(e.key==='1')chooseTool(1);if(e.key==='2')chooseTool(0);if(e.key==='3')chooseTool(-1);if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo();}});
+renderLevels();
 </script>
 </body></html>
