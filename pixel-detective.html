@@ -39,10 +39,13 @@
 .cell.tutorial-target.unknown{animation:tutorial-glow 1.7s ease-in-out infinite}
 @keyframes tutorial-glow{0%,100%{box-shadow:inset 0 0 0 3px #f3b04d,0 0 0 0 #e9a43f11}50%{box-shadow:inset 0 0 0 3px #ffb548,0 0 0 4px #ffc36c55}}
 @media(prefers-reduced-motion:reduce){.cell.tutorial-target.unknown{animation:none}}
+.arcade-lobby-link{display:flex;align-items:center;justify-content:center;gap:.5em;width:fit-content;min-height:44px;margin:0 auto 10px;padding:8px 15px;border:1px solid #b6d7cd;border-radius:12px;background:#f0faf6;color:#135a4b;font:700 14px/1.3 system-ui,sans-serif;text-decoration:none}
+.arcade-lobby-link:focus-visible{outline:3px solid #126a59;outline-offset:3px}
 </style>
 </head>
 <body>
 <div class="page">
+<a class="arcade-lobby-link" href="./games.html"><span aria-hidden="true">←</span> 오락실 로비로 돌아가기</a>
   <header class="header"><div class="brand"><div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><h1>라온 픽셀탐정</h1><p>FILL·A·PIX</p></div></div><div class="header-right"><button id="help-btn" class="tiny-btn" type="button">? 게임 방법</button></div></header>
   <section class="hero"><div class="eyebrow">OBSERVE · THINK · SOLVE</div><h2>숫자를 따라 채우면,<br>숨은 그림이 나타나요!</h2><p>첫 번째 하트 튜토리얼에서 규칙을 익히고, 숫자를 따라 숨은 그림을 완성해 보세요.</p></section>
   <main class="shell"><section class="panel game" aria-label="픽셀 퍼즐 게임"><div class="game-head"><div><div class="level-label" id="level-label">STAGE 01 · BASIC SHAPES</div><h3 id="stage-title">숨겨진 그림을 찾아라</h3><div class="sub" id="stage-sub">5×5 · 제한시간 없음</div></div><div class="statpill"><span>플레이 시간</span><b id="clock">00:00</b></div></div>
