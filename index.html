@@ -170,53 +170,75 @@ $('courseChoices').addEventListener('click',event=>{
 });
 $('modeChoices').addEventListener('click',e=>{const b=e.target.closest('[data-mode]');if(!b)return;mode=b.dataset.mode;config()});
 $('levelChoices').addEventListener('click',e=>{const btn=e.target.closest('[data-level]');if(!btn)return;level=Number(btn.dataset.level);config()});
-function rotate(pts,ang){const c=Math.cos(ang),s=Math.sin(ang);return pts.map(([x,y])=>[x*c-y*s,x*s+y*c])}
-// 도형을 보이는 방향과 무관하게 꼭짓점 좌표로 만들며, 회전은 각도와 변의 길이를 바꾸지 않습니다.
-function polygon(kind){let p;
-switch(kind){
- // 꼭지각을 기준으로 예각·직각·둔각 이등변을 구분해 정확히 생성합니다.
- // 밑변의 양 끝점은 (±w, h/2), 꼭짓점은 (0,-h/2)이므로 두 옆변은 항상 같습니다.
- case 'iso':
- case 'iso-acute':
- case 'iso-right':
- case 'iso-obtuse':{
-  const h=rand(.93,1.24);
-  const angle=kind==='iso-right'?90:kind==='iso-obtuse'?rand(106,138):rand(38,78);
-  const w=kind==='iso-right'?h:h*Math.tan(angle*Math.PI/360);
-  p=[[-w,h/2],[w,h/2],[0,-h/2]];break
- }
- case 'equi':{p=[0,1,2].map(i=>[Math.cos(-Math.PI/2+i*2*Math.PI/3)*.87,Math.sin(-Math.PI/2+i*2*Math.PI/3)*.87]);break}
- // 직각삼각형: 서로 직각으로 만나는 두 변의 길이는 같지 않게 생성합니다.
- case 'right':
- case 'right-scalene':{
-  const wide=Math.random()<.5;
-  const w=wide?rand(1.40,1.95):rand(.66,.96);
-  const h=wide?rand(.65,.94):rand(1.44,1.92);
-  p=[[-w/2,-h/2],[w/2,-h/2],[-w/2,h/2]];break
- }
- // 예각 부등변: 높이가 충분히 커서 모든 각이 예각입니다.
- case 'scalene':
- case 'scalene-acute':{
-  const x=rand(.36,.63)*(Math.random()<.5?-1:1),h=rand(1.18,1.60);
-  p=[[-1,.70],[1,.70],[x,.70-h]];break
- }
- // 둔각 부등변: 낮은 꼭짓점 때문에 그 각이 90°보다 큽니다.
- case 'obtuse':
- case 'scalene-obtuse':{
-  const x=rand(.14,.49)*(Math.random()<.5?-1:1),h=rand(.35,.70);
-  p=[[-1,.70],[1,.70],[x,.70-h]];break
- }
- case 'rect':{const w=rand(1.52,1.78),h=rand(.91,1.19);p=[[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]];break}
- case 'square':{const a=rand(.7,.83);p=[[-a,-a],[a,-a],[a,a],[-a,a]];break}
- case 'rhombus':{const w=rand(.72,.9),h=rand(.93,1.1);p=[[0,-h],[w,0],[0,h],[-w,0]];break}
- case 'para':{const k=rand(.24,.48)*(Math.random()<.5?-1:1),w=rand(.48,.65),h=rand(.60,.75);p=[[-w+k,-h],[w+k,-h],[w-k,h],[-w-k,h]];break}
- case 'trap':{const a=rand(.31,.51),b=rand(.72,.9),shift=rand(-.22,.22);p=[[-a+shift,-.65],[a+shift,-.65],[b,.69],[-b,.69]];break}
- case 'kite':{const w=rand(.57,.79);p=[[0,-.98],[w,-.1],[0,.55],[-w,-.1]];break}
- case 'quad':{p=[[-.87,-.69],[.65,-.83],[.91,.41],[-.43,.81]];break}
- default:throw Error('Unknown shape '+kind)
+const radians=degrees=>degrees*Math.PI/180;
+function triangleFromAngles(left,right){
+ const a=radians(left),b=radians(right);
+ const side=2*Math.sin(b)/Math.sin(a+b);
+ return [[-1,0],[1,0],[side*Math.cos(a)-1,-side*Math.sin(a)]];
 }
-return rotate(p,rand(-Math.PI,Math.PI))}
-function svg(kind,index){const p=polygon(kind);let max=Math.max(...p.flat().map(Math.abs));const sc=37/(max||1);const coords=p.map(([x,y])=>`${(50+x*sc).toFixed(2)},${(50+y*sc).toFixed(2)}`).join(' ');const fill=COLORS[index%COLORS.length];return `<svg viewBox="0 0 100 100" role="img" aria-label="도형"><polygon points="${coords}" fill="${fill}" stroke="#25454c" stroke-width="1.7" stroke-linejoin="round"/></svg>`}
+function rectangle(width,height){
+ return [[-width/2,-height/2],[width/2,-height/2],[width/2,height/2],[-width/2,height/2]];
+}
+function polygon(kind){
+ switch(kind){
+  case 'iso-acute':{
+   const apex=Math.random()<.5?rand(32,53):rand(67,86);
+   return triangleFromAngles((180-apex)/2,(180-apex)/2);
+  }
+  case 'iso-right':return triangleFromAngles(45,45);
+  case 'iso-obtuse':{
+   const base=(180-rand(98,149))/2;
+   return triangleFromAngles(base,base);
+  }
+  case 'equi':return triangleFromAngles(60,60);
+  case 'right-scalene':return [[0,0],[1,0],[0,rand(1.22,3.1)]];
+  case 'scalene-acute':{
+   const left=rand(30,43);
+   const right=rand(Math.max(49,94-left),Math.min(67,(172-left)/2));
+   return triangleFromAngles(left,right);
+  }
+  case 'scalene-obtuse':{
+   const rest=180-rand(102,148);
+   const left=rest*rand(.23,.38);
+   return triangleFromAngles(left,rest-left);
+  }
+  case 'rect':return rectangle(rand(1.2,2.9),1);
+  case 'square':return rectangle(1,1);
+  case 'rhombus':{
+   const diagonal=rand(1.2,2.8);
+   return [[0,-diagonal],[1,0],[0,diagonal],[-1,0]];
+  }
+  case 'para':{
+   const length=Math.random()<.5?rand(.52,.82):rand(1.22,1.85);
+   const tilt=radians(rand(21,55));
+   const x=length*Math.sin(tilt),y=length*Math.cos(tilt);
+   return [[0,0],[1,0],[1+x,y],[x,y]];
+  }
+  case 'trap':{
+   const top=rand(.29,.76),height=rand(.63,1.6);
+   const shift=pick([0,1-top,rand(-.66,.66)]);
+   return [[-top+shift,0],[top+shift,0],[1,height],[-1,height]];
+  }
+  case 'kite':{
+   const width=rand(.58,1.06);
+   return [[0,-rand(1.04,1.5)],[width,0],[0,rand(.46,.81)],[-width,0]];
+  }
+  case 'quad':return [[-1,-.55],[rand(.52,.68),-.89],[rand(.76,.87),rand(.80,1.02)],[-.52,rand(.43,.64)]];
+  default:throw Error('Unknown shape '+kind);
+ }
+}
+function svg(kind,index,size){
+ const angle=rand(-Math.PI,Math.PI),cos=Math.cos(angle),sin=Math.sin(angle);
+ const mirror=Math.random()<.5?-1:1;
+ const points=polygon(kind).map(([x,y])=>[mirror*x*cos-y*sin,mirror*x*sin+y*cos]);
+ const xs=points.map(([x])=>x),ys=points.map(([,y])=>y);
+ const left=Math.min(...xs),right=Math.max(...xs),top=Math.min(...ys),bottom=Math.max(...ys);
+ const scale=80*size/Math.max(right-left,bottom-top);
+ const centerX=(left+right)/2,centerY=(top+bottom)/2;
+ const coords=points.map(([x,y])=>`${(50+(x-centerX)*scale).toFixed(2)},${(50+(y-centerY)*scale).toFixed(2)}`).join(' ');
+ const fill=COLORS[index%COLORS.length];
+ return `<svg viewBox="0 0 100 100" role="img" aria-label="도형"><polygon points="${coords}" fill="${fill}" stroke="#25454c" stroke-width="1.7" stroke-linejoin="round"/></svg>`;
+}
 // 이등변 정답은 세 가지 각 유형을 항상 골고루 섞습니다. 직각삼각형에도 직각이등변을 포함합니다.
 const TRI_ANSWERS={
  iso:['iso-acute','iso-right','iso-obtuse'],
@@ -242,10 +264,17 @@ function makeRound(){
   answerKinds=[shape];
   wrongKinds=['rect','square','rhombus','para','trap','kite','quad'].filter(k=>k!==shape && !(shape==='rect'&&k==='square') && !(shape==='rhombus'&&k==='square') && !(['para','trap'].includes(shape)&&['rect','square','rhombus','para'].includes(k)));
  }
- // 균형 있게 순환 배치하므로 이등변이면 어떤 라운드에서도 예각·직각·둔각이 빠지지 않습니다.
- const balanced=shuffle(Array.from({length:goal},(_,i)=>answerKinds[i%answerKinds.length]));
- round=shuffle(balanced.map(kind=>({kind,correct:true})).concat(Array.from({length:tiles-goal},()=>({kind:pick(wrongKinds),correct:false}))));
- selected=new Set();wrongHits=new Set();round.forEach((r,i)=>{r.id=i;r.svg=svg(r.kind,i)});
+ // 정답과 오답 모두 작은 크기부터 큰 크기까지 골고루 섞습니다.
+ function makeTiles(kinds,count,correct){
+  const sizes=shuffle(Array.from({length:count},(_,i)=>.60+.40*(i+rand(0,1))/count));
+  const order=shuffle([...kinds]);
+  return sizes.map((size,i)=>({kind:order[i%order.length],correct,size}));
+ }
+ round=shuffle([...makeTiles(answerKinds,goal,true),...makeTiles(wrongKinds,tiles-goal,false)]);
+ selected=new Set();
+ wrongHits=new Set();
+ round.forEach((tile,i)=>{tile.id=i;tile.svg=svg(tile.kind,i,tile.size)});
+
 }
 function getGrid(){
  const wide=window.innerWidth>window.innerHeight*1.15;
