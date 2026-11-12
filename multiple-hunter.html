@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1427">
+<meta name="description" content="라온수학 배수 헌터: 2~9의 배수를 찾는 20초 논리 게임. 10문제 도전 후 배수별 성적표를 확인하세요.">
+<title>라온 배수 헌터 · RAON MATH</title>
+<style>
+:root{--bg:#0b1427;--panel:#111f39;--panel2:#152742;--line:#294060;--white:#f1f7ff;--dim:#a0b4cc;--mint:#62edc2;--mint-dark:#09352d;--sky:#81b6ff;--purple:#aa9bff;--yellow:#ffd77b;--red:#ff8f91;--shadow:0 20px 65px rgba(0,0,0,.22)}
+*{box-sizing:border-box}html{color-scheme:dark}body{margin:0;min-height:100dvh;color:var(--white);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;background:radial-gradient(ellipse 680px 480px at 0% 0%,#202f57 0%,transparent 70%),radial-gradient(ellipse 660px 700px at 100% 62%,#11384277 0%,transparent 70%),var(--bg);overflow-x:hidden}
+button{font:inherit;cursor:pointer;touch-action:manipulation}button:focus-visible{outline:3px solid var(--sky);outline-offset:4px}button:disabled{cursor:default;opacity:.55}button:not(:disabled):active{transform:scale(.98)}.hidden{display:none!important}.app{width:min(100% - 32px,680px);margin:0 auto;min-height:100dvh;padding-bottom:calc(38px + env(safe-area-inset-bottom))}.site-header{padding:26px 0 21px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff13;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:850;letter-spacing:1.3px}.brand-mark{width:34px;height:34px;border:1px solid #5df4cb77;display:grid;place-items:center;color:#8af8d6;border-radius:11px;background:#17413e;font-size:14px;letter-spacing:-1px}.brand .mini{display:block;color:var(--dim);font-weight:650;font-size:9px;letter-spacing:1.6px;margin-top:2px}.pill{border:1px solid #556580;padding:7px 11px;color:#c7d8e9;border-radius:50px;font-size:11px;letter-spacing:.1px;white-space:nowrap}.screen{animation:arrive .32s ease-out both}@keyframes arrive{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:translateY(0)}}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--mint);font-weight:800}.landing{padding-top:42px;text-align:center}.landing h1{font-size:clamp(38px,8vw,58px);line-height:1.2;margin:15px 0 16px;letter-spacing:-2px}.gradient-text{background:linear-gradient(115deg,#86ffe0,#8cbbff 59%,#c6a5ff);background-clip:text;-webkit-background-clip:text;color:transparent}.desc{line-height:1.85;color:#b8cce3;font-size:14px;margin:0 auto;max-width:430px;word-break:keep-all}.stat-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:26px auto;max-width:500px}.stat-box{border:1px solid #40557580;background:#13243d9e;border-radius:16px;padding:15px 7px 13px}.stat-box strong{display:block;font-size:22px;letter-spacing:-1px}.stat-box span{font-size:11px;color:var(--dim);display:block;margin-top:4px}.card{background:linear-gradient(180deg,#172941ee,#101e35f2);border:1px solid #344c67;box-shadow:var(--shadow);border-radius:24px}.preview{padding:20px 16px;margin:16px auto 24px;max-width:440px;overflow:hidden}.preview-label{font-size:11px;letter-spacing:1px;color:#a8bed6}.preview-orb{width:min(76vw,278px);aspect-ratio:1;position:relative;margin:5px auto}.preview-orb:before,.orbit:before{content:"";position:absolute;inset:12%;border:1px dashed #769ac538;border-radius:50%}.preview-center{position:absolute;width:45%;aspect-ratio:1;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;background:radial-gradient(circle at 38% 25%,#4c6686 0%,#213b59 55%,#15283f 100%);box-shadow:inset 0 0 0 1px #7196bd7d,0 0 65px #50e2b225;font-size:43px;font-weight:900;letter-spacing:-1.5px}.preview-dot{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);height:47px;width:47px;border-radius:50%;border:1px solid #476482;background:#233956;display:grid;place-items:center;font-weight:900;font-size:21px}.preview-dot.on{background:#b0ffdf;color:#0b312b;border:1px solid #c3ffea}.btn{width:100%;min-height:54px;padding:13px 21px;border-radius:15px;font-size:15px;font-weight:850;letter-spacing:-.25px;border:1px solid transparent;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s,border-color .15s,transform .1s}.btn-main{background:linear-gradient(110deg,#84f4d0,#7accff);color:#10283a;box-shadow:0 8px 28px #52dbb624}.btn-main:hover{filter:brightness(1.05)}.btn-secondary{background:#243954;color:#e3f0fd;border:1px solid #42607e}.btn-secondary:hover{background:#304969}.btn-ghost{background:transparent;color:#abc3df;border:1px solid #3a516d}.btn-ghost:hover{background:#1a2b47}.btn:disabled{filter:grayscale(.5)}.tiny-footer{color:#8d9fb4;font-size:11px;text-align:center;margin-top:15px;line-height:1.7}.tutor{padding-top:35px}.section-heading{font-weight:900;font-size:clamp(24px,5vw,32px);letter-spacing:-1px;margin:8px 0}.section-sub{font-size:13px;color:var(--dim);line-height:1.7;margin:0}.tutor-progress{display:flex;gap:7px;margin:27px 0 20px}.tutor-progress i{height:5px;background:#294261;border-radius:20px;flex:1}.tutor-progress i.done{background:var(--mint)}.lesson{padding:28px 22px 23px;min-height:350px}.lesson-heading{display:flex;align-items:center;gap:13px}.lesson-number{width:70px;height:70px;border-radius:22px;display:grid;place-items:center;background:linear-gradient(135deg,#85f8d8,#8bbbff);color:#0c2b3c;font-weight:950;font-size:42px}.lesson-heading h2{font-size:27px;margin:0 0 5px;letter-spacing:-1px}.lesson-heading small{font-size:12px;color:var(--dim)}.lesson-rule{font-size:20px;line-height:1.62;font-weight:800;letter-spacing:-.65px;margin:28px 0 20px;word-break:keep-all}.lesson-example{padding:18px;border-radius:17px;background:#0c1b31;border:1px solid #304866}.lesson-example .tag{font-size:11px;color:#86c5ff;font-weight:800}.lesson-example .math{font-size:22px;margin:9px 0 4px;font-weight:850;letter-spacing:-.35px;line-height:1.5}.lesson-example .result{font-size:13px;color:#98ead1;line-height:1.6}.lesson-note{margin:14px 0 0;font-size:12px;color:#b2c7da;line-height:1.7}.tutor-nav{display:grid;grid-template-columns:110px 1fr;gap:10px;margin-top:16px}.tutor-nav.first{grid-template-columns:1fr}.game{padding-top:21px}.game-top{display:flex;align-items:center;justify-content:space-between;gap:12px}.game-top .round-name{font-size:11px;font-weight:800;color:var(--mint);letter-spacing:1.2px}.game-top .round-num{font-size:23px;font-weight:850;letter-spacing:-.7px;margin-top:3px}.game-top .round-num small{font-size:13px;color:var(--dim);font-weight:600}.time-widget{display:flex;align-items:center;gap:8px;background:#172b44;border:1px solid #38546f;border-radius:50px;padding:7px 12px 7px 8px}.time-widget svg{width:31px;height:31px;transform:rotate(-90deg)}.time-widget circle{fill:none;stroke-width:5}.time-widget .track{stroke:#3b526e}.time-widget .arc{stroke:var(--mint);stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:0;transition:stroke .15s}.time-widget.urgent .arc{stroke:var(--red)}.timer-text{font-size:19px;font-weight:900;min-width:45px;letter-spacing:-.5px;font-variant-numeric:tabular-nums}.progress-track{height:6px;border-radius:30px;background:#1b314b;margin-top:17px;overflow:hidden}.progress-fill{height:100%;background:linear-gradient(90deg,#50dbae,#82bdff);width:5%;transition:width .25s}.game-prompt{text-align:center;margin:27px 0 0;font-weight:750;font-size:16px;line-height:1.6}.game-tip{text-align:center;font-size:12px;color:var(--dim);margin:4px 0}.orbit{position:relative;width:min(100%,390px);aspect-ratio:1;margin:12px auto 7px;isolation:isolate}.orbit:after{content:"";position:absolute;width:58%;height:58%;left:21%;top:21%;border-radius:50%;background:#2ba9a00b;z-index:-1}.center-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;height:43%;width:43%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;background:radial-gradient(circle at 40% 25%,#456b83 0%,#223d5c 60%,#12263d 100%);border:2px solid #6b9bc0;box-shadow:0 0 0 6px #2f4d6330,0 0 60px #49e3bd24;z-index:1}.center-num .hint{font-size:11px;font-weight:750;letter-spacing:1px;color:#c3d9ee}.center-num .value{font-size:clamp(49px,12vw,72px);font-weight:950;line-height:1.1;letter-spacing:-2px;font-variant-numeric:tabular-nums}.divisor{position:absolute;left:var(--x);top:var(--y);transform:translate(-50%,-50%);height:clamp(53px,17vw,70px);width:clamp(53px,17vw,70px);border-radius:50%;border:2px solid #526e8e;background:linear-gradient(160deg,#233e5c,#182e4c);color:#e4f4ff;font-size:clamp(23px,6.4vw,31px);font-weight:950;box-shadow:0 6px 18px #03112144;z-index:2;display:grid;place-items:center;transition:background .12s,border-color .12s,color .12s,box-shadow .12s}.divisor:not(:disabled):active{transform:translate(-50%,-50%) scale(.94)}.divisor.selected{color:#082e2a;border-color:#d1ffe9;background:linear-gradient(155deg,#b6ffdf,#62eab8);box-shadow:0 0 0 5px #68f2ba24,0 6px 22px #45dcae33}.divisor.right{color:#052c26;border-color:#d4ffea;background:#82efc4}.divisor.wrong{color:#fff;border-color:#ff9e9e;background:#b44f64}.divisor.missed{border-color:#68efb8;background:#1c6957;color:#d8fff0;box-shadow:0 0 0 4px #67efb82a}.divisor:focus-visible{outline-offset:5px}.selection-bar{text-align:center;min-height:21px;font-size:12px;color:#b9cfe3;margin:0 auto 17px}.selection-bar strong{color:var(--mint)}.game-cta{max-width:470px;margin:0 auto}.feedback{max-width:500px;min-height:72px;padding:12px 16px;margin:15px auto 0;border-radius:16px;border:1px solid #425977;background:#152941;display:flex;flex-direction:column;justify-content:center;gap:5px;text-align:center;line-height:1.5}.feedback.success{border-color:#2d8670;background:#103c35}.feedback.error{border-color:#935567;background:#402738}.feedback strong{font-size:17px}.feedback small{font-size:12px;color:#d8e5f3;word-break:keep-all}.help-line{text-align:center;font-size:11px;color:#829ab4;margin-top:12px}.result{padding-top:35px}.result-intro{text-align:center}.award{width:66px;height:66px;margin:0 auto 15px;display:grid;place-items:center;font-size:29px;border-radius:22px;background:linear-gradient(145deg,#3c3c56,#1d5661);border:1px solid #5a8a8b}.result-intro h1{font-size:clamp(25px,6vw,37px);letter-spacing:-1.2px;margin:9px 0}.score-panel{padding:25px 18px;text-align:center;margin:22px 0}.score-panel .score{font-size:clamp(56px,14vw,76px);font-weight:950;line-height:1;letter-spacing:-4px;font-variant-numeric:tabular-nums}.score-panel .score span{font-size:25px;color:#98adc6;font-weight:700;letter-spacing:-1px}.score-panel .grade{color:var(--mint);font-size:16px;font-weight:850;margin-top:9px}.metric-line{display:flex;gap:14px;justify-content:center;color:var(--dim);margin-top:17px;font-size:12px;flex-wrap:wrap}.metric-line strong{color:#fff}.analysis-card{padding:22px 18px;margin-bottom:16px}.card-heading{margin:0 0 5px;font-size:19px;letter-spacing:-.5px}.card-sub{font-size:12px;color:var(--dim);margin:0 0 19px;line-height:1.7}.report-row{display:grid;grid-template-columns:72px 1fr 52px;gap:8px;align-items:center;margin:13px 0}.report-label{font-size:13px;font-weight:800}.report-bar{height:10px;background:#263c56;overflow:hidden;border-radius:20px}.report-bar i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#62d9af,#a2baff);min-width:2px}.report-row.low .report-bar i{background:linear-gradient(90deg,#dd8c80,#ffba7e)}.report-percent{text-align:right;color:#cde0f1;font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}.report-breakdown{font-size:11px;color:#a4bad2;padding:0 0 9px 80px;margin:-6px 0 0;border-bottom:1px solid #243b55}.report-breakdown b{color:#f4abb0}.insight{padding:16px;border:1px solid #567076;background:#15393f;border-radius:16px;margin-top:20px;line-height:1.8;font-size:13px;color:#d5eced}.insight strong{color:#a6ffe0}.details-list{display:grid;gap:9px}.question-detail{border:1px solid #36506b;border-radius:13px;background:#10223a;overflow:hidden}.question-detail summary{padding:13px 15px;cursor:pointer;display:flex;align-items:center;gap:10px;font-weight:700;list-style:none}.question-detail summary::-webkit-details-marker{display:none}.question-detail summary:after{content:"⌄";margin-left:auto;font-size:21px;color:#a3b9cf}.question-detail[open] summary:after{content:"⌃"}.detail-no{font-size:10px;color:#a7b6ce;background:#293e58;padding:5px 7px;border-radius:8px;min-width:46px;text-align:center}.detail-bad{color:#ffafac}.detail-good{color:#87efc5}.detail-inner{padding:0 15px 15px;font-size:12px;line-height:1.95;color:#bcd1e4}.detail-inner b{color:#eaf7ff}.report-actions{display:grid;gap:10px;margin-top:18px}.result .tiny-footer{margin-bottom:16px}.empty{padding:18px 15px;border:1px solid #315c52;background:#15352f;border-radius:14px;text-align:center;color:#a1ecd4;font-size:13px}@media(min-width:600px){.site-header{padding-top:33px}.landing{padding-top:52px}.result{padding-top:49px}.report-actions{grid-template-columns:1fr 1fr}.report-actions .full{grid-column:1/-1}.game{padding-top:35px}.game-prompt{margin-top:37px}}@media(max-width:380px){.app{width:calc(100% - 22px)}.site-header{padding:20px 1px 17px}.brand{font-size:10px}.pill{font-size:10px}.landing{padding-top:26px}.preview{padding:17px 7px}.lesson{padding:23px 16px}.orbit{width:100%}.report-row{grid-template-columns:68px 1fr 45px}.report-breakdown{padding-left:76px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+/* Start-of-game single random tip, then an optional reference sheet. */
+.landing-actions{display:grid;gap:10px}
+.tip-screen{padding-top:37px}.tip-card{margin-top:24px;min-height:0;padding-bottom:26px}
+.tip-card .lesson-rule{margin-top:23px;margin-bottom:18px}
+.prestart-bottom{margin:25px 0 0}.start-count{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:10px;font-size:13px;color:var(--dim)}.start-count strong{font-size:18px;color:var(--mint);font-variant-numeric:tabular-nums}
+.tip-progress-track{height:8px;background:#263c55;border-radius:20px;overflow:hidden;margin-bottom:17px}
+.tip-progress-fill{height:100%;width:0;background:linear-gradient(90deg,#62edc2,#81b6ff);border-radius:inherit}
+.rulebook{padding-top:37px}.rulebook-grid{display:grid;grid-template-columns:1fr;gap:13px;margin-top:24px}
+.rule-item{padding:19px 17px;box-shadow:none}.rule-item-title{display:flex;align-items:center;gap:11px;font-size:17px}
+.rule-num{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;color:#0d2c3d;font-size:25px;font-weight:900;background:linear-gradient(135deg,#85f8d8,#8bbbff)}
+.rule-item-rule{font-size:15px;font-weight:750;line-height:1.65;margin:15px 0;word-break:keep-all}
+.rule-item-example{background:#0c1b31;border:1px solid #304866;border-radius:12px;padding:12px 13px;line-height:1.55}
+.rule-item-example strong{font-size:16px;color:#d5f0ff}.rule-item-example p{font-size:12px;color:#98ead1;margin:4px 0 0}
+.rule-item-note{color:var(--dim);font-size:12px;line-height:1.65;margin:11px 0 0}.rulebook-back{margin:20px 0 0}
+@media(min-width:600px){.rulebook-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tip-card{max-width:570px;margin-left:auto;margin-right:auto}.prestart-bottom{max-width:570px;margin-left:auto;margin-right:auto}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="site-header"><div class="brand"><div class="brand-mark">R∴</div><div>RAON MATH <span class="mini">NUMBER LAB</span></div></div><span class="pill">배수 헌터 · MULTIPLE HUNTER</span></header>
+  <main>
+    <section class="screen landing" id="landing">
+      <div class="eyebrow">FIND THE DIVISORS</div>
+      <h1>배수를<br><span class="gradient-text">찾아라!</span></h1>
+      <p class="desc">숫자 하나, 선택지 여덟 개.<br>2부터 9까지 어떤 수로 나누어떨어질까?<br>20초 안에 모두 찾아보자!</p>
+      <div class="stat-strip"><div class="stat-box"><strong>20초</strong><span>문제당 제한 시간</span></div><div class="stat-box"><strong>10문제</strong><span>한 번의 도전</span></div><div class="stat-box"><strong>8가지</strong><span>배수 판별법</span></div></div>
+      <div class="preview card"><div class="preview-label">주어진 수의 약수를 모두 선택해요</div><div class="preview-orb" id="preview-orb"><div class="preview-center">120</div></div><div class="tiny-footer" style="margin-top:0">예시 정답 · 2, 3, 4, 5, 6, 8</div></div>
+      <div class="landing-actions"><button class="btn btn-main" id="startTutorial">게임 시작하기 <span aria-hidden="true">→</span></button><button class="btn btn-secondary" id="landingRules">2~9 배수 판별법 전체 보기</button></div>
+      <p class="tiny-footer">시작할 때 무작위 판별법 1개를 짧게 보여줘요.<br>200 미만의 자연수 출제 · 별도 설치 없이 플레이</p>
+    </section>
+    <section class="screen tip-screen hidden" id="prestart" aria-live="polite">
+      <div class="eyebrow">TODAY'S MATH TIP</div>
+      <h1 class="section-heading">시작 전, 배수 판별 팁!</h1>
+      <p class="section-sub">8가지 중 하나를 무작위로 보여줘요.</p>
+      <article class="lesson card tip-card">
+        <div class="lesson-heading"><div class="lesson-number" id="tipNumber">7</div><div><h2 id="tipTitle">7의 배수</h2><small>오늘의 판별법</small></div></div>
+        <div class="lesson-rule" id="tipRule"></div>
+        <div class="lesson-example"><div class="tag">🔎 예시를 확인해요</div><div class="math" id="tipMath"></div><div class="result" id="tipResult"></div></div>
+        <p class="lesson-note" id="tipNote"></p>
+      </article>
+      <div class="prestart-bottom"><div class="start-count"><span>곧 자동으로 시작해요</span><strong><span id="tipCountdown">5</span>초</strong></div><div class="tip-progress-track"><div id="tipFill" class="tip-progress-fill"></div></div><button class="btn btn-ghost" id="skipTip">바로 시작하기 →</button></div>
+    </section>
+    <section class="screen rulebook hidden" id="rulebook">
+      <div class="eyebrow">DIVISIBILITY RULES</div>
+      <h1 class="section-heading">배수 판별법 모아보기</h1>
+      <p class="section-sub">2부터 9까지, 필요할 때 언제든 확인해 보세요.</p>
+      <div class="rulebook-grid" id="rulesGrid"></div>
+      <button class="btn btn-secondary rulebook-back" id="rulebookBack">← 돌아가기</button>
+    </section>
+    <section class="screen game hidden" id="game">
+      <div class="game-top"><div><div class="round-name" id="modeName">10문제 도전</div><div class="round-num">ROUND <span id="roundIndex">01</span> <small>/ <span id="roundTotal">10</span></small></div></div><div class="time-widget" id="timeWidget"><svg viewBox="0 0 44 44" role="img" aria-label="남은 시간"><circle class="track" cx="22" cy="22" r="16"></circle><circle class="arc" id="timeArc" cx="22" cy="22" r="16" pathLength="100"></circle></svg><span class="timer-text" id="timeText">20.0</span><small style="color:var(--dim);font-size:11px">초</small></div></div>
+      <div class="progress-track" aria-label="게임 진행률"><div class="progress-fill" id="gameProgress"></div></div>
+      <div class="game-prompt">이 숫자의 약수를 모두 선택하세요!</div><p class="game-tip">2~9 중 나누어떨어지는 수를 전부 선택</p>
+      <div class="orbit" id="orbit" role="group" aria-label="배수 선택"><div class="center-num"><div class="hint">TARGET</div><div class="value" id="targetNumber" aria-live="polite">120</div></div></div>
+      <p class="selection-bar" id="selectionBar" aria-live="polite">아직 선택한 수가 없어요</p>
+      <div class="game-cta"><button class="btn btn-main" id="submitAnswer">선택 완료 <span aria-hidden="true">→</span></button><div class="feedback hidden" id="feedback" aria-live="assertive"><strong id="feedbackTitle"></strong><small id="feedbackDesc"></small></div></div>
+      <div class="help-line">버튼을 다시 누르면 선택 해제 · 20초가 끝나면 자동 채점</div>
+    </section>
+    <section class="screen result hidden" id="results">
+      <div class="result-intro"><div class="award">🏆</div><div class="eyebrow">YOUR MATH REPORT</div><h1>배수 헌터 성적표</h1><p class="section-sub" id="resultSubtitle">10문제 도전 완료!</p></div>
+      <div class="score-panel card"><div class="score"><span id="scoreCorrect">0</span> <span>/ <span id="scoreTotal">10</span></span></div><div class="grade" id="gradeLabel">배수 마스터</div><div class="metric-line"><div>정답률 <strong id="accuracyValue">0%</strong></div><div>평균 풀이 <strong id="averageTime">0.0초</strong></div><div>최장 연속 정답 <strong id="streakValue">0문제</strong></div></div></div>
+      <div class="analysis-card card"><h2 class="card-heading">어떤 배수를 헷갈렸을까?</h2><p class="card-sub">각 배수를 선택할지 말지, 10번의 판단 중 얼마나 맞혔는지 분석했어요.</p><div id="divisorRows"></div><div class="insight" id="insightText"></div></div>
+      <div class="analysis-card card"><h2 class="card-heading">문제별 다시 보기</h2><p class="card-sub">틀린 문제를 펼쳐서 정답과 내가 선택한 숫자를 비교해요.</p><div class="details-list" id="questionList"></div></div>
+      <div class="report-actions"><button class="btn btn-main" id="playAgain">새로운 10문제 도전</button><button class="btn btn-secondary" id="focusPractice">취약 배수 집중 연습</button><button class="btn btn-ghost" id="saveReport">성적표 PNG 저장</button><button class="btn btn-ghost" id="reviewTutorial">2~9 배수 판별법 전체 보기</button></div>
+      <p class="tiny-footer">정답은 2~9 가운데 정확한 약수를 모두 선택했을 때만 인정돼요.<br>다음에 새로 도전하면 다른 숫자들이 출제됩니다.</p>
+    </section>
+  </main>
+</div>
+<script>
+(()=>{'use strict';
+const DIVISORS=[2,3,4,5,6,7,8,9];
+const POSITIONS=[[50,12],[77,23],[88,50],[77,77],[50,88],[23,77],[12,50],[23,23]];
+const RULES={
+  2:{rule:'일의 자리 숫자가 0, 2, 4, 6, 8이면 2의 배수!',math:'138 → 일의 자리 8',result:'8은 짝수이므로 138은 2의 배수예요.',note:'숫자가 아무리 길어도 일의 자리만 보면 돼요.'},
+  3:{rule:'각 자리 숫자를 모두 더했을 때 그 합이 3의 배수이면 정답!',math:'123 → 1 + 2 + 3 = 6',result:'6은 3의 배수이므로 123도 3의 배수예요.',note:'자리의 순서가 달라도 각 자리 숫자의 합이 같다면 판별 결과도 같아요.'},
+  4:{rule:'끝 두 자리로 만든 수가 4의 배수이면 정답!',math:'124 → 끝 두 자리 24',result:'24 ÷ 4 = 6이므로 124는 4의 배수예요.',note:'끝 두 자리가 00인 수 역시 4의 배수예요.'},
+  5:{rule:'일의 자리 숫자가 0 또는 5라면 5의 배수!',math:'135 → 일의 자리 5',result:'135는 5의 배수예요.',note:'가장 빠르게 확인할 수 있는 판별법 중 하나예요.'},
+  6:{rule:'2의 배수이면서 동시에 3의 배수라면 6의 배수!',math:'132 → 짝수, 1+3+2=6',result:'2와 3의 배수이므로 132는 6의 배수예요.',note:'2와 3을 찾았다면 6도 빼먹지 마세요!'},
+  7:{rule:'일의 자리 숫자의 2배를 앞자리 수에서 빼서 7의 배수인지 확인!',math:'154 → 15 − (4×2) = 7',result:'7이 나왔으므로 154는 7의 배수예요.',note:'어렵다면 7단을 떠올려도 좋아요. 필요하면 같은 계산을 반복해요.'},
+  8:{rule:'2로 세 번 연속 나누어도 모두 딱 나누어떨어지면 8의 배수!',math:'168 → 84 → 42 → 21',result:'2로 세 번 나눴으므로 168은 8의 배수예요.',note:'8 = 2×2×2! 세 번 모두 나머지가 없어야 해요.'},
+  9:{rule:'각 자리 숫자를 모두 더했을 때 그 합이 9의 배수이면 정답!',math:'171 → 1 + 7 + 1 = 9',result:'9는 9의 배수이므로 171도 9의 배수예요.',note:'9의 배수라면 반드시 3의 배수이기도 해요.'}
+};
+const $=id=>document.getElementById(id);
+const slides=['landing','prestart','rulebook','game','results'];
+let rulebookReturn='landing',prestartRaf=0,prestartRemaining=5000,prestartDeadline=0,prestartPaused=false,pendingMode='normal',pendingFocus=null;
+let gameQuestions=[],round=0,selected=new Set(),records=[],roundStart=0,deadline=0,raf=0,feedbackTimeout=0,roundLocked=true,activeMode='normal',focusNumber=null,timerRemaining=20000,paused=false;
+let latestStats=null;
+const shuffle=a=>{const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+const divisors=n=>DIVISORS.filter(d=>n%d===0);
+const fmt=a=>a.length?a.join(', '):'없음';
+const pad=n=>String(n).padStart(2,'0');
+function switchScreen(name){slides.forEach(id=>$(id).classList.toggle('hidden',id!==name));window.scrollTo({top:0,behavior:'instant'});}
+function makeOrb(parent,cls,preview=false){DIVISORS.forEach((d,i)=>{const [x,y]=POSITIONS[i],el=document.createElement(preview?'div':'button');el.className=cls+(preview&&120%d===0?' on':'');el.style.setProperty('--x',x+'%');el.style.setProperty('--y',y+'%');el.textContent=d;if(!preview){el.type='button';el.dataset.d=d;el.setAttribute('aria-label',`${d}의 배수 선택`);el.setAttribute('aria-pressed','false');el.addEventListener('click',()=>toggleSelection(d));}parent.append(el);});}
+makeOrb($('preview-orb'),'preview-dot',true);makeOrb($('orbit'),'divisor');
+function openRulebook(returnTo='landing'){
+ rulebookReturn=returnTo;
+ const grid=$('rulesGrid');grid.innerHTML='';
+ DIVISORS.forEach(d=>{
+  const r=RULES[d],card=document.createElement('article');card.className='rule-item card';
+  const heading=document.createElement('div');heading.className='rule-item-title';
+  const number=document.createElement('span');number.className='rule-num';number.textContent=d;
+  const label=document.createElement('strong');label.textContent=`${d}의 배수`;
+  heading.append(number,label);
+  const rule=document.createElement('p');rule.className='rule-item-rule';rule.textContent=r.rule;
+  const example=document.createElement('div');example.className='rule-item-example';
+  const math=document.createElement('strong');math.textContent=r.math;
+  const result=document.createElement('p');result.textContent=r.result;
+  example.append(math,result);
+  const note=document.createElement('p');note.className='rule-item-note';note.textContent=r.note;
+  card.append(heading,rule,example,note);grid.append(card);
+ });
+ switchScreen('rulebook');
+}
+function clearPrestart(){cancelAnimationFrame(prestartRaf);prestartRaf=0;}
+function runPrestartCountdown(){
+ prestartDeadline=performance.now()+prestartRemaining;
+ function frame(now){
+  if(prestartPaused||$('prestart').classList.contains('hidden'))return;
+  prestartRemaining=Math.max(0,prestartDeadline-now);
+  $('tipCountdown').textContent=String(Math.ceil(prestartRemaining/1000));
+  $('tipFill').style.width=`${(1-prestartRemaining/5000)*100}%`;
+  if(prestartRemaining<=0){startQueuedGame();return;}
+  prestartRaf=requestAnimationFrame(frame);
+ }
+ prestartRaf=requestAnimationFrame(frame);
+}
+function showStartTip(mode='normal',focus=null){
+ clearTimers();clearPrestart();pendingMode=mode;pendingFocus=focus;
+ const d=DIVISORS[Math.floor(Math.random()*DIVISORS.length)],r=RULES[d];
+ $('tipNumber').textContent=d;$('tipTitle').textContent=`${d}의 배수`;
+ $('tipRule').textContent=r.rule;$('tipMath').textContent=r.math;
+ $('tipResult').textContent=r.result;$('tipNote').textContent=r.note;
+ prestartRemaining=5000;prestartPaused=document.hidden;
+ $('tipCountdown').textContent='5';$('tipFill').style.width='0%';
+ switchScreen('prestart');if(!prestartPaused)runPrestartCountdown();
+}
+function startQueuedGame(){
+ if($('prestart').classList.contains('hidden'))return;
+ clearPrestart();startGame(pendingMode,pendingFocus);
+}
+function makeNormalQuestions(){const pool=Array.from({length:190},(_,i)=>i+10).filter(n=>divisors(n).length>0);const buckets={};pool.forEach(n=>{const c=divisors(n).length;(buckets[c]??=[]).push(n);});const shape=[1,1,2,2,3,3,4,4,5,6];const targets={2:5,3:4,4:3,5:2,6:3,7:2,8:2,9:2};let best=null,bestScore=-Infinity;
+  for(let trial=0;trial<180;trial++){let used=new Set(),freq=Object.fromEntries(DIVISORS.map(d=>[d,0])),set=[],lastDigitCount={};const order=shuffle(shape);
+    for(const count of order){let choices=buckets[count].filter(n=>!used.has(n));if(!choices.length)break;let ranked=choices.map(n=>{const ds=divisors(n);let value=ds.reduce((s,d)=>s+Math.max(0,targets[d]-freq[d])*(d>=7?1.4:1),0);value+=n>=100?0.25:0;value-=Math.max(0,(lastDigitCount[n%10]||0)-1)*.7;value+=Math.random()*6;return {n,value};}).sort((a,b)=>b.value-a.value);const n=ranked[Math.floor(Math.random()*Math.min(4,ranked.length))].n;used.add(n);set.push(n);lastDigitCount[n%10]=(lastDigitCount[n%10]||0)+1;divisors(n).forEach(d=>freq[d]++);}
+    if(set.length!==10)continue;
+    const score=DIVISORS.reduce((s,d)=>s+Math.min(freq[d],targets[d])*2-Math.max(0,targets[d]-freq[d])*8,0)+(set.filter(n=>n>=100).length>=6?5:0);
+    if(score>bestScore){best=shuffle(set);bestScore=score;}
+    if(DIVISORS.every(d=>freq[d]>=targets[d])&&set.filter(n=>n>=100).length>=6)break;
+  }
+  return best||shuffle(pool).slice(0,10);
+}
+function makeFocusQuestions(d){const pool=Array.from({length:190},(_,i)=>i+10).filter(n=>divisors(n).length>0);const yes=shuffle(pool.filter(n=>n%d===0)).slice(0,5);const no=shuffle(pool.filter(n=>n%d!==0)).slice(0,5);return shuffle([...yes,...no]);}
+function startGame(mode='normal',focus=null){clearTimers();activeMode=mode;focusNumber=focus;gameQuestions=mode==='focus'?makeFocusQuestions(focus):makeNormalQuestions();records=[];round=0;latestStats=null;$('roundTotal').textContent=gameQuestions.length;$('modeName').textContent=mode==='focus'?`${focus}의 배수 집중 연습`:'10문제 도전';switchScreen('game');showRound();}
+function clearTimers(){cancelAnimationFrame(raf);clearTimeout(feedbackTimeout);raf=0;feedbackTimeout=0;}
+function showRound(){clearTimers();roundLocked=false;paused=false;selected=new Set();let n=gameQuestions[round];$('roundIndex').textContent=pad(round+1);$('gameProgress').style.width=(round/gameQuestions.length*100)+'%';$('targetNumber').textContent=n;$('selectionBar').textContent='아직 선택한 수가 없어요';$('submitAnswer').disabled=false;$('submitAnswer').classList.remove('hidden');$('feedback').className='feedback hidden';$('timeWidget').classList.remove('urgent');
+ document.querySelectorAll('.divisor').forEach(btn=>{btn.disabled=false;btn.className='divisor';btn.setAttribute('aria-pressed','false');});timerRemaining=20000;roundStart=performance.now();deadline=roundStart+timerRemaining;renderClock(timerRemaining);raf=requestAnimationFrame(tick);}
+function renderClock(ms){$('timeText').textContent=(Math.max(0,Math.ceil(ms/100))/10).toFixed(1);$('timeArc').style.strokeDashoffset=String((1-Math.max(0,ms)/20000)*100);$('timeWidget').classList.toggle('urgent',ms<=3000);}
+function tick(now){if(roundLocked||paused)return;timerRemaining=Math.max(0,deadline-now);renderClock(timerRemaining);if(timerRemaining<=0){submit(true);return;}raf=requestAnimationFrame(tick);}
+function toggleSelection(d){if(roundLocked)return;if(selected.has(d))selected.delete(d);else selected.add(d);const btn=document.querySelector(`.divisor[data-d="${d}"]`);btn.classList.toggle('selected',selected.has(d));btn.setAttribute('aria-pressed',String(selected.has(d)));$('selectionBar').innerHTML=selected.size?`<strong>${selected.size}개 선택</strong> · ${fmt([...selected].sort((a,b)=>a-b))}`:'아직 선택한 수가 없어요';}
+function submit(timedOut=false){if(roundLocked)return;roundLocked=true;cancelAnimationFrame(raf);const num=gameQuestions[round],correct=divisors(num),picked=[...selected].sort((a,b)=>a-b),exact=correct.length===picked.length&&correct.every(x=>selected.has(x));const elapsed=timedOut?20000:Math.min(20000,Math.max(0,20000-(deadline-performance.now())));
+ records.push({num,correct,picked,exact,timedOut,elapsed});
+ document.querySelectorAll('.divisor').forEach(b=>{const d=Number(b.dataset.d),isTrue=correct.includes(d),isChosen=selected.has(d);b.disabled=true;b.className='divisor '+(isTrue?(isChosen?'right':'missed'):(isChosen?'wrong':''));});
+ $('submitAnswer').classList.add('hidden');const f=$('feedback');f.className='feedback '+(exact?'success':'error');$('feedbackTitle').textContent=exact?'✓ 정답!':timedOut?'⏰ 시간 종료!':'아쉽지만 오답!';$('feedbackDesc').textContent=`정답: ${fmt(correct)}  ·  내 선택: ${fmt(picked)}`; $('selectionBar').textContent=exact?'정확하게 찾아냈어요!':'초록색은 정답, 붉은색은 잘못 고른 수예요.';renderClock(timedOut?0:timerRemaining);
+ feedbackTimeout=setTimeout(nextRound,exact?1350:2150);
+}
+function nextRound(){if(!roundLocked)return;clearTimeout(feedbackTimeout);if(round+1>=gameQuestions.length){finishGame();return;}round++;showRound();}
+function calculateStats(){let by=DIVISORS.map(d=>{let should=0,missed=0,falsePos=0;records.forEach(r=>{const isTrue=r.correct.includes(d),picked=r.picked.includes(d);if(isTrue)should++;if(isTrue&&!picked)missed++;if(!isTrue&&picked)falsePos++;});return {d,should,missed,falsePos,errors:missed+falsePos,accuracy:Math.round((1-(missed+falsePos)/records.length)*100)};});const total=records.length,wins=records.filter(r=>r.exact).length;let maxStreak=0,streak=0;records.forEach(r=>{streak=r.exact?streak+1:0;maxStreak=Math.max(maxStreak,streak);});return {total,wins,maxStreak,average:records.reduce((a,r)=>a+r.elapsed,0)/records.length/1000,by,ranked:[...by].sort((a,b)=>b.errors-a.errors||a.d-b.d),wrong:records.filter(r=>!r.exact)};}
+function finishGame(){clearTimers();roundLocked=true;latestStats=calculateStats();let s=latestStats;$('scoreCorrect').textContent=s.wins;$('scoreTotal').textContent=s.total;$('resultSubtitle').textContent=activeMode==='focus'?`${focusNumber}의 배수 집중 연습 · ${s.total}문제 완료`:`${s.total}문제 도전 완료!`;$('accuracyValue').textContent=Math.round(s.wins/s.total*100)+'%';$('averageTime').textContent=s.average.toFixed(1)+'초';$('streakValue').textContent=s.maxStreak+'문제';let rate=s.wins/s.total;$('gradeLabel').textContent=rate===1?'완벽한 배수 마스터!':rate>=.85?'배수 마스터':rate>=.65?'배수 탐정':rate>=.45?'배수 연구원':'연습할수록 더 빨라져요';
+ $('divisorRows').innerHTML=s.ranked.map(a=>`<div class="report-row ${a.accuracy<85?'low':''}"><div class="report-label">${a.d}의 배수</div><div class="report-bar"><i style="width:${a.accuracy}%"></i></div><div class="report-percent">${a.accuracy}%</div></div><div class="report-breakdown">등장 ${a.should}회 · 놓침 <b>${a.missed}</b>회 · 잘못 선택 <b>${a.falsePos}</b>회 · 총 실수 <b>${a.errors}</b>회</div>`).join('');
+ const trouble=s.ranked.filter(a=>a.errors>0);const insight=$('insightText');if(!trouble.length){insight.innerHTML='<strong>훌륭해요!</strong> 2~9의 배수를 모두 정확하게 판단했어요. 다시 도전해서 시간을 줄여보세요.';}else{let top=trouble[0],tied=trouble.filter(a=>a.errors===top.errors);let text=tied.slice(0,3).map(a=>a.d+'의 배수').join(', ');insight.innerHTML=`<strong>집중 연습 추천: ${text}</strong><br>가장 실수가 많았어요. ${top.d}의 배수는 ${top.should}번 등장했고, 그중 ${top.missed}번 놓쳤으며 아닌데 선택한 경우는 ${top.falsePos}번이에요.`;}
+ const list=$('questionList');list.innerHTML='';if(!s.wrong.length)list.innerHTML='<div class="empty">10문제 모두 정확하게 골랐어요! 🎉</div>';else{s.wrong.forEach(r=>{const index=records.indexOf(r)+1;const item=document.createElement('details');item.className='question-detail';item.innerHTML=`<summary><span class="detail-no">${pad(index)}번</span><span>${r.num}</span><span class="detail-bad">${r.timedOut?'시간 종료':'오답'}</span></summary><div class="detail-inner"><div>정답: <b>${fmt(r.correct)}</b></div><div>내 선택: <b>${fmt(r.picked)}</b></div><div>놓친 약수: <b>${fmt(r.correct.filter(d=>!r.picked.includes(d)))}</b></div><div>잘못 고른 수: <b>${fmt(r.picked.filter(d=>!r.correct.includes(d)))}</b></div></div>`;list.append(item);});}
+ let focus=s.ranked[0];$('focusPractice').textContent=focus.errors===0?'7의 배수 추가 연습':`${focus.d}의 배수 집중 연습 (10문제)`;$('focusPractice').dataset.divisor=focus.errors===0?'7':String(focus.d);switchScreen('results');}
+function saveReport(){if(!latestStats)return;const s=latestStats,c=document.createElement('canvas');c.width=1080;c.height=1420;const x=c.getContext('2d');x.fillStyle='#0b1427';x.fillRect(0,0,c.width,c.height);function text(t,xx,yy,size,color='#f1f7ff',bold=true){x.font=`${bold?800:500} ${size}px sans-serif`;x.fillStyle=color;x.fillText(t,xx,yy);}function rounded(xx,yy,w,h,r,fill){x.beginPath();x.roundRect(xx,yy,w,h,r);x.fillStyle=fill;x.fill();}text('RAON MATH  /  NUMBER LAB',70,85,29,'#8cf5d7');text('배수 헌터 성적표',70,170,64);text(activeMode==='focus'?`${focusNumber}의 배수 집중 연습 · ${s.total}문제`:`10문제 도전 · ${s.total}문제 완료`,70,220,27,'#9fb5cf',false);rounded(65,272,950,270,30,'#162940');text(`${s.wins} / ${s.total}`,104,427,125);text(`정답률 ${Math.round(s.wins/s.total*100)}%`,690,367,37,'#8af4d0');text(`평균 ${s.average.toFixed(1)}초`,690,428,32,'#cddcec');text(`연속 정답 ${s.maxStreak}개`,690,479,28,'#cddcec');text('배수별 판별 정확도',70,626,43);text('선택해야 할 때 놓치거나, 아니어도 선택하면 실수로 집계해요.',70,668,24,'#a8bdd3',false);s.ranked.forEach((a,i)=>{const yy=725+i*72;text(`${a.d}의 배수`,78,yy+18,26);rounded(247,yy-9,530,22,11,'#28415c');rounded(247,yy-9,Math.max(3,530*a.accuracy/100),22,11,a.accuracy<85?'#ffb080':'#78ebc1');text(`${a.accuracy}%`,817,yy+18,29);text(`실수 ${a.errors}`,930,yy+18,21,'#c4d5e9',false);});let idx=s.ranked.find(i=>i.errors>0);rounded(65,1314,950,65,14,'#143832');text(idx?`집중 연습 추천: ${idx.d}의 배수 (${idx.errors}회 실수)`:'모든 배수 판별 성공! 다음에는 속도에 도전해요.',92,1357,27,'#a7ffe2');
+ try{c.toBlob(blob=>{if(!blob){alert('이미지 저장에 실패했어요. 화면을 캡처해 주세요.');return;}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='라온_배수헌터_성적표.png';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);},'image/png');}catch(e){alert('이 브라우저에서는 이미지 저장을 지원하지 않아요. 화면을 캡처해 주세요.');}}
+$('startTutorial').addEventListener('click',()=>showStartTip());
+$('landingRules').addEventListener('click',()=>openRulebook('landing'));
+$('rulebookBack').addEventListener('click',()=>switchScreen(rulebookReturn));
+$('skipTip').addEventListener('click',startQueuedGame);
+$('submitAnswer').addEventListener('click',()=>submit(false));
+$('playAgain').addEventListener('click',()=>showStartTip());
+$('focusPractice').addEventListener('click',()=>showStartTip('focus',Number($('focusPractice').dataset.divisor)));
+$('reviewTutorial').addEventListener('click',()=>openRulebook('results'));
+$('saveReport').addEventListener('click',saveReport);
+document.addEventListener('keydown',e=>{if($('game').classList.contains('hidden')||e.repeat||roundLocked||e.altKey||e.ctrlKey||e.metaKey)return;if(/^[2-9]$/.test(e.key)){toggleSelection(Number(e.key));}else if(e.key==='Enter'){e.preventDefault();submit(false);}});
+document.addEventListener('visibilitychange',()=>{if(!$('prestart').classList.contains('hidden')){if(document.hidden){prestartPaused=true;prestartRemaining=Math.max(0,prestartDeadline-performance.now());clearPrestart();}else if(prestartPaused){prestartPaused=false;runPrestartCountdown();}return;}if($('game').classList.contains('hidden')||roundLocked)return;if(document.hidden){paused=true;timerRemaining=Math.max(0,deadline-performance.now());cancelAnimationFrame(raf);}else if(paused){paused=false;deadline=performance.now()+timerRemaining;raf=requestAnimationFrame(tick);}});
+})();
+</script>
+</body>
+</html>

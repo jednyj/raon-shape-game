@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<meta name="theme-color" content="#192d42"/>
+<title>라온 픽셀탐정 | Fill-a-Pix</title>
+<style>
+:root { --navy:#182b41; --navy2:#263a50; --ink:#1d3449; --muted:#627487; --mint:#20b0a3; --sky:#e6f5f4; --accent:#fa8b75; --cloud:#f4f7fb; --stroke:#dce6ec; --paper:#ffffff; }
+*{box-sizing:border-box}html{min-height:100%;background:#f0f5f6}body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:radial-gradient(ellipse at 12% 0%,#d5f3ed 0,transparent 48%),radial-gradient(ellipse at 98% 10%,#e2e5ff 0,transparent 43%),#f0f5f6;min-height:100dvh}button,input{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:disabled{cursor:not-allowed;opacity:.45}button:focus-visible,input:focus-visible{outline:3px solid #68c6c1;outline-offset:3px}
+.page{max-width:1150px;padding:24px 20px 38px;margin:0 auto}.header{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:11px}.brand-mark{display:grid;grid-template-columns:repeat(3,9px);grid-template-rows:repeat(3,9px);gap:2px;background:var(--navy);padding:9px;border-radius:15px;box-shadow:0 8px 20px #22374425}.brand-mark span{background:#fff;border-radius:2px}.brand-mark span:nth-child(2),.brand-mark span:nth-child(4),.brand-mark span:nth-child(7){background:#55d2c0}.brand h1{font-size:21px;line-height:1.15;margin:0;font-weight:900;letter-spacing:-.7px}.brand p{margin:2px 0 0;font-size:11px;letter-spacing:1.6px;color:#65788b;font-weight:800}.header-right{display:flex;align-items:center;gap:8px}.tiny-btn{border:1px solid #cfdbdf;background:#fff;border-radius:12px;padding:10px 13px;color:var(--ink);font-weight:750;font-size:13px}.tiny-btn:hover{background:#edf9f6}
+.hero{margin-bottom:21px}.eyebrow{font-size:12px;font-weight:900;color:#188a83;letter-spacing:1.2px;margin-bottom:7px}.hero h2{font-size:clamp(24px,4vw,38px);letter-spacing:-1.7px;line-height:1.2;margin:0 0 8px;font-weight:950}.hero p{margin:0;font-size:14px;color:#697c89;line-height:1.6}.shell{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:20px;align-items:start}.panel{background:#fff;border:1px solid #e1e9ec;border-radius:25px;box-shadow:0 12px 42px #223a490d}.game{padding:24px}.game-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}.level-label{font-size:12px;letter-spacing:1.1px;font-weight:850;color:#17a69a;margin-bottom:6px}.game-head h3{font-size:25px;letter-spacing:-.9px;margin:0 0 2px}.sub{font-size:13px;color:var(--muted)}.statpill{border-radius:15px;padding:9px 13px;background:#f1f8f9;text-align:right;min-width:89px}.statpill span{display:block;color:#6e8290;font-size:10px;font-weight:800}.statpill b{font-size:21px;font-variant-numeric:tabular-nums}.meter{display:flex;align-items:center;gap:10px;margin:20px 0 14px}.track{height:7px;flex:1;border-radius:99px;background:#e8edf0;overflow:hidden}.track div{height:100%;background:linear-gradient(90deg,#48c7ba,#188a85);width:0%;border-radius:99px;transition:width .16s}.meter small{font-size:12px;white-space:nowrap;color:#657783;font-weight:800}.board-frame{background:#eef4f8;padding:clamp(8px,2vw,17px);border-radius:21px;border:1px solid #e2edf0}.board{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:3px;margin:auto;max-width:460px;aspect-ratio:1;touch-action:manipulation}.cell{border:0;border-radius:5px;position:relative;min-width:0;min-height:0;padding:0;display:grid;place-items:center;user-select:none;transition:background-color .12s,transform .12s;box-shadow:0 1px 0 #8fa3b122}.cell:hover{filter:brightness(.98)}.cell:active{transform:scale(.93)}.cell.unknown{background:#fff}.cell.black{background:#29394c}.cell.white{background:#d8e9e9}.cell.white::after{content:'×';position:absolute;color:#8caaaf;font-weight:700;font-size:clamp(12px,2.9vw,19px);opacity:.9}.cell .digit{position:relative;z-index:2;font-size:clamp(14px,3.4vw,24px);font-weight:900;line-height:1;color:#20394a;text-shadow:0 1px #fff9}.cell.black .digit{color:#fff;text-shadow:none}.cell.white .digit{color:#23585a;text-shadow:none}.cell.white:has(.digit)::after{display:none}.cell.done .digit{color:#179889}.cell.done.black .digit{color:#66ecdd}.cell.bad{outline:2px solid #fc8073;outline-offset:-2px}.cell.bad .digit{color:#fa6563}.cell.hinted{box-shadow:inset 0 0 0 3px #ffb659;animation:hintpop .6s ease}.board-info{display:flex;justify-content:space-between;gap:10px;margin-top:12px;font-size:12px;color:#71818b}.tool-label{font-size:12px;font-weight:850;margin:22px 0 9px;color:#5c7080}.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.tool{display:flex;align-items:center;justify-content:center;gap:7px;border:1.5px solid #dce7e9;border-radius:13px;background:#fff;min-height:48px;font-weight:800;font-size:14px;color:#4c6474}.tool.active{border-color:#2bb7ac;background:#e9faf5;color:#096d67;box-shadow:inset 0 0 0 1px #2bb7ac}.swatch{width:16px;height:16px;border-radius:4px;display:inline-grid;place-items:center}.swatch.dark{background:#29394c}.swatch.light{background:#d8e9e9;color:#6b8988;font-size:15px}.swatch.clear{border:2px solid #9cb1b6}.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.action{background:#f4f7f8;color:#456071;border:0;border-radius:11px;padding:13px 7px;font-size:13px;font-weight:800}.action:hover{background:#e8eff2}.action.primary{background:var(--navy);color:#fff}.message{margin-top:15px;background:#effaf6;border-radius:12px;color:#34796f;font-size:13px;padding:11px 13px;min-height:43px;line-height:1.55}.message.warn{background:#fff2ec;color:#b95b3c}
+.side{display:flex;flex-direction:column;gap:16px}.sidebox{padding:23px}.side-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:15px}.side-title h3{margin:0;font-size:17px;letter-spacing:-.5px}.mini-tag{color:#1d988f;background:#e1f7f1;border-radius:8px;padding:6px 9px;font-size:11px;font-weight:850}.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.lv{border:1.5px solid #e1e8ec;background:#fbfcfd;border-radius:13px;padding:13px 5px 10px;text-align:center;min-height:81px}.lv .lvnum{font-size:14px;font-weight:900;color:#243b4f;display:block}.lv .lvsize{font-size:12px;color:#82939c;margin-top:4px;display:block}.lv .lvstate{font-size:10px;font-weight:850;margin-top:6px;color:#a2abb2;display:block}.lv.current{background:#e9f9f5;border-color:#24b8a9}.lv.current .lvstate{color:#138e84}.lv.complete{border-color:#9dded0}.lv.complete .lvstate{color:#168d7e}.lv.locked{background:#f2f4f5}.side-note{border-top:1px solid #edf1f3;margin-top:16px;padding-top:14px;color:#83909a;font-size:12px;line-height:1.55}.rules{display:grid;gap:13px}.rule{display:flex;align-items:flex-start;gap:10px;color:#5d7080;font-size:13px;line-height:1.6}.rule b{color:#203a4d}.number{flex:0 0 29px;height:29px;border-radius:9px;background:#e6f6f3;display:grid;place-items:center;color:#147e77;font-size:12px;font-weight:900}.footer{padding:21px 4px;color:#81929d;text-align:center;font-size:12px}.footer b{color:#506c75}
+.overlay{position:fixed;inset:0;z-index:20;background:#0e2537a8;display:grid;place-items:center;padding:20px;backdrop-filter:blur(5px)}.overlay[hidden]{display:none}.modal{background:#fff;border-radius:24px;padding:30px;max-width:410px;width:100%;box-shadow:0 25px 80px #05182740;position:relative;text-align:center}.modal .spark{display:block;font-size:35px;margin-bottom:10px}.modal h2{margin:0 0 8px;font-size:26px;letter-spacing:-1px}.modal p{font-size:14px;line-height:1.6;color:#68808a;margin:0 0 17px}.reveal{margin:0 auto 15px;max-width:180px;width:100%;display:grid;gap:2px;grid-template-columns:repeat(var(--n),1fr);padding:10px;border-radius:16px;background:#e8f3f3}.reveal i{aspect-ratio:1;border-radius:2px;background:#fff}.reveal i.on{background:#283c50}.go{border:0;background:#1da89f;color:#fff;border-radius:13px;font-size:15px;font-weight:900;padding:15px;width:100%}.go:hover{background:#148d86}.modal-small{color:#95a2aa;font-size:12px;margin-top:12px}.close{position:absolute;right:17px;top:12px;border:0;background:none;font-size:24px;color:#899aa6}.success-title{font-size:42px;margin:2px 0 8px}.best{font-size:13px;color:#48756c;background:#e7f8f3;padding:11px;border-radius:10px;margin:8px 0 18px}.toast{position:fixed;left:50%;bottom:25px;transform:translateX(-50%);color:#fff;background:#244158;padding:12px 17px;border-radius:12px;box-shadow:0 15px 40px #0c223844;z-index:40;font-size:13px;font-weight:750;max-width:95vw;text-align:center}.toast[hidden]{display:none}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@keyframes hintpop{0%{transform:scale(.75)}70%{transform:scale(1.09)}100%{transform:scale(1)}}@media(max-width:790px){.page{padding:18px 13px 30px}.header{margin-bottom:21px}.shell{grid-template-columns:1fr}.game{padding:17px}.sidebox{padding:19px}.hero h2{font-size:26px}.board{max-width:460px}.side{gap:14px}}@media(max-width:390px){.tools{gap:5px}.tool{font-size:12px;gap:4px}.game-head h3{font-size:21px}.header-right{gap:3px}.tiny-btn{padding:9px}.cell .digit{font-size:17px}.actions{gap:5px}.action{font-size:12px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* 실전형 하트 튜토리얼 */
+.tutorial-panel{margin:0 0 15px;padding:16px 17px;border:1.5px solid #92dacf;border-radius:17px;background:linear-gradient(145deg,#ebfaf5,#f8fffd)}
+.tutorial-panel[hidden]{display:none}
+.tutorial-top,.tutorial-bottom{display:flex;justify-content:space-between;align-items:center;gap:9px}
+.tutorial-chip{display:inline-flex;align-items:center;font-size:12px;color:#0a8079;font-weight:900}
+.tutorial-count{font-size:12px;font-weight:800;color:#52857f}
+.tutorial-panel h4{font-size:19px;font-weight:900;letter-spacing:-.6px;margin:10px 0 6px}
+.tutorial-panel p{margin:0 0 13px;font-size:14px;color:#45636b;line-height:1.65;word-break:keep-all}
+.tutorial-bottom{border-top:1px solid #d7eeea;padding-top:10px;font-size:12px;color:#20776e;font-weight:850}
+.cell.tutorial-target{box-shadow:inset 0 0 0 3px #f4a43b,0 1px 0 #8fa3b122;outline:1.5px solid #ffcd7a;outline-offset:0;z-index:1}
+.cell.tutorial-focus:not(.tutorial-target){box-shadow:inset 0 0 0 3px #4bc5ae}
+.cell.tutorial-focus .digit{font-weight:950}
+.cell.tutorial-target.unknown{animation:tutorial-glow 1.7s ease-in-out infinite}
+@keyframes tutorial-glow{0%,100%{box-shadow:inset 0 0 0 3px #f3b04d,0 0 0 0 #e9a43f11}50%{box-shadow:inset 0 0 0 3px #ffb548,0 0 0 4px #ffc36c55}}
+@media(prefers-reduced-motion:reduce){.cell.tutorial-target.unknown{animation:none}}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="header"><div class="brand"><div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><div><h1>라온 픽셀탐정</h1><p>FILL·A·PIX</p></div></div><div class="header-right"><button id="help-btn" class="tiny-btn" type="button">? 게임 방법</button></div></header>
+  <section class="hero"><div class="eyebrow">OBSERVE · THINK · SOLVE</div><h2>숫자를 따라 채우면,<br>숨은 그림이 나타나요!</h2><p>첫 번째 하트 튜토리얼에서 규칙을 익히고, 숫자를 따라 숨은 그림을 완성해 보세요.</p></section>
+  <main class="shell"><section class="panel game" aria-label="픽셀 퍼즐 게임"><div class="game-head"><div><div class="level-label" id="level-label">STAGE 01 · BASIC SHAPES</div><h3 id="stage-title">숨겨진 그림을 찾아라</h3><div class="sub" id="stage-sub">5×5 · 제한시간 없음</div></div><div class="statpill"><span>플레이 시간</span><b id="clock">00:00</b></div></div>
+    <div class="meter"><div class="track"><div id="progress"></div></div><small id="progress-text">0 / 25칸</small></div>
+    <div class="tutorial-panel" id="tutorial-panel" hidden aria-live="polite">
+      <div class="tutorial-top"><span class="tutorial-chip">🎓 하트 튜토리얼</span><span id="tutorial-counter" class="tutorial-count">1 / 5단계</span></div>
+      <h4 id="tutorial-title">숫자 9부터 시작!</h4>
+      <p id="tutorial-text">표시된 칸들을 채워 보세요.</p>
+      <div class="tutorial-bottom"><span id="tutorial-task">검정으로 칠하기</span><span id="tutorial-left">9칸 남음</span></div>
+    </div>
+    <div class="board-frame"><div id="board" class="board" role="group" aria-label="Fill-a-Pix 퍼즐 격자"></div></div>
+    <div class="board-info"><span>숫자 = 자신을 포함한 주변 3×3의 검은 칸</span><span id="grid-label">5 × 5</span></div>
+    <div class="tool-label">칠할 색상을 골라주세요 <span style="font-weight:500;color:#95a2aa">(단축키 1 · 2 · 3)</span></div>
+    <div class="tools" role="group" aria-label="칠하기 도구"><button class="tool active" data-tool="1"><span class="swatch dark"></span>검정</button><button class="tool" data-tool="0"><span class="swatch light">×</span>흰색</button><button class="tool" data-tool="-1"><span class="swatch clear"></span>지우기</button></div>
+    <div class="actions"><button class="action" id="undo" type="button">↶ 되돌리기</button><button class="action" id="reset" type="button">↺ 다시 풀기</button><button class="action primary" id="hint" type="button">✦ 한 칸 힌트</button></div>
+    <div class="message" id="message" role="status" aria-live="polite">숫자 0 또는 9가 있는지 먼저 살펴보세요. 모든 칸에는 세 가지 상태가 있어요.</div>
+  </section>
+  <aside class="side"><section class="panel sidebox"><div class="side-title"><h3>도전 스테이지</h3><span id="cleared-count" class="mini-tag">0 / 15 완료</span></div><div id="level-grid" class="levels"></div><div class="side-note">처음에는 기본 도형부터! 5×5 → 6×6 → 7×7 순서로 진행해요.<br>각 퍼즐은 숫자 단서로 정답이 하나만 나오도록 확인했어요.</div></section><section class="panel sidebox"><div class="side-title"><h3>탐정의 풀이 수칙</h3></div><div class="rules"><div class="rule"><span class="number">01</span><div><b>숫자의 뜻</b><br>자기 칸을 포함한 주변 최대 9칸 중 색칠된 칸을 세요.</div></div><div class="rule"><span class="number">02</span><div><b>흰색도 확정하기</b><br>색칠할 칸은 검정, 색칠하면 안 될 칸은 흰색으로 표시해요.</div></div><div class="rule"><span class="number">03</span><div><b>완성하면 자동 클리어!</b><br>모든 칸을 정확히 표시하면 다음 단계가 열려요.</div></div></div></section></aside></main>
+  <footer class="footer"><b>RAON MATH LAB</b> · 관찰력과 논리력을 키우는 작은 게임 · 진행 기록은 이 기기에 저장됩니다</footer>
+</div>
+<div class="overlay" id="success-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="success-title"><div class="modal"><span class="success-title">🎉</span><h2 id="success-title">퍼즐 클리어!</h2><p id="success-description">숫자 퍼즐을 정확히 풀었어요.</p><div id="reveal" class="reveal" aria-label="완성된 픽셀 도형"></div><div id="best-text" class="best"></div><button id="next-stage" type="button" class="go">다음 스테이지 →</button><div class="modal-small">퍼즐을 완성하면 다음 스테이지가 열려요.</div></div></div>
+<div class="overlay" id="rules-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="rules-title"><div class="modal" style="text-align:left"><button class="close" id="close-rules" type="button" aria-label="닫기">×</button><h2 id="rules-title">Fill-a-Pix 게임 방법</h2><p style="margin-top:15px">숫자는 <b>자기 칸을 포함한 주변 최대 9칸 중 색칠된 칸의 수</b>를 말해요.</p><div style="display:grid;grid-template-columns:repeat(3,1fr);max-width:198px;margin:15px auto;gap:3px;aspect-ratio:1"><div style="background:#29394c;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#29394c;border-radius:4px"></div><div style="background:#29394c;border-radius:4px;display:grid;place-items:center;color:white;font-weight:900">3</div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div><div style="background:#ebf3f4;border-radius:4px"></div></div><p>숫자들 사이의 관계를 보고 <b>색칠할 곳과 색칠하면 안 될 곳</b>을 구분해 보세요!</p><p><b>0이나 9부터 시작</b>하는 게 좋겠죠?</p><button class="go" type="button" id="got-it">게임 시작하기</button></div></div>
+<div id="toast" class="toast" hidden role="status"></div>
+<script>
+'use strict';
+const PUZZLES = [{"name": "하트", "size": 5, "rows": ["01010", "11111", "11111", "01110", "00100"], "answers": ["하트", "사랑", "heart"], "clues": {"0": 3, "1": 4, "2": 5, "3": 4, "4": 3, "11": 8, "12": 9, "14": 5, "17": 7, "20": 1, "24": 1}}, {"name": "꽃", "size": 5, "rows": ["01010", "11111", "01110", "00100", "00100"], "answers": ["꽃", "꽃송이", "꽃모양", "flower"], "clues": {"1": 4, "3": 4, "4": 3, "7": 8, "11": 6, "13": 6, "15": 1, "19": 1, "20": 0, "22": 2, "24": 0}}, {"name": "화살표", "size": 5, "rows": ["00100", "01110", "11111", "00100", "00100"], "answers": ["화살표", "위쪽화살표", "화살", "arrow"], "clues": {"0": 1, "2": 4, "4": 1, "7": 7, "10": 3, "12": 7, "18": 5, "20": 0, "21": 2, "23": 2, "24": 0}}, {"name": "깃발", "size": 5, "rows": ["11100", "00100", "00110", "00100", "00100"], "answers": ["깃발", "flag"], "clues": {"6": 5, "8": 4, "10": 0, "15": 0, "17": 4, "24": 0}}, {"name": "음표", "size": 5, "rows": ["00110", "00101", "00110", "00100", "01100"], "answers": ["음표", "music", "note"], "clues": {"2": 3, "3": 4, "6": 3, "9": 3, "12": 4, "13": 5, "15": 1, "17": 5, "24": 0}}, {"name": "나무", "size": 6, "rows": ["000000", "001100", "011110", "111111", "001100", "001100"], "answers": ["나무", "트리", "tree"], "clues": {"0": 0, "3": 2, "4": 1, "5": 0, "7": 3, "10": 3, "15": 8, "18": 3, "20": 8, "24": 2, "25": 5, "27": 7, "29": 2, "30": 0, "31": 2, "33": 4, "35": 0}}, {"name": "우산", "size": 6, "rows": ["000000", "001100", "011110", "111111", "001000", "001110"], "answers": ["우산", "umbrella"], "clues": {"0": 0, "2": 2, "3": 2, "4": 1, "5": 0, "6": 1, "9": 5, "12": 3, "14": 8, "17": 3, "22": 5, "25": 5, "27": 7, "28": 5, "30": 0, "32": 3, "35": 1}}, {"name": "사과", "size": 6, "rows": ["001000", "011110", "111111", "111111", "011110", "001100"], "answers": ["사과", "apple"], "clues": {"0": 1, "2": 4, "4": 2, "5": 1, "7": 6, "9": 7, "14": 9, "15": 9, "19": 8, "20": 9, "21": 9, "23": 5, "27": 8, "30": 1, "31": 3, "32": 5, "35": 1}}, {"name": "장화", "size": 6, "rows": ["011100", "011100", "011100", "011110", "011111", "001110"], "answers": ["장화", "부츠", "boot"], "clues": {"5": 0, "6": 3, "8": 9, "17": 1, "20": 9, "23": 3, "25": 5, "27": 9, "29": 4}}, {"name": "피자조각", "size": 6, "rows": ["111111", "011110", "001110", "000110", "000011", "000001"], "answers": ["피자", "피자조각", "pizza"], "clues": {"2": 6, "4": 5, "7": 6, "13": 3, "15": 8, "16": 6, "22": 6, "27": 3, "29": 4, "30": 0}}, {"name": "고양이", "size": 7, "rows": ["1000001", "1100011", "1111111", "1101011", "1111111", "0111110", "0011100"], "answers": ["고양이", "고양이얼굴", "냥이", "cat"], "clues": {"1": 3, "3": 0, "4": 1, "5": 3, "8": 6, "9": 4, "10": 3, "14": 6, "15": 7, "18": 6, "20": 6, "21": 6, "26": 8, "27": 6, "28": 5, "30": 8, "31": 7, "34": 5, "38": 9, "39": 8, "42": 1, "45": 6, "47": 3}}, {"name": "별", "size": 7, "rows": ["0001000", "0011100", "1111111", "0111110", "0011100", "0110110", "1100011"], "answers": ["별", "별모양", "star"], "clues": {"0": 0, "3": 4, "6": 0, "7": 2, "11": 6, "12": 4, "15": 6, "17": 9, "21": 3, "22": 6, "24": 9, "26": 6, "27": 3, "28": 2, "30": 7, "32": 7, "33": 5, "34": 2, "41": 3, "42": 3, "43": 4, "45": 2, "47": 4, "48": 3}}, {"name": "로켓", "size": 7, "rows": ["0011100", "0111110", "0101010", "0111110", "0111110", "1111111", "1010101"], "answers": ["로켓", "우주선", "rocket"], "clues": {"0": 1, "3": 6, "4": 5, "10": 7, "12": 4, "16": 8, "19": 5, "22": 5, "23": 8, "24": 7, "25": 8, "26": 5, "28": 4, "30": 9, "31": 9, "32": 9, "34": 4, "39": 7, "42": 3, "44": 4, "45": 5, "47": 5, "48": 3}}, {"name": "기타", "size": 7, "rows": ["0011000", "0111100", "0111100", "0011000", "0011001", "0011011", "0001110"], "answers": ["기타", "guitar"], "clues": {"2": 5, "5": 1, "7": 2, "16": 8, "18": 5, "20": 0, "25": 4, "28": 0, "31": 6, "33": 3, "34": 3, "42": 0, "44": 3, "46": 5, "48": 3}}, {"name": "공룡", "size": 7, "rows": ["0011110", "0010011", "0011110", "0010100", "0111110", "1110111", "1000010"], "answers": ["공룡", "dinosaur"], "clues": {"0": 0, "3": 4, "8": 3, "11": 7, "13": 4, "14": 0, "18": 5, "19": 5, "21": 1, "27": 2, "30": 6, "33": 6, "38": 5, "39": 6, "43": 4, "44": 2, "48": 3}}];
+const STORE = 'raon-pix-lab-2026-v3';
+const OLD_STORE = 'raon-pix-lab-2026-v2';
+// 한 단계의 선택칸을 직접 모두 올바르게 표시해야 다음 단계 안내가 나옵니다.
+const TUTORIAL_STEPS = [
+  {title:'① 가운데 숫자 9부터!', text:'가운데 9는 자기 칸을 포함한 주변 9칸이 모두 검정이라는 뜻이에요. 주황색 테두리가 있는 아홉 칸을 검정으로 칠해 보세요.', tool:1, cells:[6,7,8,11,12,13,16,17,18], focus:[12]},
+  {title:'② 흰 칸도 표시해요', text:'맨 아래 양쪽 숫자 1을 보세요. 주변에 검정 칸이 이미 하나씩 있죠? 그러면 나머지 세 칸씩은 흰색이에요. 흰색 도구를 골라 표시해 보세요.', tool:0, cells:[15,20,21,19,23,24], focus:[20,24]},
+  {title:'③ 다른 숫자들을 비교해요', text:'왼쪽 8, 오른쪽 5, 아래쪽 7을 함께 보면 검정이어야 할 칸을 더 찾을 수 있어요. 표시된 다섯 칸을 검정으로 칠해 보세요.', tool:1, cells:[5,10,9,14,22], focus:[11,14,17]},
+  {title:'④ 윗줄의 검정 칸 찾기', text:'윗줄에 있는 3·4·5·4·3의 조건을 비교해 보세요. 주황색으로 표시된 두 칸이 검정이에요.', tool:1, cells:[1,3], focus:[0,1,2,3,4]},
+  {title:'⑤ 흰 칸을 채워 완성!', text:'마지막으로 윗줄에 남은 세 칸은 흰색이에요. 직접 표시해서 하트를 완성해 보세요!', tool:0, cells:[0,2,4], focus:[0,2,4]}
+];
+const $ = sel => document.querySelector(sel);
+let save={unlocked:0,completed:{},boards:{},times:{},hints:{},tutorialComplete:false,tutorialMarks:[]};
+try {
+ // 이전 버전의 진행도는 보존하지만, 이 버전의 하트 튜토리얼은 반드시 직접 진행합니다.
+ const older=JSON.parse(localStorage.getItem(OLD_STORE)||'null');
+ if(older && typeof older==='object') save={...save,...older,tutorialComplete:false,tutorialMarks:[]};
+ const latest=JSON.parse(localStorage.getItem(STORE)||'null');
+ if(latest && typeof latest==='object') save={...save,...latest};
+} catch(e){}
+save.tutorialComplete=save.tutorialComplete===true;
+save.unlocked=Math.max(0,Math.min(PUZZLES.length-1,Number(save.unlocked)||0));
+let current=save.tutorialComplete?save.unlocked:0, tool=1, marks=[], history=[], elapsed=0, startedAt=null, answerPending=false, hintIndex=-1, toastTimer=null;
+function tutorialActive(){return current===0 && !save.tutorialComplete;}
+function tutorialStepIndex(){return TUTORIAL_STEPS.findIndex(step=>!step.cells.every(i=>marks[i]===step.tool));}
+function renderTutorial(){
+ const active=tutorialActive()&&!answerPending;
+ const panel=$('#tutorial-panel');panel.hidden=!active;
+ $('#undo').disabled=active;$('#hint').disabled=active;
+ if(!active)return;
+ let stepIdx=tutorialStepIndex();if(stepIdx<0)stepIdx=TUTORIAL_STEPS.length-1;
+ const step=TUTORIAL_STEPS[stepIdx];
+ $('#tutorial-counter').textContent=`${stepIdx+1} / ${TUTORIAL_STEPS.length}단계`;
+ $('#tutorial-title').textContent=step.title;
+ $('#tutorial-text').textContent=step.text;
+ $('#tutorial-task').textContent=step.tool===1?'■ 검정 도구로 칠하기':'× 흰색 도구로 표시하기';
+ const left=step.cells.filter(i=>marks[i]!==step.tool).length;
+ $('#tutorial-left').textContent=`${left}칸 남음`;
+ for(const i of step.cells)if(marks[i]!==step.tool)$('#board').children[i]?.classList.add('tutorial-target');
+ for(const i of step.focus)$('#board').children[i]?.classList.add('tutorial-focus');
+ setMessage(`${stepIdx+1}단계: ${step.tool===1?'검정':'흰색'} 도구를 선택하고, 주황색 테두리 칸을 표시하세요.`);
+}
+let currentPuzzle=()=>PUZZLES[current];
+function persist(){try{localStorage.setItem(STORE,JSON.stringify(save));}catch(e){}}
+function formatTime(t){let s=Math.max(0,Math.floor(t));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+function seconds(){return elapsed+(startedAt===null?0:(performance.now()-startedAt)/1000);}
+function tick(){$('#clock').textContent=formatTime(seconds());}
+setInterval(tick,250);
+document.addEventListener('visibilitychange',()=>{if(document.hidden && startedAt!==null){elapsed=seconds();startedAt=null;}else if(!document.hidden&&elapsed>0&&marks.some(x=>x!==-1)&&!answerPending){startedAt=performance.now();}});
+function neighbours(idx){const n=currentPuzzle().size; const y=Math.floor(idx/n),x=idx%n;const ids=[];for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const yy=y+dy,xx=x+dx;if(yy>=0&&xx>=0&&yy<n&&xx<n)ids.push(yy*n+xx);}return ids;}
+function target(){return currentPuzzle().rows.join('').split('').map(Number);}
+function toast(s){let t=$('#toast');t.textContent=s;t.hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.hidden=true,2500);}
+function setMessage(text,warning=false){const node=$('#message');node.textContent=text;node.classList.toggle('warn',warning);}
+function renderBoard(){const p=currentPuzzle(),n=p.size,board=$('#board');board.style.setProperty('--n',n);board.innerHTML='';for(let i=0;i<n*n;i++){const button=document.createElement('button');const value=marks[i];button.type='button';button.className='cell '+(value===1?'black':value===0?'white':'unknown');button.dataset.index=i;const digit=p.clues[String(i)];if(digit!==undefined){const span=document.createElement('span');span.className='digit';span.textContent=digit;button.append(span);}button.setAttribute('aria-label',`${Math.floor(i/n)+1}행 ${i%n+1}열, ${digit===undefined?'숫자 없음':`숫자 ${digit}`}, ${value===1?'검정':value===0?'흰색':'미확정'}`);button.addEventListener('click',()=>applyMark(i,tool));button.addEventListener('contextmenu',e=>{e.preventDefault();applyMark(i,0)});board.append(button);}updateStatus();renderTutorial();}
+function updateStatus(){const p=currentPuzzle(),assigned=marks.filter(x=>x!==-1).length;$('#progress').style.width=100*assigned/marks.length+'%';$('#progress-text').textContent=`${assigned} / ${marks.length}칸`;let conflicting=0;
+ for(let [indexStr,num] of Object.entries(p.clues)){let i=Number(indexStr),ids=neighbours(i),black=ids.filter(j=>marks[j]===1).length,unknown=ids.filter(j=>marks[j]===-1).length;let done=(black===num&&unknown===0),bad=(black>num||black+unknown<num);const cell=$('#board').children[i];cell.classList.toggle('done',done);cell.classList.toggle('bad',bad);if(bad)conflicting++;}
+ if(conflicting>0)setMessage(`주의! ${conflicting}개의 숫자에서 조건이 충돌해요. 주변 칸을 다시 확인하세요.`,true);
+ else if(assigned===marks.length)setMessage('모든 칸을 표시했어요. 숫자 조건을 마지막으로 확인해 볼까요?');
+ else if(assigned===0)setMessage('검정과 흰색을 모두 표시해 보세요. 숫자 0 또는 큰 숫자에서 시작하면 쉬워요. 이번 판에는 비대칭 도형도 숨어 있어요!');
+ else setMessage(`좋아요! ${assigned}칸을 확정했어요. 초록 숫자는 검은 칸의 개수가 맞는 상태예요.`);
+}
+function applyMark(i,v,{isHint=false}={}){
+ if(answerPending)return;
+ if(tutorialActive()){
+  const stepIdx=tutorialStepIndex();
+  if(stepIdx<0)return;
+  const step=TUTORIAL_STEPS[stepIdx];
+  if(!step.cells.includes(i)){toast('지금은 주황색 테두리 칸을 먼저 표시해 보세요.');return;}
+  if(v!==step.tool){toast(step.tool===1?'검정 도구를 골라보세요!':'흰색 도구를 골라보세요!');return;}
+  if(marks[i]===v)return;
+ }
+ const priorTutorialStep=tutorialActive()?tutorialStepIndex():-1;
+ const prev=marks[i],next=prev===v?-1:v;if(prev===next)return;history.push({i,prev});if(history.length>120)history.shift();marks[i]=next;if(startedAt===null)startedAt=performance.now();hintIndex=isHint?i:-1;if(tutorialActive())save.tutorialMarks=marks.slice();else save.boards[current]=marks.slice();save.times[current]=seconds();persist();renderBoard();
+ if(tutorialActive()&&tutorialStepIndex()>priorTutorialStep&&tutorialStepIndex()>=0)toast('좋아요! 다음 단계로 넘어가 볼까요?');
+ if(isHint){$('#board').children[i].classList.add('hinted');}
+ const assigned=marks.every(x=>x!==-1);if(assigned){if(marks.every((x,k)=>x===target()[k])){answerPending=true; elapsed=seconds();startedAt=null;save.times[current]=elapsed;persist();setTimeout(showSuccess,360);}else{toast('아직 조건이 맞지 않는 칸이 있어요. 다시 살펴봐요!');}}
+}
+function undo(){if(tutorialActive()){toast('튜토리얼은 표시된 칸을 따라 풀어 보세요.');return;}if(answerPending){toast('스테이지를 클리어했어요!');return;}const h=history.pop();if(!h){toast('되돌릴 칸이 없어요.');return;}marks[h.i]=h.prev;save.boards[current]=marks.slice();persist();renderBoard();}
+function reset(){if(!confirm('지금 스테이지의 칸 표시를 모두 지우고 다시 풀까요?'))return;marks=Array(currentPuzzle().size**2).fill(-1);history=[];elapsed=0;startedAt=null;save.times[current]=0;if(tutorialActive())save.tutorialMarks=marks.slice();else save.boards[current]=marks.slice();persist();renderBoard();tick();}
+function chooseTool(v){tool=v;for(const b of document.querySelectorAll('.tool'))b.classList.toggle('active',Number(b.dataset.tool)===v);}
+function hint(){if(tutorialActive()){toast('튜토리얼 안내를 따라 직접 표시해 보세요.');return;}if(answerPending)return;const truth=target();let candidate=marks.findIndex((v,i)=>v!==-1&&v!==truth[i]);if(candidate>=0){applyMark(candidate,truth[candidate],{isHint:true});toast('다르게 표시한 칸 하나를 바로잡았어요.');}else{candidate=marks.findIndex(v=>v===-1);if(candidate<0){toast('모든 칸을 표시했어요.');return;}applyMark(candidate,truth[candidate],{isHint:true});toast('한 칸을 알려드렸어요!');}save.hints[current]=(save.hints[current]||0)+1;persist();}
+function levelButton(idx){const p=PUZZLES[idx],ok=Boolean(save.completed[idx])&&(idx!==0||save.tutorialComplete),isCurrent=idx===current,locked=!save.tutorialComplete?idx!==0:idx>save.unlocked;const b=document.createElement('button');b.className='lv'+(ok?' complete':'')+(isCurrent?' current':'')+(locked?' locked':'');b.disabled=locked;b.innerHTML=`<span class="lvnum">${ok?'✓ ':locked?'🔒 ':''}${String(idx+1).padStart(2,'0')}</span><span class="lvsize">${p.size} × ${p.size}</span><span class="lvstate">${idx===0&&!save.tutorialComplete?'튜토리얼':isCurrent?'플레이 중':ok?'클리어':locked?'잠김':'도전 가능'}</span>`;b.title=locked?'앞 스테이지를 먼저 클리어하세요':`${idx+1}번 스테이지`;b.onclick=()=>load(idx);return b;}
+function renderLevels(){const root=$('#level-grid');root.innerHTML='';for(let i=0;i<PUZZLES.length;i++)root.append(levelButton(i));$('#cleared-count').textContent=`${save.tutorialComplete?Object.keys(save.completed).filter(k=>save.completed[k]).length:0} / ${PUZZLES.length} 완료`;}
+function load(idx){
+ if(!save.tutorialComplete&&idx!==0)return;
+ if(idx>save.unlocked)return;
+ if(!$('#success-overlay').hidden)return;
+ current=idx;history=[];answerPending=false;hintIndex=-1;const p=currentPuzzle();
+ marks=Array(p.size**2).fill(-1);
+ const savedBoard=tutorialActive()?save.tutorialMarks:save.boards[idx];
+ if(Array.isArray(savedBoard)&&savedBoard.length===marks.length){marks=savedBoard.map(x=>(x===0||x===1)?x:-1);}
+ // 깨진/임의의 저장 기록으로 튜토리얼이 건너뛰어지는 것을 방지합니다.
+ if(tutorialActive()){
+  const safeMarks=Array(marks.length).fill(-1);
+  let finished=false;
+  for(const step of TUTORIAL_STEPS){
+   if(finished)break;
+   let complete=true;
+   for(const i of step.cells){if(marks[i]===step.tool)safeMarks[i]=step.tool;else complete=false;}
+   if(!complete)finished=true;
+  }
+  marks=safeMarks;
+ }
+ elapsed=Number(save.times[idx])||0;startedAt=elapsed>0&&marks.some(v=>v!==-1)?performance.now():null;
+ if(save.completed[idx]&&!tutorialActive()){marks=target();startedAt=null;}
+ $('#level-label').textContent=tutorialActive()?'TUTORIAL · STAGE 01 · 5×5':`STAGE ${String(idx+1).padStart(2,'0')} · ${p.size}×${p.size} PIXEL`;
+ $('#stage-title').textContent=tutorialActive()?'하트로 배우는 게임 방법':save.completed[idx]?`완료한 도형: ${p.name}`:'숨겨진 그림을 찾아라';$('#stage-sub').textContent=tutorialActive()?'5×5 · 단계별 실습 · 제한시간 없음':p.size===5?'5×5 · 입문 도형 · 제한시간 없음':p.size===6?'6×6 · 기초 도형 · 제한시간 없음':'7×7 · 응용 도형 · 제한시간 없음';$('#grid-label').textContent=`${p.size} × ${p.size}`;renderBoard();if(save.completed[idx]&&!tutorialActive())setMessage('클리어한 스테이지예요. 다른 도형도 도전해 보세요.');renderLevels();tick();if(!save.completed[idx]&&marks.every((v,k)=>v===target()[k])){answerPending=true;elapsed=seconds();startedAt=null;setTimeout(showSuccess,200);}}
+function showSuccess(){
+ if(!answerPending)return;
+ const p=currentPuzzle(),root=$('#reveal');
+ root.style.setProperty('--n',p.size);root.innerHTML='';
+ for(const x of target()){const el=document.createElement('i');el.className=x?'on':'';root.append(el);}
+ const wasTutorial=tutorialActive();
+ if(wasTutorial)save.tutorialComplete=true;
+ save.completed[current]=true;
+ const record=save.completedTimes||{};
+ if(record[current]===undefined||elapsed<record[current])record[current]=elapsed;
+ save.completedTimes=record;
+ save.unlocked=Math.max(save.unlocked,Math.min(PUZZLES.length-1,current+1));
+ save.boards[current]=target();save.times[current]=elapsed;persist();
+ $('#success-title').textContent=wasTutorial?'튜토리얼 완료!':'퍼즐 클리어!';
+ $('#success-description').textContent=wasTutorial?'하트를 직접 완성했어요! 이제 다음 스테이지부터 혼자 풀어 보세요.':`숫자를 모두 정확히 풀었어요! 그림 주제: ${p.name}`;
+ $('#best-text').textContent=`클리어 시간 ${formatTime(elapsed)} · 사용한 힌트 ${save.hints[current]||0}개`;
+ $('#next-stage').textContent=wasTutorial?'본게임 시작하기 →':current===PUZZLES.length-1?'모든 스테이지 완료!':'다음 스테이지 →';
+ $('#success-overlay').hidden=false;renderLevels();
+}
+function next(){ $('#success-overlay').hidden=true;answerPending=false;if(current<PUZZLES.length-1)load(current+1);else{load(current);toast(`축하해요! 준비된 ${PUZZLES.length}개의 도형을 모두 풀었어요. 🎉`);}}
+function openRules(){$('#rules-overlay').hidden=false;}function closeRules(){$('#rules-overlay').hidden=true;}
+$('#next-stage').addEventListener('click',next);$('#help-btn').addEventListener('click',openRules);$('#close-rules').addEventListener('click',closeRules);$('#got-it').addEventListener('click',closeRules);$('#undo').addEventListener('click',undo);$('#reset').addEventListener('click',reset);$('#hint').addEventListener('click',hint);for(const b of document.querySelectorAll('.tool'))b.addEventListener('click',()=>chooseTool(Number(b.dataset.tool)));
+document.addEventListener('keydown',e=>{if(!$('#rules-overlay').hidden){if(e.key==='Escape')closeRules();return;}if(!$('#success-overlay').hidden)return;if(e.target.tagName==='INPUT')return;if(e.key==='1')chooseTool(1);if(e.key==='2')chooseTool(0);if(e.key==='3')chooseTool(-1);if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo();}});
+load(current);
+</script>
+</body></html>
