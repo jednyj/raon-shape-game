@@ -33,10 +33,22 @@
         #fff4e1;
     }
     main {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      min-height: 100svh;
+      gap: 0;
       max-width: 1000px;
       margin: auto;
-      padding: clamp(24px, 5vw, 56px) clamp(12px, 4vw, 32px) 44px;
+      padding: clamp(24px, 5vw, 56px) clamp(12px, 4vw, 32px) clamp(24px, 5vw, 44px);
     }
+    .academy-logo {
+      display: block;
+      width: clamp(128px, 37vw, 184px);
+      height: auto;
+      margin: auto auto 0;
+    }
+    nav { margin-bottom: 32px; }
     header {
       display: flex;
       justify-content: center;
@@ -119,6 +131,24 @@
       color: var(--accent);
       font-size: .95em;
     }
+    .ranking-badge {
+      display: grid;
+      place-items: center;
+      width: 1.65em;
+      aspect-ratio: 1;
+      flex: none;
+      border-radius: 50%;
+      background: #fff4cf;
+      font-size: .95em;
+    }
+    .ranking-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
     .game:focus-visible { outline: 3px solid #5743a3; outline-offset: 3px; }
     .game:active { transform: translateY(3px); }
     @media (hover: hover) {
@@ -152,10 +182,11 @@
         </a></li>
         <li><a class="game hole" href="https://raonnumberhole.vercel.app/">
           <img src="https://raonnumberhole.vercel.app/number-hole-share.jpg" width="1200" height="630" alt="">
-          <span class="caption">라온 숫자홀 <span class="arrow" aria-hidden="true">→</span></span>
+          <span class="caption">라온 숫자홀 <span class="ranking-badge" title="랭킹 게임"><span aria-hidden="true">👑</span><span class="ranking-label">랭킹 게임</span></span></span>
         </a></li>
       </ul>
     </nav>
+    <img class="academy-logo" src="raon-logo.png" alt="미래엔수학 라온수학">
   </main>
 </body>
 </html>
