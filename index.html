@@ -41,7 +41,25 @@
 .prep-tip{color:#456066;font-size:clamp(12px,2vw,15px)}
 .prep-bottom{margin-top:10px}
 @media(max-height:410px){.prep h2{font-size:24px;margin:5px 0}.prep-shape{height:115px}.prep-definition{font-size:14px;margin:3px auto}.prep-tip{margin:3px auto}.prep-bottom{display:none}}
-.game-total{margin:4px 0;color:#126a59;font-weight:800;font-size:clamp(13px,2vw,18px)}
+.summary{display:block;overflow-y:auto;padding:10px 0 20px}
+.summary-inner{max-width:700px;margin-inline:auto;display:grid;gap:12px}
+.summary-header h2{margin:0;font-size:clamp(26px,6vw,40px);letter-spacing:-.055em}
+.summary-header p{margin:5px 0 0;color:var(--muted);font-size:13px}
+.summary-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:7px;margin:0}
+.summary-metrics div{background:white;border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.summary-metrics dt{color:#50656a;font-size:11px}
+.summary-metrics dd{margin:3px 0 0;font-size:clamp(18px,4.5vw,24px);font-weight:850}
+.summary-metrics small{display:block;color:#50656a;font-size:11px;margin-top:2px}
+.summary-panel{padding:14px}
+.summary-panel h3{margin:0 0 9px;font-size:17px}
+.summary-panel p{margin:0;font-size:14px;line-height:1.55;word-break:keep-all}
+.summary-panel p+p{margin-top:7px}
+.summary-list{display:grid;gap:7px}
+.summary-set{width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;padding:9px 11px;background:#f8fcfa;color:var(--ink)}
+.summary-set-title{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:14px;font-weight:800}
+.summary-set-title span{color:#126a59;white-space:nowrap;font-size:11px}
+.summary-set progress{display:block;width:100%;height:6px;margin:6px 0;accent-color:var(--mint)}
+.summary-set small{color:#50656a;font-size:11px;line-height:1.5}
 .set-review{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
 .set-review button{border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink);padding:4px 7px;font-size:11px}
 .set-review button[aria-pressed="true"]{border-color:var(--mint);background:#e1f7ee}
@@ -70,12 +88,21 @@
 <section class="screen prep hide" id="prep"><div class="prep-card panel"><div class="preptag"><span id="prepSet"></span> · 3초 학습</div><h2 id="prepTitle"></h2><div id="prepShape" class="prep-shape"></div><div id="prepDefinition" class="prep-definition"></div><p id="prepTip" class="prep-tip"></p><div class="prep-bottom">곧 게임이 시작됩니다. 특징을 기억하세요!</div><div class="prep-progress"><i id="prepProgress"></i></div></div></section>
 <section class="screen countdown hide" id="countdown"><div id="countSet" class="count-label"></div><div id="countNumber" class="count-number">3</div><h2 id="countGoal">정답을 빠르게 선택하세요</h2></section>
 <section class="screen play hide" id="play"><div class="gamehead"><div class="objective"><small><span id="playSet"></span> · 정답을 터치!</small><strong><em id="gameShapeName"></em> <span id="gameGoalCount"></span>개 찾기</strong></div><div class="scoreboard"><div class="numstat"><small>선택</small><strong id="selectedCount">0</strong></div><div class="numstat time" id="timeStat"><small id="timeLabel">남은 시간</small><strong id="timeLeft">20.0</strong></div></div></div><div class="timerbar" id="timerBar"><i id="timerFill"></i></div><div id="board" class="board" aria-label="도형 찾기 게임판"></div><div class="gamefoot"><span id="playHint">모양을 누르면 선택, 한 번 더 누르면 취소</span><button id="skip">이번 세트 끝내기</button></div></section>
-<section class="screen result hide" id="result"><div class="result-header"><div class="status" id="resultStatus">ROUND COMPLETE</div><h2 id="resultTitle">결과 발표!</h2><p id="gameTotal" class="game-total hide"></p><div id="setReview" class="set-review hide" aria-label="세트별 결과 확인"></div></div><div class="result-stats"><div class="result-stat"><strong id="scoreValue">0</strong><span id="scoreLabel">획득 점수</span></div><div class="result-stat"><strong id="correctValue">0</strong><span>맞게 찾음</span></div><div class="result-stat"><strong id="wrongValue">0</strong><span id="wrongLabel">잘못 선택</span></div><div class="result-stat"><strong id="missValue">0</strong><span id="missLabel">놓친 정답</span></div></div><div class="result-board-wrap"><div class="result-guide"><span><i class="dot green"></i>맞게 찾음</span><span><i class="dot red"></i>잘못 선택</span><span><i class="dot missed"></i>놓친 정답</span></div><div id="resultBoard" class="board" aria-label="정답 확인 게임판"></div></div><div class="scoreline" id="scoreFormula">정답 +100점 · 오답 -60점 · 완벽하게 찾으면 +300점</div><div class="result-actions"><button id="again" class="primary">새 게임 시작</button><button id="next" class="secondary">다음 세트 바로 시작</button><button id="homeBtn" class="secondary">메뉴</button></div></section>
+<section class="screen summary hide" id="summary" aria-labelledby="summaryTitle">
+  <div class="summary-inner">
+    <header class="summary-header"><h2 id="summaryTitle" tabindex="-1">📊 이번 게임 성적표</h2><p id="summaryContext"></p></header>
+    <dl id="summaryMetrics" class="summary-metrics"></dl>
+    <section class="summary-panel panel"><h3>🔍 이번 게임 분석</h3><p id="summaryFeedback"></p><p id="summaryTip"></p></section>
+    <section class="summary-panel panel"><h3>도형별 결과</h3><div id="summarySets" class="summary-list"></div></section>
+    <div class="result-actions"><button id="summaryAgain" class="primary">새 게임 시작</button><button id="summaryHome" class="secondary">메뉴</button></div>
+  </div>
+</section>
+<section class="screen result hide" id="result"><div class="result-header"><div class="status" id="resultStatus">ROUND COMPLETE</div><h2 id="resultTitle">결과 발표!</h2><div id="setReview" class="set-review hide" aria-label="세트별 결과 확인"></div></div><div class="result-stats"><div class="result-stat"><strong id="scoreValue">0</strong><span id="scoreLabel">획득 점수</span></div><div class="result-stat"><strong id="correctValue">0</strong><span>맞게 찾음</span></div><div class="result-stat"><strong id="wrongValue">0</strong><span id="wrongLabel">잘못 선택</span></div><div class="result-stat"><strong id="missValue">0</strong><span id="missLabel">놓친 정답</span></div></div><div class="result-board-wrap"><div class="result-guide"><span><i class="dot green"></i>맞게 찾음</span><span><i class="dot red"></i>잘못 선택</span><span><i class="dot missed"></i>놓친 정답</span></div><div id="resultBoard" class="board" aria-label="정답 확인 게임판"></div></div><div class="scoreline" id="scoreFormula">정답 +100점 · 오답 -60점 · 완벽하게 찾으면 +300점</div><div class="result-actions"><button id="backToSummary" class="primary hide">성적표로 돌아가기</button><button id="next" class="secondary">다음 세트 바로 시작</button><button id="homeBtn" class="secondary">메뉴</button></div></section>
 </div>
 <script>
 (()=>{'use strict';
 const $=id=>document.getElementById(id);
-const screens=['home','prep','countdown','play','result'];
+const screens=['home','prep','countdown','play','summary','result'];
 const SHAPES={
  iso:{name:'이등변삼각형',family:'tri',def:'두 변의 길이가 같고, 두 밑각의 크기가 같아요.',tip:'길이가 같은 두 변이 만나는 각을 꼭지각이라고 해요.',label:'두 변이 같은 삼각형'},
  equi:{name:'정삼각형',family:'tri',def:'세 변의 길이가 모두 같고, 세 각은 모두 60°예요.',tip:'기울어진 도형도 변의 길이가 같으면 정삼각형이에요.',label:'세 변이 같은 삼각형'},
@@ -369,22 +396,68 @@ function finish(){
  const best=sprint&&missed===0?getBest():null;
  const saved=sprint&&missed===0&&(best===null||finalTime<best)&&saveBest(finalTime);
  setResults.push({shape,goal,ok,wrong,missed,rawTime,finalTime,score,saved,round,selected,wrongHits});
- const last=setResults.length===SET_COUNT;
- show('result');
- $('resultStatus').textContent=last?'3세트 결과':setLabel()+' 결과';
- $('gameTotal').classList.toggle('hide',!last);
- $('setReview').classList.toggle('hide',!last);
- $('again').classList.toggle('hide',!last);
- $('next').classList.toggle('hide',last);
- if(last){
-  const sum=key=>setResults.reduce((total,result)=>total+result[key],0);
-  const total=sprint?(sum('missed')?'3세트 완료 기록 없음':`3세트 최종 기록 ${sum('finalTime').toFixed(2)}초`):`3세트 합계 ${sum('score').toLocaleString()}점`;
-  $('gameTotal').textContent=`${total} · 정답 ${sum('ok')}/${sum('goal')}개`;
-  $('setReview').innerHTML=setResults.map((result,i)=>`<button type="button" data-review="${i}">${i+1}세트 ${SHAPES[result.shape].name}</button>`).join('');
- }else{
-  nextSetTimer=setTimeout(advanceSet,RESULTS_PAUSE_MS);
+ if(setResults.length===SET_COUNT){
+  showSummary();
+  return;
  }
- renderSetResult(setIndex);
+ showSetResult(setIndex,false);
+ nextSetTimer=setTimeout(advanceSet,RESULTS_PAUSE_MS);
+}
+function showSummary(){
+ const sprint=mode==='sprint';
+ const sum=key=>setResults.reduce((total,result)=>total+result[key],0);
+ const found=sum('ok'),goal=sum('goal'),wrong=sum('wrong'),missed=sum('missed');
+ const percent=(count,total)=>Math.round(count/total*100)+'%';
+ const total=sprint?(missed?'미완주':sum('finalTime').toFixed(2)+'초'):sum('score').toLocaleString()+'점';
+ const metrics=[
+  [sprint?'3세트 기록':'총점',total,sprint&&wrong?'오답 가산 '+wrong*3+'초':''],
+  ['정답 찾은 비율',percent(found,goal),found+'/'+goal+'개'],
+  ['선택 정확도',found+wrong?percent(found,found+wrong):'—',found+wrong?found+'/'+(found+wrong)+'개':'선택한 도형 없음'],
+  ['잘못 고른 도형',wrong+'개',''],
+  ['놓친 정답',missed+'개','']
+ ];
+ $('summaryContext').textContent=`레벨 ${course+1} · ${sprint?'스피드런':'타임어택'} · ${LEVELS[level].label} · ${SET_COUNT}세트`;
+ $('summaryMetrics').innerHTML=metrics.map(([label,value,detail])=>`<div><dt>${label}</dt><dd>${value}${detail?`<small>${detail}</small>`:''}</dd></div>`).join('');
+ const clean=setResults.filter(result=>result.missed===0&&result.wrong===0).map(result=>SHAPES[result.shape].name);
+ const errors=result=>result.wrong+result.missed;
+ const minErrors=Math.min(...setResults.map(errors));
+ const maxErrors=Math.max(...setResults.map(errors));
+ const practice=setResults.filter(result=>errors(result)===maxErrors);
+ const strongest=setResults.filter(result=>errors(result)===minErrors).map(result=>SHAPES[result.shape].name);
+ $('summaryFeedback').textContent=clean.length
+  ? `${clean.join(', ')}은 정답을 모두 찾았어요. 오답도 없었어요!`
+  : (minErrors<maxErrors?`정답을 놓치거나 잘못 고른 수가 가장 적었던 도형은 ${strongest.join(', ')}이에요.`
+   : found?`이번 게임에서 정답 ${found}개를 찾았어요.`:'아직 찾은 정답이 없어요. 도형의 특징을 하나씩 떠올려 보세요.');
+ let tip='다음 게임에서도 모양이 기울어져 있을 때 변과 각을 확인해 보세요.';
+ if(maxErrors){
+  const focus=practice.map(result=>SHAPES[result.shape].name).join(', ');
+  const action=missed>wrong?'놓친 정답을 복기하고, 다음에는 한 줄씩 훑어보세요.'
+    : wrong>missed?'잘못 고른 도형을 정답과 나란히 비교해 보세요.'
+    :'놓친 정답과 잘못 고른 도형을 정답판에서 비교해 보세요.';
+  tip=`다시 볼 도형은 ${focus}이에요. ${action}`;
+ }
+ $('summaryTip').textContent=tip;
+ $('summarySets').innerHTML=setResults.map((result,i)=>{
+  const name=SHAPES[result.shape].name;
+  const outcome=sprint?(result.missed?'미완주':result.finalTime.toFixed(2)+'초'):result.score.toLocaleString()+'점';
+  return `<button type="button" class="summary-set" data-review="${i}">
+   <span class="summary-set-title">${i+1}세트 · ${name}<span>정답판 보기 →</span></span>
+   <progress value="${result.ok}" max="${result.goal}" aria-label="${name} 정답 찾은 비율"></progress>
+   <small>정답 ${result.ok}/${result.goal} · 오답 ${result.wrong} · 놓침 ${result.missed} · ${outcome}</small>
+  </button>`;
+ }).join('');
+ show('summary');
+ $('summary').scrollTop=0;
+ $('summaryTitle').focus({preventScroll:true});
+}
+function showSetResult(index,review){
+ show('result');
+ $('resultStatus').textContent=(index+1)+'세트 결과';
+ $('setReview').classList.toggle('hide',!review);
+ $('backToSummary').classList.toggle('hide',!review);
+ $('next').classList.toggle('hide',review);
+ if(review)$('setReview').innerHTML=setResults.map((result,i)=>`<button type="button" data-review="${i}">${i+1}세트 ${SHAPES[result.shape].name}</button>`).join('');
+ renderSetResult(index);
 }
 function renderSetResult(index){
  const {shape,ok,wrong,missed,rawTime,finalTime,score,saved,round,selected,wrongHits}=setResults[index];
@@ -404,19 +477,26 @@ function renderSetResult(index){
  paintBoard($('resultBoard'),true,round,selected,wrongHits);
 }
 function advanceSet(){
- if(phase!=='result'||setIndex>=SET_COUNT-1)return;
+ if(phase!=='result'||setResults.length===SET_COUNT||setIndex>=SET_COUNT-1)return;
  setIndex++;
  startRound();
 }
 $('start').addEventListener('click',startGame);
-$('again').addEventListener('click',startGame);
+$('summaryAgain').addEventListener('click',startGame);
+$('backToSummary').addEventListener('click',showSummary);
+$('summarySets').addEventListener('click',event=>{
+ const button=event.target.closest('[data-review]');
+ if(button&&phase==='summary')showSetResult(Number(button.dataset.review),true);
+});
 $('next').addEventListener('click',advanceSet);
 $('setReview').addEventListener('click',event=>{
  const button=event.target.closest('[data-review]');
  if(button&&phase==='result'&&setResults.length===SET_COUNT)renderSetResult(Number(button.dataset.review));
 });
 $('skip').addEventListener('click',finish);
-$('homeBtn').addEventListener('click',()=>{show('home');config()});
+function returnToMenu(){show('home');config()}
+$('homeBtn').addEventListener('click',returnToMenu);
+$('summaryHome').addEventListener('click',returnToMenu);
 window.addEventListener('resize',()=>{if(phase==='play')gridVars($('board'));if(phase==='result')gridVars($('resultBoard'))});config();
 })();
 </script>
