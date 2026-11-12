@@ -85,7 +85,7 @@
   <button id="start" class="startbtn">도전 시작하기 →</button>
 </section>
 </div></main>
-<section class="screen prep hide" id="prep"><div class="prep-card panel"><div class="preptag"><span id="prepSet"></span> · 3초 학습</div><h2 id="prepTitle"></h2><div id="prepShape" class="prep-shape"></div><div id="prepDefinition" class="prep-definition"></div><p id="prepTip" class="prep-tip"></p><div class="prep-bottom">곧 게임이 시작됩니다. 특징을 기억하세요!</div><div class="prep-progress"><i id="prepProgress"></i></div></div></section>
+<section class="screen prep hide" id="prep"><div class="prep-card panel"><div class="preptag" id="prepSet"></div><h2 id="prepTitle"></h2><div id="prepShape" class="prep-shape"></div><div id="prepDefinition" class="prep-definition"></div><p id="prepTip" class="prep-tip"></p><div class="prep-bottom">곧 게임이 시작됩니다. 특징을 기억하세요!</div><div class="prep-progress"><i id="prepProgress"></i></div></div></section>
 <section class="screen countdown hide" id="countdown"><div id="countSet" class="count-label"></div><div id="countNumber" class="count-number">3</div><h2 id="countGoal">정답을 빠르게 선택하세요</h2></section>
 <section class="screen play hide" id="play"><div class="gamehead"><div class="objective"><small><span id="playSet"></span> · 정답을 터치!</small><strong><em id="gameShapeName"></em> <span id="gameGoalCount"></span>개 찾기</strong></div><div class="scoreboard"><div class="numstat"><small>선택</small><strong id="selectedCount">0</strong></div><div class="numstat time" id="timeStat"><small id="timeLabel">남은 시간</small><strong id="timeLeft">20.0</strong></div></div></div><div class="timerbar" id="timerBar"><i id="timerFill"></i></div><div id="board" class="board" aria-label="도형 찾기 게임판"></div><div class="gamefoot"><span id="playHint">모양을 누르면 선택, 한 번 더 누르면 취소</span><button id="skip">이번 세트 끝내기</button></div></section>
 <section class="screen summary hide" id="summary" aria-labelledby="summaryTitle">
@@ -118,7 +118,7 @@ Object.assign(SHAPES,{
  trap:{name:'사다리꼴',family:'quad',def:'마주 보는 변 중 평행한 쌍이 한 쌍 이상 있는 사각형이에요.',tip:'이 문제에는 평행한 변이 한 쌍인 사다리꼴이 나와요.'}
 });
 const COURSES=[
- ['right','rect','square'],
+ ['square','rect','right'],
  ['iso','equi'],
  ['acute','obtuse'],
  ['trap','para','rhombus']
@@ -132,6 +132,7 @@ const LEVELS=[
 ];
 let shape='right',course=0,level=1,mode='challenge',round=[],selected=new Set(),wrongHits=new Set(),phase='home',secondsLeft=0,stageStart=0,raf=0,gameEnded=false,elapsed=0;
 const SET_COUNT=3;
+const CONCEPT_DURATION_MS=6000;
 const RESULTS_PAUSE_MS=3000;
 let gameShapes=[],setIndex=0,setResults=[],nextSetTimer;
 const setLabel=()=>`${setIndex+1}/${SET_COUNT} 세트`;
@@ -343,7 +344,7 @@ function diagram(kind){
  </svg>`;
 }
 function showConcept(){
- $('prepSet').textContent=setLabel();
+ $('prepSet').textContent=`${setLabel()} · ${CONCEPT_DURATION_MS/1000}초 학습`;
  $('prepTitle').textContent=SHAPES[shape].name;
  $('prepDefinition').textContent=SHAPES[shape].def;
  $('prepTip').textContent=SHAPES[shape].tip;
@@ -358,7 +359,7 @@ function startGame(){
  setIndex=0;
  startRound();
 }
-function startRound(){shape=gameShapes[setIndex];gameEnded=false;elapsed=0;makeRound();showConcept();stageStart=performance.now();const tick=t=>{if(phase!=='prep')return;const elapsed=t-stageStart;$('prepProgress').style.width=Math.max(0,100-elapsed/3000*100)+'%';if(elapsed>=3000){countdown();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)}
+function startRound(){shape=gameShapes[setIndex];gameEnded=false;elapsed=0;makeRound();showConcept();stageStart=performance.now();const tick=t=>{if(phase!=='prep')return;const elapsed=t-stageStart;$('prepProgress').style.width=Math.max(0,100-elapsed/CONCEPT_DURATION_MS*100)+'%';if(elapsed>=CONCEPT_DURATION_MS){countdown();return}raf=requestAnimationFrame(tick)};raf=requestAnimationFrame(tick)}
 function countdown(){show('countdown');$('countSet').textContent=setLabel()+' · 준비하세요!';stageStart=performance.now();const c=t=>{if(phase!=='countdown')return;const n=3-Math.floor((t-stageStart)/1000);if(n<=0){beginPlay();return}$('countNumber').textContent=n;$('countGoal').textContent=`${SHAPES[shape].name} ${LEVELS[level].goal}개 찾기`;raf=requestAnimationFrame(c)};raf=requestAnimationFrame(c)}
 function beginPlay(){
  show('play');const sprint=mode==='sprint',l=LEVELS[level];
