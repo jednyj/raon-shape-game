@@ -74,6 +74,9 @@
 .set-review button{border:1px solid var(--line);border-radius:8px;background:white;color:var(--ink);padding:4px 7px;font-size:11px}
 .set-review button[aria-pressed="true"]{border-color:var(--mint);background:#e1f7ee}
 .result-actions button.hide{display:none}
+.gamefoot{display:grid;justify-content:stretch;text-align:center;gap:5px;flex:none}
+.gamefoot .submit-answer{width:100%;min-height:48px;padding:8px 16px;border:0;border-radius:13px;background:#126a59;color:white;font-size:clamp(17px,4vw,22px);font-weight:850;text-decoration:none}
+.result.final-set .result-board-wrap{pointer-events:none}
 </style>
 </head>
 <body>
@@ -97,7 +100,7 @@
 </div></main>
 <section class="screen prep hide" id="prep"><div class="prep-card panel"><div class="preptag" id="prepSet"></div><h2 id="prepTitle"></h2><div id="prepShape" class="prep-shape"></div><div id="prepDefinition" class="prep-definition"></div><p id="prepTip" class="prep-tip"></p><div class="prep-bottom">곧 게임이 시작됩니다. 특징을 기억하세요!</div><div class="prep-progress"><i id="prepProgress"></i></div></div></section>
 <section class="screen countdown hide" id="countdown"><div id="countSet" class="count-label"></div><div id="countNumber" class="count-number">3</div><h2 id="countGoal">정답을 빠르게 선택하세요</h2></section>
-<section class="screen play hide" id="play"><div class="gamehead"><div class="objective"><small><span id="playSet"></span> · 정답을 터치!</small><strong><em id="gameShapeName"></em> <span id="gameGoalCount"></span>개 찾기</strong></div><div class="scoreboard"><div class="numstat"><small>선택</small><strong id="selectedCount">0</strong></div><div class="numstat time" id="timeStat"><small id="timeLabel">남은 시간</small><strong id="timeLeft">20.0</strong></div></div></div><div class="timerbar" id="timerBar"><i id="timerFill"></i></div><div id="board" class="board" aria-label="도형 찾기 게임판"></div><div class="gamefoot"><span id="playHint">모양을 누르면 선택, 한 번 더 누르면 취소</span><button id="skip">이번 세트 끝내기</button></div></section>
+<section class="screen play hide" id="play"><div class="gamehead"><div class="objective"><small><span id="playSet"></span> · 정답을 터치!</small><strong><em id="gameShapeName"></em> <span id="gameGoalCount"></span>개 찾기</strong></div><div class="scoreboard"><div class="numstat"><small>선택</small><strong id="selectedCount">0</strong></div><div class="numstat time" id="timeStat"><small id="timeLabel">남은 시간</small><strong id="timeLeft">20.0</strong></div></div></div><div class="timerbar" id="timerBar"><i id="timerFill"></i></div><div id="board" class="board" aria-label="도형 찾기 게임판"></div><div class="gamefoot"><span id="playHint">모양을 누르면 선택, 한 번 더 누르면 취소</span><button id="skip" type="button" class="submit-answer">답안제출!</button></div></section>
 <section class="screen summary hide" id="summary" aria-labelledby="summaryTitle">
   <div class="summary-inner">
     <header class="summary-header"><h2 id="summaryTitle" tabindex="-1">📊 이번 게임 성적표</h2><p id="summaryContext"></p></header>
@@ -107,7 +110,7 @@
     <div class="result-actions"><button id="summaryAgain" class="primary">새 게임 시작</button><button id="summaryHome" class="secondary">메뉴</button></div>
   </div>
 </section>
-<section class="screen result hide" id="result"><div class="result-header"><div class="status" id="resultStatus">ROUND COMPLETE</div><h2 id="resultTitle">결과 발표!</h2><div id="setReview" class="set-review hide" aria-label="세트별 결과 확인"></div></div><div class="result-stats"><div class="result-stat"><strong id="scoreValue">0</strong><span id="scoreLabel">획득 점수</span></div><div class="result-stat"><strong id="correctValue">0</strong><span>맞게 찾음</span></div><div class="result-stat"><strong id="wrongValue">0</strong><span id="wrongLabel">잘못 선택</span></div><div class="result-stat"><strong id="missValue">0</strong><span id="missLabel">놓친 정답</span></div></div><div class="result-board-wrap"><div class="result-guide"><span><i class="dot green"></i>맞게 찾음</span><span><i class="dot red"></i>잘못 선택</span><span><i class="dot missed"></i>놓친 정답</span></div><div id="resultBoard" class="board" aria-label="정답 확인 게임판"></div></div><div class="scoreline" id="scoreFormula">정답 +100점 · 오답 -60점 · 완벽하게 찾으면 +300점</div><div class="result-actions"><button id="backToSummary" class="primary hide">성적표로 돌아가기</button><button id="next" class="secondary">다음 세트 바로 시작</button><button id="homeBtn" class="secondary">메뉴</button></div></section>
+<section class="screen result hide" id="result"><div class="result-header"><div class="status" id="resultStatus">ROUND COMPLETE</div><h2 id="resultTitle">결과 발표!</h2><div id="setReview" class="set-review hide" aria-label="세트별 결과 확인"></div></div><div class="result-stats"><div class="result-stat"><strong id="scoreValue">0</strong><span id="scoreLabel">획득 점수</span></div><div class="result-stat"><strong id="correctValue">0</strong><span>맞게 찾음</span></div><div class="result-stat"><strong id="wrongValue">0</strong><span id="wrongLabel">잘못 선택</span></div><div class="result-stat"><strong id="missValue">0</strong><span id="missLabel">놓친 정답</span></div></div><div class="result-board-wrap"><div class="result-guide"><span><i class="dot green"></i>맞게 찾음</span><span><i class="dot red"></i>잘못 선택</span><span><i class="dot missed"></i>놓친 정답</span></div><div id="resultBoard" class="board" aria-label="정답 확인 게임판"></div></div><div class="scoreline" id="scoreFormula">정답 +100점 · 오답 -60점 · 완벽하게 찾으면 +300점</div><div class="result-actions"><button id="backToSummary" class="primary hide">성적표로 돌아가기</button><button id="finalStats" type="button" class="primary hide">화면을 터치하면 최종 통계로 →</button><button id="next" class="secondary">다음 세트 바로 시작</button><button id="homeBtn" class="secondary">메뉴</button></div></section>
 </div>
 <script>
 (()=>{'use strict';
@@ -293,7 +296,7 @@ function getGrid(){
  return [cols,Math.ceil(round.length/cols)];
 }
 function gridVars(el){const [cols,rows]=getGrid();el.style.setProperty('--cols',cols);el.style.setProperty('--rows',rows)}
-function paintBoard(el,after=false,board=round,picks=selected,errors=wrongHits){gridVars(el);el.innerHTML=board.map((r,i)=>{const isSelected=picks.has(i);const bad=errors.has(i);const cls=after?(r.correct?(isSelected?'good':'missed'):((isSelected||bad)?'bad':'')):(mode==='sprint'?(isSelected?'sprint-good':bad?'sprint-bad':''):(isSelected?'selected':''));const tick=(isSelected||bad)?(bad?'×':'✓'):after&&r.correct?'!':'';return `<button type="button" class="tile ${cls}" data-i="${i}" aria-label="${i+1}번 도형${isSelected?' 선택됨':''}" aria-pressed="${isSelected}" ${after?'disabled':''}>${r.svg}<span class="tick">${tick}</span></button>`}).join('')}
+function paintBoard(el,after=false,board=round,picks=selected,errors=wrongHits){gridVars(el);el.innerHTML=board.map((r,i)=>{const isSelected=picks.has(i);const bad=errors.has(i);const cls=after?(r.correct?(isSelected?'good':'missed'):((isSelected||bad)?'bad':'')):(mode==='sprint'?(isSelected?'sprint-good':bad?'sprint-bad':''):(isSelected?'selected':''));const tick=(isSelected||bad)?(bad||(after&&!r.correct)?'×':'✓'):after&&r.correct?'!':'';return `<button type="button" class="tile ${cls}" data-i="${i}" aria-label="${i+1}번 도형${isSelected?' 선택됨':''}" aria-pressed="${isSelected}" ${after?'disabled':''}>${r.svg}<span class="tick">${tick}</span></button>`}).join('')}
 const DIAGRAMS={
  right:{points:[[62,37],[62,170],[260,170]],right:[1],labels:[[98,149,'90°']]},
  rect:{points:[[56,49],[264,49],[264,157],[56,157]],right:[0,1,2,3],equal:[[0,2],[1,3]]},
@@ -436,12 +439,8 @@ function finish(){
  const best=sprint&&missed===0?getBest():null;
  const saved=sprint&&missed===0&&(best===null||finalTime<best)&&saveBest(finalTime);
  setResults.push({shape,goal,ok,wrong,missed,rawTime,finalTime,score,saved,round,selected,wrongHits});
- if(setResults.length===SET_COUNT){
-  showSummary();
-  return;
- }
  showSetResult(setIndex,false);
- nextSetTimer=setTimeout(advanceSet,RESULTS_PAUSE_MS);
+ if(setResults.length<SET_COUNT)nextSetTimer=setTimeout(advanceSet,RESULTS_PAUSE_MS);
 }
 function showSummary(){
  const sprint=mode==='sprint';
@@ -495,7 +494,11 @@ function showSetResult(index,review){
  $('resultStatus').textContent=(index+1)+'세트 결과';
  $('setReview').classList.toggle('hide',!review);
  $('backToSummary').classList.toggle('hide',!review);
- $('next').classList.toggle('hide',review);
+ const finalSet=!review&&index===SET_COUNT-1;
+ $('result').classList.toggle('final-set',finalSet);
+ $('finalStats').classList.toggle('hide',!finalSet);
+ $('next').classList.toggle('hide',review||finalSet);
+ if(finalSet)$('finalStats').focus({preventScroll:true});
  if(review)$('setReview').innerHTML=setResults.map((result,i)=>`<button type="button" data-review="${i}">${i+1}세트 ${SHAPES[result.shape].name}</button>`).join('');
  renderSetResult(index);
 }
@@ -529,6 +532,10 @@ $('summarySets').addEventListener('click',event=>{
  if(button&&phase==='summary')showSetResult(Number(button.dataset.review),true);
 });
 $('next').addEventListener('click',advanceSet);
+$('finalStats').addEventListener('click',showSummary);
+document.addEventListener('click',event=>{
+ if(phase==='result'&&$('result').classList.contains('final-set')&&!event.target.closest('button,a'))showSummary();
+});
 $('setReview').addEventListener('click',event=>{
  const button=event.target.closest('[data-review]');
  if(button&&phase==='result'&&setResults.length===SET_COUNT)renderSetResult(Number(button.dataset.review));
