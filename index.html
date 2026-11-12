@@ -31,6 +31,7 @@
 .catch{color:#ad3b29}
 .shooting-star{display:inline-block;font-size:.8em;letter-spacing:normal;margin-inline:.16em;vertical-align:.06em}
 .config h2{display:flex;align-items:center;gap:.42em;font-size:16px;margin:0 0 9px}
+.choice-emoji{display:inline-block;margin-inline-end:.28em;line-height:1;vertical-align:baseline}
 .config h2 .section-emoji{font-size:1.15em;line-height:1}
 .config-help{font-size:13px;line-height:1.5;color:#516b70;margin:0 0 9px}
 .course-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
@@ -59,8 +60,8 @@
 <section class="config panel">
   <div><h2><span class="section-emoji" aria-hidden="true">🧩</span>레벨을 선택해주세요.</h2><p class="config-help">윗 레벨은 아래 레벨의 도형을 포함합니다. 한 게임에서 도형 3종을 차례로 찾아요.</p><div id="courseChoices" class="course-choices"></div></div>
   <div><h2><span class="section-emoji" aria-hidden="true">🎮</span>게임 모드를 선택해주세요.</h2><div id="modeChoices" class="mode-choices">
-    <button type="button" class="mode-choice on" data-mode="challenge" aria-pressed="true"><b>타임어택</b><small>20초 안에 최대한 많이 찾기!</small></button>
-    <button type="button" class="mode-choice" data-mode="sprint" aria-pressed="false"><b>스피드런</b><small>최대한 빠르게 완료하기!</small></button>
+    <button type="button" class="mode-choice on" data-mode="challenge" aria-pressed="true"><b><span class="choice-emoji" aria-hidden="true">⏱️</span>타임어택</b><small>20초 안에 최대한 많이 찾기!</small></button>
+    <button type="button" class="mode-choice" data-mode="sprint" aria-pressed="false"><b><span class="choice-emoji" aria-hidden="true">⚡</span>스피드런</b><small>최대한 빠르게 완료하기!</small></button>
   </div></div>
   <div><h2><span class="section-emoji" aria-hidden="true">🎯</span>난이도를 선택해주세요.</h2><div id="levelChoices" class="levels"></div></div>
   <p id="speedWrap" class="config-help hide">잘못 고른 도형 하나당 최종 기록에 3초를 더해요.</p>
@@ -97,10 +98,11 @@ const COURSES=[
  ['trap','para','rhombus']
 ];
 const courseShapes=()=>COURSES.slice(0,course+1).flat();
+const COURSE_EMOJIS=['🔺','🔷','⭐','🏆'];
 const LEVELS=[
- {label:'쉬움',tiles:25,goal:8,seconds:20},
- {label:'보통',tiles:30,goal:10,seconds:20},
- {label:'어려움',tiles:35,goal:13,seconds:20}
+ {label:'쉬움',emoji:'🌱',tiles:25,goal:8,seconds:20},
+ {label:'보통',emoji:'🌟',tiles:30,goal:10,seconds:20},
+ {label:'어려움',emoji:'🔥',tiles:35,goal:13,seconds:20}
 ];
 let shape='right',course=0,level=1,mode='challenge',round=[],selected=new Set(),wrongHits=new Set(),phase='home',secondsLeft=0,stageStart=0,raf=0,gameEnded=false,elapsed=0;
 const SET_COUNT=3;
@@ -123,9 +125,9 @@ function saveBest(value){try{localStorage.setItem(storageKey(),String(value));re
 function config(){
  $('courseChoices').innerHTML=COURSES.map((added,i)=>{
   const names=added.map(kind=>SHAPES[kind].name).join(', ');
-  return `<button type="button" class="level ${i===course?'on':''}" data-course="${i}" aria-pressed="${i===course}"><b>레벨 ${i+1}</b><small>${names}${i?' 추가':''}</small></button>`;
+  return `<button type="button" class="level ${i===course?'on':''}" data-course="${i}" aria-pressed="${i===course}"><b><span class="choice-emoji" aria-hidden="true">${COURSE_EMOJIS[i]}</span>레벨 ${i+1}</b><small>${names}${i?' 추가':''}</small></button>`;
  }).join('');
- $('levelChoices').innerHTML=LEVELS.map((l,i)=>`<button type="button" class="level ${i===level?'on':''}" data-level="${i}" aria-pressed="${i===level}"><b>${l.label}</b><small>${l.tiles}개 중 ${l.goal}개 찾기</small></button>`).join('');
+ $('levelChoices').innerHTML=LEVELS.map((l,i)=>`<button type="button" class="level ${i===level?'on':''}" data-level="${i}" aria-pressed="${i===level}"><b><span class="choice-emoji" aria-hidden="true">${l.emoji}</span>${l.label}</b><small>${l.tiles}개 중 ${l.goal}개 찾기</small></button>`).join('');
  $('speedWrap').classList.toggle('hide',mode!=='sprint');
  document.querySelectorAll('[data-mode]').forEach(button=>{
   const active=button.dataset.mode===mode;
